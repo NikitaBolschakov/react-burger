@@ -1,0 +1,26 @@
+.app {
+    margin: auto;
+    padding: 0;
+    min-width: 320px;
+    max-width: 1920px;
+    text-align: center;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -ms-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern";
+    grid-template-columns: 340px minmax(min-content, 100%) 340px;
+    grid-template-areas:
+      " . header ."
+      ". content .";
+  }
+  
+  .content {
+    grid-area: content;
+    max-width: 1240px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+  }
