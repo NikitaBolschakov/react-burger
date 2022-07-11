@@ -1,4 +1,6 @@
 import React from 'react';
+import ingredientType from '../../../utils/types'
+import PropTypes from 'prop-types';
 import styles from './ingridients-item.module.css'
 import {
 	CurrencyIcon,
@@ -18,6 +20,10 @@ const IngridientsItem = (props) => {
 			<Counter count={1} size="default" />
 		</li>
 	)
+}
+
+IngridientsItem.protoType = {
+	ingredient: PropTypes.arrayOf(ingredientType.isRequired)
 }
 
 export default IngridientsItem;

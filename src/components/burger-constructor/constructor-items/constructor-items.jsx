@@ -1,4 +1,5 @@
 import React from 'react';
+import ingredientType from '../../../utils/types'
 import styles from './constructor-items.module.css'
 import {
 	DragIcon,
@@ -17,6 +18,10 @@ const ConstructorItems = (props) => {
 			/>
 		</li>
 	)
+}
+
+ConstructorItems.propTypes = {
+	items: ingredientType.isRequired
 }
 
 export default ConstructorItems;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ingridients-category.module.css'
 import IngridientsItem from '../ingridients-item/ingridients-item';
 import data from '../../../utils/data';
@@ -15,6 +16,11 @@ const IngredientsCategory = (props) => {
 			</ul>
 		</li>
 	)
+}
+
+IngredientsCategory.propTypes = {
+	type: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
 }
 
 export default IngredientsCategory;
