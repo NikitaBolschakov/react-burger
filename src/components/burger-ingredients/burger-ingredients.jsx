@@ -1,16 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientsCategory from './ingridients-category/ingridients-category'
-import categories from '../../utils/categories'
 
-const BurgerIngredients = () => {
-	const [current, setCurrent] = React.useState('bun')
+const BurgerIngredients = ({ ingredients, onClick }) => {
+	const [current, setCurrent] = React.useState('bun');
+
 	return (
 		<section className={styles.section}>
 			<h1 className={`${styles.title} text text_type_main-large`}>Соберите бургер</h1>
+	        {/*----------- Табы -------------*/}
 			<div className={`${styles.tab} pt-5`}>
-				<a href='#bun' className={styles.link}>
+				<a href='#bun>' className={styles.link}>
 					<Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
 						Булки
 					</Tab>
@@ -26,13 +28,20 @@ const BurgerIngredients = () => {
 					</Tab>
 				</a>
 			</div>
+			{/*----------- Список ингредиентов по категориям -------------*/}
 			<ul className={`${styles.list} pt-8`}>
-				{categories.map((elem) => (
-					<IngredientsCategory key={elem.type} type={elem.type} text={elem.text} />
-				))}
+			    <IngredientsCategory ingredients={ingredients} type='bun' onClick={onClick} />
+				<IngredientsCategory ingredients={ingredients} type='sauce' onClick={onClick} />
+				<IngredientsCategory ingredients={ingredients} type='main' onClick={onClick} />
 			</ul>
 		</section >
 	)
+}
+
+// типизируем пропсы
+BurgerIngredients.propTypes = {
+	ingredients: PropTypes.array.isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

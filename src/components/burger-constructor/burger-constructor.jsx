@@ -1,15 +1,12 @@
 import React from 'react';
-import {
-	ConstructorElement,
-	CurrencyIcon,
-	Button,
-    }
+import PropTypes from 'prop-types';
+import ingredientType from '../../utils/types'
+import { ConstructorElement, CurrencyIcon, Button } 
 	from '@ya.praktikum/react-developer-burger-ui-components'
-import data from '../../utils/data';
 import ConstructorItems from './constructor-items/constructor-items'
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ ingredients, onClick }) => {
 	return (
 		<section className={`${styles.section} pl-10 pt-25`}>
 			<div className={`${styles.container} pr-2`}>
@@ -23,9 +20,9 @@ const BurgerConstructor = () => {
                 />
                 {/* --------- список покупок ---------- */}
 				<ul className={`${styles.list} pr-2`}>
-					{data.map((elem) => {
-						if (elem.type === 'sauce' || elem.type === 'main') {
-							return <ConstructorItems key={elem._id} items={elem} />
+					{ingredients.map((element) => {
+						if (element.type === 'main' || element.type === 'sauce') {
+							return <ConstructorItems key={element._id} items={element} />
 						}
 					})}
 				</ul>
@@ -44,12 +41,15 @@ const BurgerConstructor = () => {
 					<p className='text text_type_digits-medium pr-2'>610</p>
 					<CurrencyIcon type="primary" />
 				</div>
-				<Button type="primary" size="large">
-					Оформить заказ
-				</Button>
+				<Button type="primary" size="large" onClick={onClick}>Оформить заказ</Button>
 			</div>
 		</section>
 	)
+}
+
+BurgerConstructor.propTypes = {
+	ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;
