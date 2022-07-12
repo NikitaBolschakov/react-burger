@@ -1,7 +1,7 @@
-const categories = [
-	{ type: 'bun', text: 'Булки' },
-	{ type: 'sauce', text: 'Соусы' },
-	{ type: 'main', text: 'Начинки' },
-]
+const categories = {
+	'bun': 'Булки',
+	'sauce': 'Соусы',
+	'main': 'Начинки'
+}
 
 export default categories;

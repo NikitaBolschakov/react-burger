@@ -56,19 +56,15 @@ function App() {
         <BurgerIngredients ingredients={ data } onClick={ handleOpenIngredientDetails }/>
         <BurgerConstructor ingredients={ data } onClick={ handleOpenOrderDetails }/>
       </main>
+      
       {openOrderDetails &&             /*если openOrderDetails === true, показать окно заказа */ 
-        <Modal
-          title=''
-          active={openOrderDetails}
-          onClickClose={handleCloseModal}>
+        <Modal title='' isOpened={openOrderDetails} onClose={handleCloseModal}>
           <OrderDetails />
         </Modal>
       }
+
       {openIngredientDetails &&        /*если openIngredientDetails === true, показать окно ингредиента */ 
-        <Modal
-          title='Детали ингредиента'
-          active={openIngredientDetails}
-          onClickClose={handleCloseModal}>
+        <Modal title='Детали ингредиента' isOpened={openIngredientDetails} onClose={handleCloseModal}>
           <IngredientDetails item={ingredient} />
         </Modal>
       }
