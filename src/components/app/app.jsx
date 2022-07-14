@@ -10,6 +10,8 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
+import BurgerIngredientsContext from "../../context/burger-ingredients-context";
+
 function App() {
   //устанавливаю состояние с помощью хука useState
   const [data, setData] = useState([]);
@@ -51,23 +53,27 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.content}>
-        <BurgerIngredients ingredients={ data } onClick={ handleOpenIngredientDetails }/>
-        <BurgerConstructor ingredients={ data } onClick={ handleOpenOrderDetails }/>
-      </main>
-      
-      {openOrderDetails &&             /*если openOrderDetails === true, показать окно заказа */ 
-        <Modal title='' isOpened={openOrderDetails} onClose={handleCloseModal}>
-          <OrderDetails />
-        </Modal>
-      }
-
-      {openIngredientDetails &&        /*если openIngredientDetails === true, показать окно ингредиента */ 
-        <Modal title='Детали ингредиента' isOpened={openIngredientDetails} onClose={handleCloseModal}>
-          <IngredientDetails item={ingredient} />
-        </Modal>
-      }
+      <BurgerIngredientsContext.Provider value={{data, setData}}>
+        <AppHeader />
+        <main className={styles.content}>
+          <BurgerIngredientsContext.Provider value={data}>
+            <BurgerIngredients ingredients={ data } onClick={ handleOpenIngredientDetails }/>
+            <BurgerConstructor ingredients={ data } onClick={ handleOpenOrderDetails }/>
+          </BurgerIngredientsContext.Provider>
+        </main>
+        
+        {openOrderDetails &&             /*если openOrderDetails === true, показать окно заказа */ 
+          <Modal title='' isOpened={openOrderDetails} onClose={handleCloseModal}>
+            <OrderDetails />
+          </Modal>
+        }
+  
+        {openIngredientDetails &&        /*если openIngredientDetails === true, показать окно ингредиента */ 
+          <Modal title='Детали ингредиента' isOpened={openIngredientDetails} onClose={handleCloseModal}>
+            <IngredientDetails item={ingredient} />
+          </Modal>
+        }
+      </BurgerIngredientsContext.Provider>
     </div>
   );
 }

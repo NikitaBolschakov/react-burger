@@ -4,7 +4,11 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientsCategory from './ingridients-category/ingridients-category'
 
-const BurgerIngredients = ({ ingredients, onClick }) => {
+import { useContext } from "react"; //хук
+import BurgerIngredientsContext from "../../context/burger-ingredients-context"; //хранилище
+
+const BurgerIngredients = ({ /*ingredients,*/ onClick }) => {
+	const ingredients = useContext(BurgerIngredientsContext); //ингредиенты берем из контекста
 	const [current, setCurrent] = React.useState('bun');
 
 	return (

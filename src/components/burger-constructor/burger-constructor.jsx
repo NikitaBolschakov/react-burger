@@ -6,7 +6,12 @@ import { ConstructorElement, CurrencyIcon, Button }
 import ConstructorItems from './constructor-items/constructor-items'
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ ingredients, onClick }) => {
+import { useContext, useState } from "react"; //хук
+import BurgerIngredientsContext from "../../context/burger-ingredients-context"; //хранилище
+
+const BurgerConstructor = ({ /*ingredients,*/ onClick }) => {
+	const ingredients = useContext(BurgerIngredientsContext); //ингредиенты берем из контекста
+
 	return (
 		<section className={`${styles.section} pl-10 pt-25`}>
 			<div className={`${styles.container} pr-2`}>
