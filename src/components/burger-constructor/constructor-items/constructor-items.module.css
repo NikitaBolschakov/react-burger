@@ -1,0 +1,9 @@
+.item {
+	display: flex;
+	align-items: center;
+	column-gap: 14px;
+}
+
+.item:last-child {
+	padding-bottom: 16px;
+}
