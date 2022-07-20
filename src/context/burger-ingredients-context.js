@@ -2,6 +2,6 @@ import React from 'react';
 import { createContext } from "react";
 
 //создаем хранилище для ингредиентов
-const BurgerIngredientsContext = createContext([]);
+const DataContext = createContext([]);
 
-export default BurgerIngredientsContext;
+export default DataContext;
