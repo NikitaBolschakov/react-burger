@@ -18,7 +18,7 @@ const IngredientsCategory = ({ type, onClick }) => {
 
         {category.map((element) => (
           <li className={`${styles.item}`} key={element._id} onClick={() => onClick(element)}>
-            <IngridientsItem key={element._id} ingredient={element} /*onClick={onClick}*//>
+            <IngridientsItem key={element._id} ingredient={element} />
           </li>
         ))}
 

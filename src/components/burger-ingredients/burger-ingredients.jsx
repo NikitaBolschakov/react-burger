@@ -16,7 +16,7 @@ const BurgerIngredients = ({ onClick }) => {
 			<h1 className={`${styles.title} text text_type_main-large`}>Соберите бургер</h1>
 	        {/*--------------------------------- Табы -----------------------------------*/}
 			<div className={`${styles.tab} pt-5`}>
-				<a href='#bun>' className={styles.link}>
+				<a href='#bun' className={styles.link}>
 					<Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
 						Булки
 					</Tab>

@@ -99,9 +99,6 @@ const BurgerConstructor = ({ onClick, getOrder }) => {
   );
 };
 
-BurgerConstructor.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  getOrder: PropTypes.func.isRequired
-};
+
 
 export default BurgerConstructor;
