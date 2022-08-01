@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import styles from "./ingridients-category.module.css";
 import IngridientsItem from "../ingridients-item/ingridients-item";
 import categories from "../../../utils/categories";
-import { useContext } from "react";
-import DataContext from "../../../context/burger-ingredients-context"; //хранилище
+import {  useSelector } from "react-redux";
 
 const IngredientsCategory = ({ type, onClick }) => {
-  const data = useContext(DataContext); //берем из контекста
+  
+  const ingredients = useSelector(store => store.burgerIngredients.ingredientItems); //берем из стора
+
   //Сортируем ингредиенты по трем основным категориям
-  const category = data.filter((element) => element.type === type);
+  const category = ingredients.filter((element) => element.type === type);
 
   return (
     <li className={`${styles.item} `} id={type}>

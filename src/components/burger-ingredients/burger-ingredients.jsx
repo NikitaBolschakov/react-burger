@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientsCategory from './ingridients-category/ingridients-category'
+import { useSelector } from 'react-redux';
 
 //import { useContext } from "react"; //хук
 //import DataContext from "../../context/burger-ingredients-context"; //хранилище
 
 const BurgerIngredients = ({ onClick }) => {
+	//const ingredients = useSelector(store => store.burgerIngredients.ingredientItems)
+	
+	//console.log(ingredients)
 	//const data = useContext(DataContext); //ингредиенты берем из контекста
 	const [current, setCurrent] = React.useState('bun');
-	
+
 	return (
 		<section className={styles.section}>
 			<h1 className={`${styles.title} text text_type_main-large`}>Соберите бургер</h1>

@@ -1,0 +1,3 @@
+export const BURGER_INGREDIENTS_REQUEST = 'BURGER_INGREDIENTS_REQUEST' //ожидаем ответа
+export const BURGER_INGREDIENTS_SUCCESS = 'BURGER_INGREDIENTS_SUCCESS' //данные успешно получены
+export const BURGER_INGREDIENTS_FAILED = 'BURGER_INGREDIENTS_FAILED' //произошла ошибка
