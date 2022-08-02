@@ -1,18 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientsCategory from './ingridients-category/ingridients-category'
-import { useSelector } from 'react-redux';
 
-//import { useContext } from "react"; //хук
-//import DataContext from "../../context/burger-ingredients-context"; //хранилище
-
-const BurgerIngredients = ({ onClick }) => {
-	//const ingredients = useSelector(store => store.burgerIngredients.ingredientItems)
+const BurgerIngredients = () => {
 	
-	//console.log(ingredients)
-	//const data = useContext(DataContext); //ингредиенты берем из контекста
+	//при нажатии на табы будут появляться соответствующий тип ингредиентов
 	const [current, setCurrent] = React.useState('bun');
 
 	return (
@@ -38,17 +31,12 @@ const BurgerIngredients = ({ onClick }) => {
 			</div>
 			{/*-------------------------- Список ингредиентов по категориям ---------------------------*/}
 			<ul className={`${styles.list} pt-8`}>
-			    <IngredientsCategory type='bun' onClick={onClick} />
-				<IngredientsCategory type='sauce' onClick={onClick} />
-				<IngredientsCategory type='main' onClick={onClick} />
+			    <IngredientsCategory type='bun' />
+				<IngredientsCategory type='sauce' />
+				<IngredientsCategory type='main' />
 			</ul>
 		</section >
 	)
-}
-
-// типизируем пропсы
-BurgerIngredients.propTypes = {
-	onClick: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

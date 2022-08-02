@@ -1,35 +1,13 @@
-import { useDispatch } from "react-redux";
-import { getOrder } from "../../components/api/api";
 import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAILED,
+  RESET_NUMBER_IN_MODAL,
 } from "../actions/order-details";
-
-
-//action creator
-export const getOrderNumber = (ingredientsId) => {
-  return function (dispatch) {
-    dispatch({ type: ORDER_DETAILS_REQUEST });
-    getOrder(ingredientsId)
-      .then((res) => {
-        dispatch({
-          type: ORDER_DETAILS_SUCCESS,
-          number: res.order.number
-        });
-      })
-      .catch((err) => {
-        console.error("Error in getOrderNumber()", err);
-        dispatch({
-          type: ORDER_DETAILS_FAILED,
-        });
-      });
-  };
-};
 
 //начальное состояние
 const initialState = {
-  orderNumber: 0,
+  orderNumber: null,
   isLoading: false,
   error: false,
 };
@@ -40,9 +18,11 @@ export const orderDetailsReducer = (state = initialState, action) => {
     case ORDER_DETAILS_REQUEST:
       return { ...state, isLoading: true };
     case ORDER_DETAILS_SUCCESS:
-      return { ...state, number: action.number };
+      return { ...state, orderNumber: action.number };
     case ORDER_DETAILS_FAILED:
       return { ...state, error: true };
+    case RESET_NUMBER_IN_MODAL:
+      return { ...state, orderNumber: null };
     default:
       return state;
   }

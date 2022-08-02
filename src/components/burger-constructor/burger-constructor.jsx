@@ -4,7 +4,6 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import PropTypes from "prop-types";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -13,18 +12,25 @@ import {
 import ConstructorItems from "./constructor-items/constructor-items";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderNumber } from "../../services/reducers/order-details";
+
 import { ADD_INGREDIENT } from "../../services/actions/burger-constructor";
+import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
+import { getOrderNumber } from "../../services/actions/order-details";
 
-const BurgerConstructor = ({ onClick, /*getOrder*/ }) => {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  
-  //const currentIngredients = useSelector(store => store.burgerConstructor.currentIngredients);
 
+  //открывает окно заказа при клике
+  const handleOpenOrderDetails = () => {
+    dispatch({type: SET_ORDER_MODAL_ACTIVE})
+  }
+  
   //берем пока из стора
   const currentIngredients = useSelector(store => store.burgerIngredients.ingredientItems);
+  //когда будет днд, поменять на это
+  //const currentIngredients = useSelector(store => store.burgerConstructor.currentIngredients);
 
-  //найти в data первую булку
+  //найти в currentIngredients первую булку  //возможно здесь неправильно указана зависимость
   const bun = useMemo(
     () => currentIngredients.find((element) => element.type === "bun"),
     []
@@ -48,13 +54,13 @@ const BurgerConstructor = ({ onClick, /*getOrder*/ }) => {
     return total;
   }*/
 
-  const g = () => {
-    dispatch(getOrderNumber(ingredientsId));
+  const postOrder = (ingredientsId) => {
+    dispatch(getOrderNumber(ingredientsId))
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch({type: ADD_INGREDIENT, payload: currentIngredients});
-  }, [])
+  }, [])*/
 
   return (
     <section className={`${styles.section} pl-10 pt-25`}>
@@ -98,29 +104,15 @@ const BurgerConstructor = ({ onClick, /*getOrder*/ }) => {
           type="primary"
           size="large"
           onClick={() => {
-            onClick();
-            //dispatch(getOrderNumber(ingredientsId));
-            //g();
-            //getOrder(orderId);
+            handleOpenOrderDetails();
+            postOrder(ingredientsId);
           }}
         >
           Оформить заказ
-        </Button>
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => {
-            onClick();
-            //dispatch(getOrderNumber(ingredientsId));
-            //g();
-            //getOrder(orderId);
-          }}
-        >
-          Номер заказа
         </Button>
       </div>
     </section>
   );
 };
 
-export default BurgerConstructor;
+export default BurgerConstructor
