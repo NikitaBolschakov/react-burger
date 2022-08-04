@@ -1,9 +1,8 @@
 import { ADD_BUN, ADD_INGREDIENT } from "../actions/burger-constructor";
 
 const initialState = {
-    //hardcore data
   currentIngredients: [],
-  bun: [],
+  buns: [],
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -14,7 +13,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         currentIngredients: [...state.currentIngredients, action.payload],
       };
     case ADD_BUN:
-      return { ...state, bun: [action.payload] };
+      return { ...state, buns: action.payload };
     default:
       return state;
   }

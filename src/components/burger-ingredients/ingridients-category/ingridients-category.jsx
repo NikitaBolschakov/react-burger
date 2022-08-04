@@ -25,7 +25,7 @@ const IngredientsCategory = ({ type }) => {
   const category = ingredients.filter((element) => element.type === type);
 
   return (
-    <li className={`${styles.item} `} id={type}>
+    <div className={`${styles.item} `} id={type} >
       <h2 className={`${styles.text} text text_type_main-medium pb-6 pt-2`}>
         {categories[type]}
       </h2>
@@ -42,7 +42,7 @@ const IngredientsCategory = ({ type }) => {
         ))}
         
       </ul>
-    </li>
+    </div>
   );
 };
 

@@ -12,19 +12,20 @@ import {
 import ConstructorItems from "./constructor-items/constructor-items";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-
-import { ADD_INGREDIENT } from "../../services/actions/burger-constructor";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions/burger-constructor";
 import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
 import { getOrderNumber } from "../../services/actions/order-details";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   //открывает окно заказа при клике
   const handleOpenOrderDetails = () => {
-    dispatch({type: SET_ORDER_MODAL_ACTIVE})
+    dispatch({type: SET_ORDER_MODAL_ACTIVE});
   }
   
+ // const { buns, currentIngredients } = useSelector((state) => state.burgerConstructor);
   //берем пока из стора
   const currentIngredients = useSelector(store => store.burgerIngredients.ingredientItems);
   //когда будет днд, поменять на это
@@ -58,13 +59,26 @@ const BurgerConstructor = () => {
     dispatch(getOrderNumber(ingredientsId))
   }
 
+  const [ , dropTarget] = useDrop({
+		accept: "ingredient",
+    drop: (item) => {
+				dispatch({
+					type: ADD_INGREDIENT,
+					payload: { ...item.ingredient, id: Date.now() },
+				});
+			}
+		})
+	
+
+
+
   /*useEffect(() => {
     dispatch({type: ADD_INGREDIENT, payload: currentIngredients});
   }, [])*/
 
   return (
     <section className={`${styles.section} pl-10 pt-25`}>
-      <div className={`${styles.container} pr-2`}>
+      <div className={`${styles.container} pr-2`} ref={dropTarget} >
         {/* --------- верхняя булка ---------- */}
         {bun && (
           <ConstructorElement
@@ -75,8 +89,8 @@ const BurgerConstructor = () => {
             thumbnail={bun.image}
           />
         )}
-        {/* --------- список покупок ---------- */}
-        <ul className={`${styles.list} pr-2`}>
+        {/* --------- список начинок ---------- */}
+        <ul className={`${styles.list} pr-2`} >
           {currentIngredients.map((element) => {
             if (element.type === "main" || element.type === "sauce") {
               return <ConstructorItems key={element._id} element={element} />;

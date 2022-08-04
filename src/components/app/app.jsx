@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBurgerIngredientsItems,  SET_INGREDIENTS_MODAL_INACTIVE, SET_ORDER_MODAL_INACTIVE } from '../../services/reducers/burger-ingredients';
 import { RESET_INGREDIENT_IN_MODAL } from '../../services/actions/ingredient-details';
 import { RESET_NUMBER_IN_MODAL } from '../../services/actions/order-details';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   const dispatch = useDispatch();
@@ -51,8 +53,10 @@ function App() {
     <div className={styles.app}>
         <AppHeader />
         <main className={styles.content}>
+          <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
             <BurgerConstructor />
+          </DndProvider>  
         </main>
         
         {openOrderDetails &&             
