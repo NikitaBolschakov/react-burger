@@ -1,5 +1,3 @@
-import { getData } from "../../components/api/api";
-
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCES";
 export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
@@ -9,32 +7,6 @@ export const SET_INGREDIENTS_MODAL_INACTIVE = "SET_INGREDIENTS_MODAL_INACTIVE";
 
 export const SET_ORDER_MODAL_ACTIVE = "SET_ORDER_MODAL_ACTIVE";
 export const SET_ORDER_MODAL_INACTIVE = "SET_ORDER_MODAL_INACTIVE";
-
-//экшн генератор возвращающий функцию с диспатчами
-//основной диспатч, разбиваем на три маленьких
-export const getBurgerIngredientsItems = () => {
-  return function (dispatch) {
-    //сначала отправляй диспатч с загрузкой
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST,
-    });
-    //теперь функция получения данных, если все хорошо отправляй диспатч с типом и данными
-    getData()
-      .then((res) => {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredientItems: res.data,
-        });
-      })
-      //если ошибка - выведи в консоль ее и отправь диспатч с типом 'ошибка'
-      .catch((error) => {
-        console.error("Error in getData()", error);
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-        });
-      });
-  };
-};
 
 export const initialState = {
   ingredientItems: [],

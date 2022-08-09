@@ -8,11 +8,12 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBurgerIngredientsItems,  SET_INGREDIENTS_MODAL_INACTIVE, SET_ORDER_MODAL_INACTIVE } from '../../services/reducers/burger-ingredients';
+import { SET_INGREDIENTS_MODAL_INACTIVE, SET_ORDER_MODAL_INACTIVE } from '../../services/reducers/burger-ingredients';
 import { RESET_INGREDIENT_IN_MODAL } from '../../services/actions/ingredient-details';
 import { RESET_NUMBER_IN_MODAL } from '../../services/actions/order-details';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { getBurgerIngredientsItems } from '../../services/actions/burger-ingredients';
 
 function App() {
   const dispatch = useDispatch();
