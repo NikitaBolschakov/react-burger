@@ -48,7 +48,18 @@
 
 .link {
     text-decoration: none;
-	color: inherit;
+	color: #8585AD;
 	display: flex;
 	align-items: center;
+}
+
+.link__active {
+	text-decoration: none;
+	color: white;
+	display: flex;
+	align-items: center;
+}
+
+.text {
+	color: inherit;
 }

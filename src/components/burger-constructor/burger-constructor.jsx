@@ -16,7 +16,7 @@ import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
-  //диспатч
+  
   const dispatch = useDispatch();
 
   //текущие ингредиенты в бургере
