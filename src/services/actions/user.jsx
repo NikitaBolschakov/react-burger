@@ -1,5 +1,6 @@
 import {
   forgotPasswordRequest,
+  getUserInfo,
   loginRequest,
   logoutRequest,
   refreshTokenRequest,
@@ -17,12 +18,16 @@ const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
 
 const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-const LOGOUT_SUCCESS = "LOGOUT_LOGOUT_SUCCESS";
+const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 const LOGOUT_FAILED = "LOGOUT_FAILED";
 
 const UPDATE_REQUEST = "UPDATE_REQUEST";
 const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 const UPDATE_FAILED = "UPDATE_FAILED";
+
+const GET_USER_REQUEST = "GET_USER_REQUEST";
+const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+const GET_USER_FAILED = "GET_USER_FAILED";
 
 //вход пользователя
 export function signIn(loginData) {
@@ -182,14 +187,14 @@ export function updateUserData(updateData) {
           });
         });
     }
-    //иначе, если токен просрочился
+    //иначе, если токен просрочился запросить рефреш
     else {
       refreshTokenRequest().then((res) => {
         const accessToken = res.accessToken.split("Bearer ")[1];
         if (accessToken) {
           setCookie("accessToken", accessToken, { "max-age": 1200 });
         }
-        //повторить запрос
+        //теперь повторить запрос с актуальным токеном
         updateUserInfo(updateData)
           .then((res) => {
             if (res) {
@@ -207,6 +212,62 @@ export function updateUserData(updateData) {
           .catch((err) => {
             dispatch({
               type: UPDATE_FAILED,
+            });
+          });
+      });
+    }
+  };
+}
+
+//получение данных пользователя
+export function getUser() {
+  return function (dispatch) {
+    dispatch({
+      type: GET_USER_REQUEST,
+    });
+    if (getCookie("accessToken") !== undefined) {
+      getUserInfo()
+        .then((res) => {
+          if (res) {
+            dispatch({
+              type: GET_USER_SUCCESS,
+              userData: res.user,
+            });
+          }
+          if (!res) {
+            dispatch({
+              type: GET_USER_FAILED,
+            });
+          }
+        })
+        .catch((err) => {
+          dispatch({
+            type: GET_USER_FAILED,
+          });
+        });
+    } else {
+      refreshTokenRequest().then((res) => {
+        let accessToken = res.accessToken.split("Bearer ")[1];
+        if (accessToken) {
+          setCookie("accessToken", accessToken, { "max-age": 1200 });
+        }
+        getUserInfo()
+          .then((res) => {
+            if (res) {
+              dispatch({
+                type: GET_USER_SUCCESS,
+                userData: res.user,
+              });
+            }
+            if (!res) {
+              dispatch({
+                type: GET_USER_FAILED,
+              });
+            }
+          })
+          .catch((err) => {
+            dispatch({
+              type: GET_USER_FAILED,
             });
           });
       });

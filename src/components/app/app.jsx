@@ -23,12 +23,15 @@ import Register from "../pages/register/register";
 import ResetPassword from "../pages/reset-password/reset-password";
 import ForgotPassword from "../pages/forgot-password/forgot-password";
 import Profile from "../pages/profile/profile";
+import { getUser } from "../../services/actions/user";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 function App() {
   const dispatch = useDispatch();
 
-  //отправляем диспатч с усилителем только один раз при загрузке страницы
+  //при загрузке получить данные пользователя и ингридиенты
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getBurgerIngredientsItems());
   }, []);
 
@@ -91,7 +94,6 @@ function App() {
             )}
           </div>
         </Route>
-        
         <Route path="/login" exact>
           <Login />
         </Route>
@@ -104,9 +106,9 @@ function App() {
         <Route path="/reset-password" exact>
           <ResetPassword />
         </Route>
-        <Route path="/profile" exact>
+        <ProtectedRoute pathname="/profile" exact>
           <Profile />
-        </Route>
+        </ProtectedRoute>
       </Switch>
     </>
   );

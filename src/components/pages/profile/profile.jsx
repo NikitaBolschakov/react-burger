@@ -1,5 +1,5 @@
 import styles from "./profile.module.css";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ProfileNavigation from "./profile-navigation";
 import ProfileInfo from "./profile-info";
 

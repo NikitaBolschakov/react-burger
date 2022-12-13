@@ -5,14 +5,16 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { resetPasswordRequest } from "../../api/api";
 
 const ResetPassword = () => {
 
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.user.isAuth); 
+  const isEmailForUpdatePassword = useSelector((state) => state.user.updatePasswordStatus);
   const [passwordData, setPasswordData] = useState({
     password: "",
     verCode: "",
@@ -31,6 +33,18 @@ const ResetPassword = () => {
   //обработчики изменения полей
   const handleChangeCodeInput = e => setPasswordData({ ...passwordData, verCode: e.target.value })
   const handleChangePasswordInput = e => setPasswordData({ ...passwordData, password: e.target.value })
+
+  //если авторизация есть - редирект на профиль
+  if (isAuth) {
+    return <Redirect to="/profile" />;
+  } 
+
+  //если емаил не был получен - редирект на восстановление пароля
+  if (!isEmailForUpdatePassword) {
+    return <Redirect to="/forgot-password" />;
+  } 
+
+
 
   return (
     <div className={styles.page}>

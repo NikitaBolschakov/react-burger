@@ -28,7 +28,7 @@ const Login = () => {
   const handleChangePasswordInput = e => setLoginData({ ...loginData, password: e.target.value })
 
   if (isAuth) {
-    return <Redirect to="/" />;
+    return <Redirect to="/profile" />;
   }  
 
   return (

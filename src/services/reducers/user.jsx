@@ -14,22 +14,22 @@ const UPDATE_REQUEST = "UPDATE_REQUEST";
 const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 const UPDATE_FAILED = "UPDATE_FAILED";
 
-const REGISTER_REQUEST = "REGISTER_REQUEST";
-const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-const REGISTER_FAILED = "REGISTER_FAILED";
+const GET_USER_REQUEST = "GET_USER_REQUEST";
+const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+const GET_USER_FAILED = "GET_USER_FAILED";
 
 const initialState = {
-  userData: { email: "", name: "" }, //данные пользователя
-  isAuth: false, //авторизован?
-  registerUserRequest: false, //запрос на регистрацию
-  registerUserError: false, //ошибка регистрации
-  logoutUserRequest: false, //запрос на выход
-  logoutUserError: false, //ошибка при выходе
-  updateUserRequest: false, //изменение данных пользователя
-  updateUserError: false, //ошибка при изменении данных
-  loginUserRequest: false, //авторизация
-  loginUserError: false, //ошибка авторизации
-  updatePasswordStatus: false, //статус сброса пароля
+  userData: { email: "", name: "" },    //данные пользователя
+  getUserDataRequest: false,            //получить данные пользователя
+  getUserDataError: false,
+  isAuth: false,                        //авторизован?
+  logoutUserRequest: false,             //запрос на выход
+  logoutUserError: false, 
+  updateUserRequest: false,             //изменение данных пользователя
+  updateUserError: false, 
+  loginUserRequest: false,              //авторизация
+  loginUserError: false, 
+  updatePasswordStatus: false,          //статус сброса пароля
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -113,6 +113,28 @@ export const userReducer = (state = initialState, action) => {
         isAuth: true,
       };
     }
+    case GET_USER_REQUEST: {
+        return {
+          ...state,
+          getUserDataRequest: true,
+          getUserDataError: false,
+        };
+      }
+      case GET_USER_SUCCESS: {
+        return {
+          ...state,
+          userData: action.userData,
+          getUserDataRequest: false,
+          isAuth: true,
+        };
+      }
+      case GET_USER_FAILED: {
+        return {
+          ...state,
+          getUserDataError: true,
+          getUserDataRequest: false,
+        };
+      }
 
     default:
       return state;

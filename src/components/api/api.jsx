@@ -143,3 +143,19 @@ export const refreshTokenRequest = async () => {
   });
   return handleResponse(res);
 };
+
+export const getUserInfo = async () => {
+  const res = await fetch(`${API.url}auth/user`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  });
+  return handleResponse(res);
+};

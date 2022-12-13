@@ -6,11 +6,13 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../../../services/actions/user";
+import { Redirect } from "react-router-dom";
 
 const ProfileInfo = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth); 
-  //достаем имя из стейта
+
+  //достаем имя из стора
   const { name: storeName, email: storeEmail } = useSelector(
     (state) => state.user.userData
   );
@@ -32,7 +34,7 @@ const ProfileInfo = () => {
   }, [storeName, storeEmail]);
 
    useEffect(() => {
-    if (isAuth) {
+    if (!isAuth) {
       setUserData({
         holderEmail: "Логин",
         password: "",
@@ -64,6 +66,11 @@ const ProfileInfo = () => {
       name: "",
     });
   };
+
+  //при нажатии на кнопку "выход" перенаправить на вход
+  if (!isAuth) {
+    return <Redirect to="/login" /> 
+  }   
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
