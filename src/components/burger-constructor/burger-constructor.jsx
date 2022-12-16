@@ -14,10 +14,13 @@ import {
 import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
 import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
+import { Redirect, useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
   
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.user.isAuth); 
+  const history = useHistory();
 
   //текущие ингредиенты в бургере
   const currentIngredients = useSelector(
@@ -30,7 +33,7 @@ const BurgerConstructor = () => {
   //открывает окно заказа при клике
   const handleOpenOrderDetails = () => {
     dispatch({ type: SET_ORDER_MODAL_ACTIVE });
-  };
+  }; 
 
   //собрать массив id элементов для заказа
   const ingredientsId = useMemo(
@@ -137,8 +140,12 @@ const BurgerConstructor = () => {
           type="primary"
           size="large"
           onClick={() => {
+            if (!isAuth) {
+              history.push("/login");;
+            } else {
             handleOpenOrderDetails();
             postOrder(ingredientsId);
+          } 
           }}
         >
           Оформить заказ

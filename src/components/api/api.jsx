@@ -130,12 +130,12 @@ export const updateUserInfo = async (updateData) => {
 
 //запрос на рефреш токена
 export const refreshTokenRequest = async () => {
-  const refreshToken = getCookie("refreshToken");
+  const refreshToken = getCookie("refreshToken"); 
   const res = await fetch(`${API.url}auth/token`, {
     method: "POST",
-    mode: "cors",
+    /* mode: "cors",
     cache: "no-cache",
-    credentials: "same-origin",
+    credentials: "same-origin", */
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token: refreshToken,
@@ -143,6 +143,19 @@ export const refreshTokenRequest = async () => {
   });
   return handleResponse(res);
 };
+
+/* export const updateTokenRequest = async () => {
+	return await fetch(`${API.url}auth/token`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			token: localStorage.getItem('refreshToken'),
+		}),
+	})
+		.then(checkResponse);
+} */
 
 export const getUserInfo = async () => {
   const res = await fetch(`${API.url}auth/user`, {

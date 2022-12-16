@@ -139,6 +139,7 @@ export function logout() {
       type: LOGOUT_REQUEST,
     });
     const token = getCookie("refreshToken");
+    debugger
     logoutRequest(token)
       .then((res) => {
         if (res) {

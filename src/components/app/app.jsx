@@ -17,7 +17,7 @@ import { RESET_NUMBER_IN_MODAL } from "../../services/actions/order-details";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getBurgerIngredientsItems } from "../../services/actions/burger-ingredients";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Login from "../pages/login/login";
 import Register from "../pages/register/register";
 import ResetPassword from "../pages/reset-password/reset-password";
@@ -25,9 +25,18 @@ import ForgotPassword from "../pages/forgot-password/forgot-password";
 import Profile from "../pages/profile/profile";
 import { getUser } from "../../services/actions/user";
 import { ProtectedRoute } from "../protected-route/protected-route";
+import NotFound from "../pages/not-found/not-found";
+
 
 function App() {
   const dispatch = useDispatch();
+
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state?.background; //если есть state, то location.state.background
+  const ingredients = useSelector(
+    (store) => store.burgerIngredients.ingredientItems
+  ); 
 
   //при загрузке получить данные пользователя и ингридиенты
   useEffect(() => {
@@ -60,12 +69,13 @@ function App() {
   const handleCloseIngredientModal = () => {
     dispatch({ type: SET_INGREDIENTS_MODAL_INACTIVE });
     dispatch({ type: RESET_INGREDIENT_IN_MODAL });
+    history.goBack();
   };
 
   return (
     <>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/" exact>
           <div className={styles.app}>
             <main className={styles.content}>
@@ -74,24 +84,6 @@ function App() {
                 <BurgerConstructor />
               </DndProvider>
             </main>
-            {openOrderDetails && (
-              <Modal
-                title=""
-                isOpened={openOrderDetails}
-                onClose={handleCloseOrderModal}
-              >
-                <OrderDetails />
-              </Modal>
-            )}
-            {openIngredientDetails && (
-              <Modal
-                title="Детали ингредиента"
-                isOpened={openIngredientDetails}
-                onClose={handleCloseIngredientModal}
-              >
-                <IngredientDetails item={currentIngredient} />
-              </Modal>
-            )}
           </div>
         </Route>
         <Route path="/login" exact>
@@ -106,10 +98,39 @@ function App() {
         <Route path="/reset-password" exact>
           <ResetPassword />
         </Route>
+        <Route path="/not-found" exact>
+          <NotFound />
+        </Route>
+        <Route path="/ingredients/:id" exact>
+          {ingredients.length && (<IngredientDetails />)}
+        </Route> 
         <ProtectedRoute pathname="/profile" exact>
           <Profile />
         </ProtectedRoute>
       </Switch>
+
+      {background && 
+        (<Route path="/ingredients/:id" exact>
+          <Modal
+            title="Детали ингредиента"
+            onClose={handleCloseIngredientModal}
+            isOpened={true}
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+        )}
+      
+
+      {openOrderDetails && (
+        <Modal
+          title=""
+          isOpened={openOrderDetails}
+          onClose={handleCloseOrderModal}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
     </>
   );
 }

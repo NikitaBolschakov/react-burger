@@ -13,13 +13,13 @@ import { signIn } from "../../../services/actions/user";
 const Login = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(
-    (state) => state.user.isAuth  //устанавливаем состояние в стейт
+    (state) => state.user.isAuth  //проверка авторизации
   );   
   const [loginData, setLoginData] = useState({email: "", password: ""}); //локальный стейт для этого компонента
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signIn(loginData)); //отправляем диспатч с санками в которых значения
+    dispatch(signIn(loginData)); 
     setLoginData({ email: "", password: "" });  //устанавливаем значения в локальный стейт
   };
 
@@ -28,7 +28,7 @@ const Login = () => {
   const handleChangePasswordInput = e => setLoginData({ ...loginData, password: e.target.value })
 
   if (isAuth) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/" />;
   }  
 
   return (
