@@ -5,6 +5,7 @@ import { logout } from "../../../services/actions/user";
 import { deleteCookie } from "../../../utils/cookie";
 
 const ProfileNavigation = () => {
+  
   const dispatch = useDispatch();
 
   const signOut = () => {
@@ -32,10 +33,8 @@ const ProfileNavigation = () => {
         История заказов
       </NavLink>
       <button
-        className={`${styles.logout__btn} text text_type_main-medium`}
-        onClick={() => {
-          signOut();
-        }}
+        className={`${styles.logout__button} text text_type_main-medium`}
+        onClick={() => {signOut()}}
       >
         Выход
       </button>
@@ -44,6 +43,6 @@ const ProfileNavigation = () => {
       </p>
     </div>
   );
-}
+};
 
 export default ProfileNavigation;

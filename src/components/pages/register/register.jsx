@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import { useState } from "react";
 import {
   Button,
   EmailInput,
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userRegistration } from "../../../services/actions/user";
 
 const Register = () => {
+
   const dispatch = useDispatch();
   const isAuth = useSelector(state => state.user.isAuth); 
   const [registerData, setRegisterData] = useState({
@@ -68,10 +69,7 @@ const Register = () => {
         <p className="text text_type_main-default text_color_inactive pb-10">
           Уже зарегистрированы?
           <span>
-            <Link to="/login" className={`${styles.link}`}>
-              {" "}
-              Войти
-            </Link>
+            <Link to="/login" className={`${styles.link}`}>{" "}Войти</Link>
           </span>
         </p>
       </main>
@@ -80,7 +78,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
-// "accessToken":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGYxNzlhOTlhMjVjMDAxY2Q2NDZiZiIsImlhdCI6MTY3MDMyMjA3NCwiZXhwIjoxNjcwMzIzMjc0fQ.3CetrQbBde7eUs5YiFaqmFG0HriE0YD70PF0AndsBeE",
-// "refreshToken":"842a87596de9af8285eaa8d269e308837094947f793c76d73bb77df83fb286e2df952dccf08f491f"}

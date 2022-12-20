@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   EmailInput,
@@ -11,10 +10,9 @@ import { Link, Redirect } from "react-router-dom";
 import { signIn } from "../../../services/actions/user";
 
 const Login = () => {
+
   const dispatch = useDispatch();
-  const isAuth = useSelector(
-    (state) => state.user.isAuth  //проверка авторизации
-  );   
+  const isAuth = useSelector((state) => state.user.isAuth);   
   const [loginData, setLoginData] = useState({email: "", password: ""}); //локальный стейт для этого компонента
 
   const handleSubmit = (e) => {
@@ -24,8 +22,8 @@ const Login = () => {
   };
 
   //обработчики изменения полей
-  const handleChangeEmailInput = e => setLoginData({ ...loginData, email: e.target.value })
-  const handleChangePasswordInput = e => setLoginData({ ...loginData, password: e.target.value })
+  const handleChangeEmailInput = (e) => setLoginData({ ...loginData, email: e.target.value })
+  const handleChangePasswordInput = (e) => setLoginData({ ...loginData, password: e.target.value })
 
   if (isAuth) {
     return <Redirect to="/" />;

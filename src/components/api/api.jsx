@@ -96,9 +96,6 @@ export const userRegistrationRequest = async (registerData) => {
 export const logoutRequest = async (refreshToken) => {
   const res = await fetch(`${API.url}auth/logout`, {
     method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token: refreshToken,
@@ -111,15 +108,10 @@ export const logoutRequest = async (refreshToken) => {
 export const updateUserInfo = async (updateData) => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "PATCH",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
     },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
     body: JSON.stringify({
       email: updateData.email,
       name: updateData.name,
@@ -128,14 +120,11 @@ export const updateUserInfo = async (updateData) => {
   return handleResponse(res);
 };
 
-//запрос на рефреш токена
+//запрос на рефреш токена 
 export const refreshTokenRequest = async () => {
-  const refreshToken = getCookie("refreshToken"); 
+  const refreshToken = getCookie("refreshToken")
   const res = await fetch(`${API.url}auth/token`, {
     method: "POST",
-    /* mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin", */
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token: refreshToken,
@@ -144,31 +133,13 @@ export const refreshTokenRequest = async () => {
   return handleResponse(res);
 };
 
-/* export const updateTokenRequest = async () => {
-	return await fetch(`${API.url}auth/token`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			token: localStorage.getItem('refreshToken'),
-		}),
-	})
-		.then(checkResponse);
-} */
-
 export const getUserInfo = async () => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "GET",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
     },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
   });
   return handleResponse(res);
 };

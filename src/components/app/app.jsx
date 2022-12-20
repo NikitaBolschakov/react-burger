@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -27,16 +26,12 @@ import { getUser } from "../../services/actions/user";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import NotFound from "../pages/not-found/not-found";
 
+const App = () => {
 
-function App() {
   const dispatch = useDispatch();
-
   const history = useHistory();
   const location = useLocation();
-  const background = location.state?.background; //если есть state, то location.state.background
-  const ingredients = useSelector(
-    (store) => store.burgerIngredients.ingredientItems
-  ); 
+  const background = location.state?.background; 
 
   //при загрузке получить данные пользователя и ингридиенты
   useEffect(() => {
@@ -44,19 +39,9 @@ function App() {
     dispatch(getBurgerIngredientsItems());
   }, []);
 
-  //состояние окна с ингредиентом (= false)
-  const openIngredientDetails = useSelector(
-    (store) => store.burgerIngredients.openIngredientDetails
-  );
-
-  //состояние окна с заказом (= false)
+  //состояние окна с заказом 
   const openOrderDetails = useSelector(
     (store) => store.burgerIngredients.openOrderDetails
-  );
-
-  //состояние текущего ингредиента для модального окна
-  const currentIngredient = useSelector(
-    (store) => store.ingredientModal.currentIngredient
   );
 
   //закрывает окно заказа при клике
@@ -75,7 +60,7 @@ function App() {
   return (
     <>
       <AppHeader />
-      <Switch location={background || location}>
+      <Switch location={ background || location } >
         <Route path="/" exact>
           <div className={styles.app}>
             <main className={styles.content}>
@@ -102,7 +87,7 @@ function App() {
           <NotFound />
         </Route>
         <Route path="/ingredients/:id" exact>
-          {ingredients.length && (<IngredientDetails />)}
+          <IngredientDetails />
         </Route> 
         <ProtectedRoute pathname="/profile" exact>
           <Profile />
@@ -114,14 +99,12 @@ function App() {
           <Modal
             title="Детали ингредиента"
             onClose={handleCloseIngredientModal}
-            isOpened={true}
           >
             <IngredientDetails />
           </Modal>
         </Route>
         )}
       
-
       {openOrderDetails && (
         <Modal
           title=""

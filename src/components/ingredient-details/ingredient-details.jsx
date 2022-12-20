@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,11 +13,11 @@ const IngredientDetails = () => {
       <div className={`${styles.container} pr-25 pl-25 pb-15`}>
         <img
           className={`${styles.pic}`}
-          src={ingredient.image_large}
-          alt={ingredient.name}
+          src={ingredient?.image_large}
+          alt={ingredient?.name}
         />
         <h3 className={`${styles.title} text text_type_main-medium pt-4`}>
-          {ingredient.name}
+          {ingredient?.name}
         </h3>
         <ul className={`${styles.list} pt-8`}>
           <li className={`${styles.item}`}>
@@ -30,7 +29,7 @@ const IngredientDetails = () => {
             <p
               className={`${styles.text} text text_type_main-default text_color_inactive`}
             >
-              {ingredient.calories}
+              {ingredient?.calories}
             </p>
           </li>
           <li className={`${styles.item}`}>
@@ -42,7 +41,7 @@ const IngredientDetails = () => {
             <p
               className={`${styles.text} text text_type_main-default text_color_inactive`}
             >
-              {ingredient.proteins}
+              {ingredient?.proteins}
             </p>
           </li>
           <li className={`${styles.item}`}>
@@ -54,7 +53,7 @@ const IngredientDetails = () => {
             <p
               className={`${styles.text} text text_type_main-default text_color_inactive`}
             >
-              {ingredient.fat}
+              {ingredient?.fat}
             </p>
           </li>
           <li className={`${styles.item}`}>
@@ -66,12 +65,11 @@ const IngredientDetails = () => {
             <p
               className={`${styles.text} text text_type_main-default text_color_inactive`}
             >
-              {ingredient.carbohydrates}
+              {ingredient?.carbohydrates}
             </p>
           </li>
         </ul>
-      </div>
-    )
+      </div>)
 };
 
 export default IngredientDetails;

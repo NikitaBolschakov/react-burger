@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./app-header.module.css";
 import {
   Logo,
@@ -14,7 +13,7 @@ const AppHeader = () => {
       <nav className={styles.container}>
         <ul className={styles.list}>
 
-          <li className={`${styles.item} ${styles.item_left}`}>
+          <li className={`${styles.item} ${styles.item_l}`}>
             <NavLink
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}
@@ -24,7 +23,7 @@ const AppHeader = () => {
             </NavLink>
           </li>
 
-          <li className={`${styles.item} ${styles.item_left} ml-2`}>
+          <li className={`${styles.item} ${styles.item_l} ml-2`}>
             <NavLink
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}
@@ -41,7 +40,7 @@ const AppHeader = () => {
             <Logo />
           </li>
           
-          <li className={`${styles.item} ${styles.item_right}`}>
+          <li className={`${styles.item} ${styles.item_r}`}>
             <NavLink
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}

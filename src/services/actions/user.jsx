@@ -10,268 +10,183 @@ import {
 } from "../../components/api/api";
 import { getCookie, setCookie } from "../../utils/cookie";
 
-const LOGIN_REQUEST = "LOGIN_REQUEST";
-const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
 
-const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
-const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
+export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
+export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
+export const UPDATE_PASSWORD_SUCCESS = "UPDATE_PASSWORD_SUCCESS";
 
-const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-const LOGOUT_FAILED = "LOGOUT_FAILED";
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
-const UPDATE_REQUEST = "UPDATE_REQUEST";
-const UPDATE_SUCCESS = "UPDATE_SUCCESS";
-const UPDATE_FAILED = "UPDATE_FAILED";
+export const UPDATE_REQUEST = "UPDATE_REQUEST";
+export const UPDATE_SUCCESS = "UPDATE_SUCCESS";
+export const UPDATE_FAILED = "UPDATE_FAILED";
 
-const GET_USER_REQUEST = "GET_USER_REQUEST";
-const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-const GET_USER_FAILED = "GET_USER_FAILED";
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_FAILED = "GET_USER_FAILED";
 
-//вход пользователя
-export function signIn(loginData) {
-  return function (dispatch) {
-    dispatch({
-      type: LOGIN_REQUEST,
-    });
-    loginRequest(loginData)
-      .then((res) => {
-        if (res) {
-          const accessToken = res.accessToken.split("Bearer ")[1];
-          const refreshToken = res.refreshToken;
-          if (accessToken && refreshToken) {
-            setCookie("accessToken", accessToken, { "max-age": 1200 });
-            setCookie("refreshToken", refreshToken);
-          }
+export const UPDATE_TOKEN_REQUEST = "UPDATE_TOKEN_REQUEST";
+export const UPDATE_TOKEN_SUCCESS = "UPDATE_TOKEN_SUCCESS";
+export const UPDATE_TOKEN_FAILED = "UPDATE_TOKEN_FAILED";
 
-          dispatch({
-            type: LOGIN_SUCCESS,
-            userData: res.user,
-          });
-        } else {
-          dispatch({
-            type: LOGIN_FAILED,
-          });
+//вход
+export const signIn = (loginData) => (dispatch) => {
+  dispatch({ type: LOGIN_REQUEST });
+  loginRequest(loginData)
+    .then((res) => {
+      if (res) {
+        const accessToken = res.accessToken.split("Bearer ")[1];
+        const refreshToken = res.refreshToken;
+        if (accessToken && refreshToken) {
+          setCookie("accessToken", accessToken, { "max-age": 1200 }); //сохраняю токены в куки
+          setCookie("refreshToken", refreshToken);
         }
-      })
-      .catch((err) => {
-        dispatch({
-          type: LOGIN_FAILED,
-        });
-      });
-  };
-}
+        dispatch({ type: LOGIN_SUCCESS, userData: res.user });
+      } else {
+        dispatch({ type: LOGIN_FAILED });
+      }
+    })
+    .catch(() => {
+      dispatch({ type: LOGIN_FAILED });
+    });
+};
 
 //восстановление пароля
-export function updatePassword(emailData) {
-  return function (dispatch) {
-    forgotPasswordRequest(emailData)
-      .then((res) => {
-        dispatch({
-          type: FORGOT_PASSWORD_REQUEST,
-          updatePasswordStatus: res.success,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: FORGOT_PASSWORD_FAILED,
-        });
+export const updatePassword = (emailData) => (dispatch) => {
+  forgotPasswordRequest(emailData)
+    .then((res) => {
+      dispatch({
+        type: FORGOT_PASSWORD_REQUEST,
+        updatePasswordStatus: res.success,
       });
-  };
-}
+    })
+    .catch(() => {
+      dispatch({ type: FORGOT_PASSWORD_FAILED });
+    });
+};
 
 //сброс пароля
-export function resetPassword(passwordData) {
-  return function (dispatch) {
-    resetPasswordRequest(passwordData)
-      .then((res) => {
-        dispatch({
-          type: FORGOT_PASSWORD_REQUEST,
-          updatePasswordStatus: res.success,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: FORGOT_PASSWORD_FAILED,
-        });
+export const resetPassword = (passwordData) => (dispatch) => {
+  resetPasswordRequest(passwordData)
+    .then((res) => {
+      dispatch({
+        //type: FORGOT_PASSWORD_REQUEST,
+        //updatePasswordStatus: res.success,
+        type: UPDATE_PASSWORD_SUCCESS,
+        updatedPassword: res.success,
       });
-  };
-}
-
-//регистрация пользователя
-export function userRegistration(registerData) {
-  return function (dispatch) {
-    dispatch({
-      type: LOGIN_REQUEST,
+    })
+    .catch(() => {
+      dispatch({ type: FORGOT_PASSWORD_FAILED });
     });
-    userRegistrationRequest(registerData) //API
-      .then((res) => {
-        if (res) {
-          const accessToken = res.accessToken.split("Bearer ")[1];
-          const refreshToken = res.refreshToken;
-          if (accessToken && refreshToken) {
-            setCookie("accessToken", accessToken, { "max-age": 1200 });
-            setCookie("refreshToken", refreshToken);
-          }
-          dispatch({
-            type: LOGIN_SUCCESS,
-            userData: res.user,
-          });
-        } else {
-          dispatch({
-            type: LOGIN_FAILED,
-          });
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: LOGIN_FAILED,
-        });
-      });
-  };
-}
+};
 
-//выход пользователя
-export function logout() {
-  return function (dispatch) {
-    dispatch({
-      type: LOGOUT_REQUEST,
-    });
-    const token = getCookie("refreshToken");
-    debugger
-    logoutRequest(token)
-      .then((res) => {
-        if (res) {
-          dispatch({
-            type: LOGOUT_SUCCESS,
-            success: res.success,
-          });
-        } else {
-          dispatch({
-            type: LOGOUT_FAILED,
-          });
+//регистрация
+export const userRegistration = (registerData) => (dispatch) => {
+  dispatch({ type: LOGIN_REQUEST });
+  userRegistrationRequest(registerData)
+    .then((res) => {
+      if (res) {
+        const accessToken = res.accessToken.split("Bearer ")[1];
+        const refreshToken = res.refreshToken;
+        if (accessToken && refreshToken) {
+          setCookie("accessToken", accessToken, { "max-age": 1200 });
+          setCookie("refreshToken", refreshToken);
         }
-      })
-      .catch((err) => {
-        dispatch({
-          type: LOGOUT_FAILED,
-        });
-      });
-  };
-}
+        dispatch({ type: LOGIN_SUCCESS, userData: res.user });
+      } else {
+        dispatch({ type: LOGIN_FAILED });
+      }
+    })
+    .catch(() => {
+      dispatch({ type: LOGIN_FAILED });
+    });
+};
+
+//выход
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT_REQUEST });
+  const refreshToken = getCookie("refreshToken");
+  logoutRequest(refreshToken)
+    .then((res) => {
+      if (res) {
+        dispatch({ type: LOGOUT_SUCCESS, success: res.success });
+      } else {
+        dispatch({ type: LOGOUT_FAILED });
+      }
+    })
+    .catch(() => {
+      dispatch({ type: LOGOUT_FAILED });
+    });
+};
 
 //обновление данных пользователя
-export function updateUserData(updateData) {
-  return function (dispatch) {
-    dispatch({
-      type: UPDATE_REQUEST,
-    });
-    if (getCookie("accessToken") !== undefined) {
-      updateUserInfo(updateData)
-        .then((res) => {
-          if (res) {
-            dispatch({
-              type: UPDATE_SUCCESS,
-              userData: res.user,
-            });
-          }
-          if (!res) {
-            dispatch({
-              type: UPDATE_FAILED,
-            });
-          }
-        })
-        .catch((err) => {
-          dispatch({
-            type: UPDATE_FAILED,
-          });
+export const updateUserData = (updateData) => (dispatch) => {
+  dispatch({ type: UPDATE_REQUEST });
+  if (getCookie("accessToken") !== undefined) {
+    updateUserInfo(updateData)
+      .then((res) => {
+        dispatch({
+          type: UPDATE_SUCCESS,
+          userData: res.user,
         });
-    }
-    //иначе, если токен просрочился запросить рефреш
-    else {
-      refreshTokenRequest().then((res) => {
-        const accessToken = res.accessToken.split("Bearer ")[1];
-        if (accessToken) {
-          setCookie("accessToken", accessToken, { "max-age": 1200 });
-        }
-        //теперь повторить запрос с актуальным токеном
-        updateUserInfo(updateData)
-          .then((res) => {
-            if (res) {
-              dispatch({
-                type: UPDATE_SUCCESS,
-                userData: res.user,
-              });
-            }
-            if (!res) {
-              dispatch({
-                type: UPDATE_FAILED,
-              });
-            }
-          })
-          .catch((err) => {
-            dispatch({
-              type: UPDATE_FAILED,
-            });
-          });
+      })
+      .catch(() => {
+        dispatch({ type: UPDATE_FAILED });
       });
-    }
-  };
-}
+  } else if (getCookie("accessToken") === undefined) {
+    dispatch(refreshToken());
+    updateUserInfo(updateData) //теперь повторить запрос с актуальным токеном
+      .then((res) => {
+        dispatch({
+          type: UPDATE_SUCCESS,
+          userData: res.user,
+        });
+      })
+      .catch(() => {
+        dispatch({ type: UPDATE_FAILED });
+      });
+  }
+};
 
 //получение данных пользователя
-export function getUser() {
-  return function (dispatch) {
-    dispatch({
-      type: GET_USER_REQUEST,
-    });
-    if (getCookie("accessToken") !== undefined) {
-      getUserInfo()
-        .then((res) => {
-          if (res) {
-            dispatch({
-              type: GET_USER_SUCCESS,
-              userData: res.user,
-            });
-          }
-          if (!res) {
-            dispatch({
-              type: GET_USER_FAILED,
-            });
-          }
-        })
-        .catch((err) => {
-          dispatch({
-            type: GET_USER_FAILED,
-          });
-        });
-    } else {
-      refreshTokenRequest().then((res) => {
-        let accessToken = res.accessToken.split("Bearer ")[1];
-        if (accessToken) {
-          setCookie("accessToken", accessToken, { "max-age": 1200 });
-        }
-        getUserInfo()
-          .then((res) => {
-            if (res) {
-              dispatch({
-                type: GET_USER_SUCCESS,
-                userData: res.user,
-              });
-            }
-            if (!res) {
-              dispatch({
-                type: GET_USER_FAILED,
-              });
-            }
-          })
-          .catch((err) => {
-            dispatch({
-              type: GET_USER_FAILED,
-            });
-          });
+export const getUser = () => (dispatch) => {
+  dispatch({ type: GET_USER_REQUEST });
+  if (getCookie("accessToken") === undefined) {
+    dispatch(refreshToken());
+    getUserInfo().then((res) => {
+      dispatch({ type: GET_USER_SUCCESS, userData: res.user });
+    }); 
+  } else {
+    getUserInfo()
+      .then((res) => {
+        dispatch({ type: GET_USER_SUCCESS, userData: res.user });
+      })
+      .catch(() => {
+        dispatch({ type: GET_USER_FAILED });
       });
-    }
-  };
-}
+  } 
+};  
+
+//рефреш токена
+export const refreshToken = () => (dispatch) => {
+  dispatch({ type: UPDATE_TOKEN_REQUEST });
+  refreshTokenRequest() //запросить новый токен
+    .then((res) => {
+      if (res.success) {
+        const accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
+        setCookie("accessToken", accessToken, { "max-age": 1200 }); //установить токен в куки
+        setCookie("refreshToken", res.refreshToken);
+        dispatch({
+          type: UPDATE_TOKEN_SUCCESS,
+          userData: res.user,
+        });
+      }
+    })
+    .catch(() => dispatch({ type: UPDATE_TOKEN_FAILED }));
+};

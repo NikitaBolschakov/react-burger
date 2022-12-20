@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Input,
@@ -6,15 +5,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
 import { Link, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import { resetPasswordRequest } from "../../api/api";
 
 const ResetPassword = () => {
 
-  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth); 
   const isEmailForUpdatePassword = useSelector((state) => state.user.updatePasswordStatus);
+  const updatedPassword = useSelector((state) => state.user.updatedPassword);
   const [passwordData, setPasswordData] = useState({
     password: "",
     verCode: "",
@@ -31,8 +30,8 @@ const ResetPassword = () => {
   };
 
   //обработчики изменения полей
-  const handleChangeCodeInput = e => setPasswordData({ ...passwordData, verCode: e.target.value })
-  const handleChangePasswordInput = e => setPasswordData({ ...passwordData, password: e.target.value })
+  const handleChangeCodeInput = (e) => setPasswordData({ ...passwordData, verCode: e.target.value })
+  const handleChangePasswordInput = (e) => setPasswordData({ ...passwordData, password: e.target.value })
 
   //если авторизация есть - редирект на профиль
   if (isAuth) {
@@ -44,7 +43,10 @@ const ResetPassword = () => {
     return <Redirect to="/forgot-password" />;
   } 
 
-
+  //если пароль восстановлен - редирект на вход
+  if (updatedPassword) {
+    return <Redirect to="/login" />;
+  }  
 
   return (
     <div className={styles.page}>
@@ -54,9 +56,9 @@ const ResetPassword = () => {
             Восстановление пароля
           </p>
           <PasswordInput
-            value={passwordData.password}
             onChange={handleChangePasswordInput}
             name={"password"}
+            value={passwordData.password}
           />
           <Input
             type={"text"}
@@ -68,13 +70,10 @@ const ResetPassword = () => {
           />
           <Button>Сохранить</Button>
         </form>
-        <p className="text text_type_main-default text_color_inactive pb-10">
+        <p className="text text_color_inactive text_type_main-default pb-10">
           Вспомнили пароль?
           <span>
-            <Link to="/login" className={`${styles.link}`}>
-              {" "}
-              Войти
-            </Link>
+            <Link to="/login" className={`${styles.link}`}>{" "}Войти</Link>
           </span>
         </p>
       </main>

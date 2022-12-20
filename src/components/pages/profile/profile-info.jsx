@@ -9,6 +9,7 @@ import { updateUserData } from "../../../services/actions/user";
 import { Redirect } from "react-router-dom";
 
 const ProfileInfo = () => {
+
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth); 
 
@@ -57,7 +58,7 @@ const ProfileInfo = () => {
     });
   };
 
-  const declineUpdate = () => {
+  const cancelUpdate = () => {
     setUserData({
       holderEmail: storeEmail,
       password: "",
@@ -76,23 +77,23 @@ const ProfileInfo = () => {
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type={"text"}
-        placeholder={userData.holderName}
-        icon={"EditIcon"}
-        value={userData.name}
         name={"name"}
-        onChange={(event) =>
-          setUserData({ ...userData, name: event.target.value })
+        icon={"EditIcon"}
+        placeholder={userData.holderName}
+        value={userData.name}
+        onChange={(e) =>
+          setUserData({ ...userData, name: e.target.value })
         }
       />
 
       <Input
         type={"email"}
-        placeholder={userData.holderEmail}
         icon={"EditIcon"}
-        value={userData.email}
         name={"email"}
-        onChange={(event) =>
-          setUserData({ ...userData, email: event.target.value })
+        placeholder={userData.holderEmail}
+        value={userData.email}
+        onChange={(e) =>
+          setUserData({ ...userData, email: e.target.value })
         }
       />
 
@@ -100,20 +101,20 @@ const ProfileInfo = () => {
         type={"password"}
         placeholder={"Пароль"}
         icon={"EditIcon"}
-        value={userData.password}
         name={"password"}
-        onChange={(event) =>
-          setUserData({ ...userData, password: event.target.value })
+        value={userData.password}
+        onChange={(e) =>
+          setUserData({ ...userData, password: e.target.value })
         }
       />
       {userData.email.length > 0 &&
         userData.name.length > 0 &&
         userData.password.length > 0 && (
-          <div className={styles.btns__container}>
+          <div className={styles.b__container}>
             <Button
               type="secondary"
               size="medium"
-              onClick={() => declineUpdate()}
+              onClick={() => cancelUpdate()}
             >
               Отмена
             </Button>

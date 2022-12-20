@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   EmailInput
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "../../../services/actions/user";
 
 const ForgotPassword = () => {
+
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth); 
   const isEmailForUpdatePassword = useSelector((state) => state.user.updatePasswordStatus); 
@@ -17,11 +17,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updatePassword(emailData)); //отправляем диспатч с санками в которых значения
+    dispatch(updatePassword(emailData));        //отправляем диспатч с action creator
     setEmailData({ ...emailData, email: "" });  //устанавливаем значения в локальный стейт
   };
 
-  const handleChangeEmailInput = e => setEmailData({ ...emailData, email: e.target.value })
+  const handleChangeEmailInput = (e) => setEmailData({ ...emailData, email: e.target.value })
 
   //если авторизация есть - редирект на профиль
   if (isAuth) {
@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     <div className={styles.page}>
       <main className={styles.main}>
         <form className={styles.form} method="post" onSubmit={handleSubmit}>
-          <p className="text text_type_main-medium pb-6">Восстановление пароля</p>
+          <p className="text pb-6 text_type_main-medium">Восстановление пароля</p>
           <EmailInput
             name={"email"}
             value={emailData.email}
@@ -45,13 +45,10 @@ const ForgotPassword = () => {
           />
           <Button>Восстановить</Button>
         </form>
-        <p className="text text_type_main-default text_color_inactive pb-4">
+        <p className="text text_color_inactive pb-4 text_type_main-default  ">
           Вспомнили пароль?
           <span>
-            <Link to="/login" className={`${styles.link}`}>
-              {" "}
-              Войти
-            </Link>
+            <Link to="/login" className={`${styles.link}`}>{" "}Войти</Link>
           </span>
         </p>
       </main>

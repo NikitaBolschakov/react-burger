@@ -1,22 +1,23 @@
-//actions
-const LOGIN_REQUEST = "LOGIN_REQUEST";
-const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-const LOGIN_FAILED = "LOGIN_FAILED";
-
-const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
-const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
-
-const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-const LOGOUT_FAILED = "LOGOUT_FAILED";
-
-const UPDATE_REQUEST = "UPDATE_REQUEST";
-const UPDATE_SUCCESS = "UPDATE_SUCCESS";
-const UPDATE_FAILED = "UPDATE_FAILED";
-
-const GET_USER_REQUEST = "GET_USER_REQUEST";
-const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-const GET_USER_FAILED = "GET_USER_FAILED";
+import {
+  FORGOT_PASSWORD_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  UPDATE_FAILED,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_REQUEST,
+  UPDATE_SUCCESS,
+  UPDATE_TOKEN_FAILED,
+  UPDATE_TOKEN_REQUEST,
+  UPDATE_TOKEN_SUCCESS,
+} from "../actions/user";
 
 const initialState = {
   userData: { email: "", name: "" },    //данные пользователя
@@ -24,12 +25,15 @@ const initialState = {
   getUserDataError: false,
   isAuth: false,                        //авторизован?
   logoutUserRequest: false,             //запрос на выход
-  logoutUserError: false, 
+  logoutUserError: false,
   updateUserRequest: false,             //изменение данных пользователя
-  updateUserError: false, 
+  updateUserError: false,
   loginUserRequest: false,              //авторизация
-  loginUserError: false, 
-  updatePasswordStatus: false,          //статус сброса пароля
+  loginUserError: false,
+  updatePasswordStatus: false,          //статус сброса пароля отправки подтв. письма
+  updatedPassword: false,               //пароль обновлен
+  tokenRequest: false,                  //получение токена
+  tokenFailed: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -65,6 +69,13 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         updatePasswordStatus: false,
+      };
+    }
+    case UPDATE_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        updatePasswordStatus: false,
+        updatedPassword: true,
       };
     }
     case UPDATE_REQUEST: {
@@ -114,27 +125,48 @@ export const userReducer = (state = initialState, action) => {
       };
     }
     case GET_USER_REQUEST: {
-        return {
-          ...state,
-          getUserDataRequest: true,
-          getUserDataError: false,
-        };
-      }
-      case GET_USER_SUCCESS: {
-        return {
-          ...state,
-          userData: action.userData,
-          getUserDataRequest: false,
-          isAuth: true,
-        };
-      }
-      case GET_USER_FAILED: {
-        return {
-          ...state,
-          getUserDataError: true,
-          getUserDataRequest: false,
-        };
-      }
+      return {
+        ...state,
+        getUserDataRequest: true,
+        getUserDataError: false,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        userData: action.userData,
+        getUserDataRequest: false,
+        isAuth: true,
+      };
+    }
+    case GET_USER_FAILED: {
+      return {
+        ...state,
+        getUserDataError: true,
+        getUserDataRequest: false,
+      };
+    }
+    case UPDATE_TOKEN_REQUEST: {
+      return {
+        ...state,
+        tokenRequest: true,
+        tokenFailed: false,
+      };
+    }
+    case UPDATE_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenFailed: false,
+      };
+    }
+    case UPDATE_TOKEN_FAILED: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenFailed: true,
+      };
+    }
 
     default:
       return state;
