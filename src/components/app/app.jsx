@@ -22,9 +22,11 @@ import Register from "../pages/register/register";
 import ResetPassword from "../pages/reset-password/reset-password";
 import ForgotPassword from "../pages/forgot-password/forgot-password";
 import Profile from "../pages/profile/profile";
-import { getUser } from "../../services/actions/user";
+import { getUser, refreshToken } from "../../services/actions/user";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import NotFound from "../pages/not-found/not-found";
+import { getCookie } from "../../utils/cookie";
+import Feed from "../pages/feed/feed";
 
 const App = () => {
 
@@ -33,11 +35,30 @@ const App = () => {
   const location = useLocation();
   const background = location.state?.background; 
 
-  //при загрузке получить данные пользователя и ингридиенты
+  const auth = useSelector((state) => state.user.isAuth);
+  const tokenUpdated = useSelector((state) => state.user.tokenUpdated);
+  console.log(tokenUpdated + "обновлен токен");
+  console.log(auth + "авторизован");
+
+  const accessTokenCookie = getCookie('accessToken');
+  const refreshTokenCookie = getCookie('refreshToken');
+
+  console.log(accessTokenCookie);
+  console.log(refreshTokenCookie);
+
+  //при загрузке получать ингридиенты
   useEffect(() => {
-    dispatch(getUser());
     dispatch(getBurgerIngredientsItems());
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
+
+  //если accessToken протух, а refreshToken есть - обновить токены => запросить пользователя
+  useEffect(() => {
+    if (!accessTokenCookie && refreshTokenCookie) {
+      dispatch(refreshToken());
+    }
+  }, [dispatch, accessTokenCookie, refreshTokenCookie]);
+
 
   //состояние окна с заказом 
   const openOrderDetails = useSelector(
@@ -88,6 +109,9 @@ const App = () => {
         </Route>
         <Route path="/ingredients/:id" exact>
           <IngredientDetails />
+        </Route> 
+        <Route path="/feed" exact>
+          <Feed />
         </Route> 
         <ProtectedRoute pathname="/profile" exact>
           <Profile />

@@ -34,6 +34,7 @@ const initialState = {
   updatedPassword: false,               //пароль обновлен
   tokenRequest: false,                  //получение токена
   tokenFailed: false,
+  tokenUpdated: false
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -151,6 +152,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         tokenRequest: true,
         tokenFailed: false,
+        tokenUpdated: false
       };
     }
     case UPDATE_TOKEN_SUCCESS: {
@@ -158,6 +160,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         tokenRequest: false,
         tokenFailed: false,
+        tokenUpdated: true
       };
     }
     case UPDATE_TOKEN_FAILED: {
@@ -165,6 +168,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         tokenRequest: false,
         tokenFailed: true,
+        tokenUpdated: false
       };
     }
 

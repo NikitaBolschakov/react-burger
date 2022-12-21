@@ -52,7 +52,9 @@ const Register = () => {
             extraClass="ml-1"
           />
 
-          <EmailInput
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
             name={"email"}
             value={registerData.email}
             onChange={handleChangeEmailInput}

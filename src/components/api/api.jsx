@@ -59,7 +59,7 @@ export const forgotPasswordRequest = async (emailData) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      emailData: emailData.email,
+      email: emailData.email,
     }),
   });
   return handleResponse(res);

@@ -1,6 +1,7 @@
 import {
   Button,
   EmailInput,
+  Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
@@ -34,7 +35,9 @@ const Login = () => {
       <main className={styles.main}>
         <form className={styles.form} method="post" onSubmit={handleSubmit}>
           <p className="text text_type_main-medium pb-6">Вход</p>
-          <EmailInput
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
             name={"email"}
             value={loginData.email || ""}
             onChange={handleChangeEmailInput}

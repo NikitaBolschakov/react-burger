@@ -1,6 +1,7 @@
 import {
   Button,
-  EmailInput
+  EmailInput,
+  Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.css";
 import { Link, Redirect } from "react-router-dom";
@@ -38,7 +39,9 @@ const ForgotPassword = () => {
       <main className={styles.main}>
         <form className={styles.form} method="post" onSubmit={handleSubmit}>
           <p className="text pb-6 text_type_main-medium">Восстановление пароля</p>
-          <EmailInput
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
             name={"email"}
             value={emailData.email}
             onChange={handleChangeEmailInput}

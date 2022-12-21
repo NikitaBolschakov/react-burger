@@ -74,12 +74,10 @@ export const updatePassword = (emailData) => (dispatch) => {
 export const resetPassword = (passwordData) => (dispatch) => {
   resetPasswordRequest(passwordData)
     .then((res) => {
-      dispatch({
-        //type: FORGOT_PASSWORD_REQUEST,
-        //updatePasswordStatus: res.success,
+       dispatch({
         type: UPDATE_PASSWORD_SUCCESS,
         updatedPassword: res.success,
-      });
+      }); 
     })
     .catch(() => {
       dispatch({ type: FORGOT_PASSWORD_FAILED });
@@ -182,6 +180,7 @@ export const refreshToken = () => (dispatch) => {
         const accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
         setCookie("accessToken", accessToken, { "max-age": 1200 }); //установить токен в куки
         setCookie("refreshToken", res.refreshToken);
+        dispatch(getUser());
         dispatch({
           type: UPDATE_TOKEN_SUCCESS,
           userData: res.user,
