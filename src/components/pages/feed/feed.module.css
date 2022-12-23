@@ -8,8 +8,6 @@
     background-color: #131316;
     box-sizing: border-box;
     min-height: 100vh;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
   }
 
   .content {

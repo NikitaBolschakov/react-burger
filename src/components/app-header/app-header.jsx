@@ -4,22 +4,25 @@ import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components"; 
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 
 const AppHeader = () => {
-  return ( 
-    <header className={styles.header}> 
+  return (
+    <header className={styles.header}>
       <nav className={styles.container}>
         <ul className={styles.list}>
-
           <li className={`${styles.item} ${styles.item_l}`}>
             <NavLink
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}
-              to="/"  exact>
+              to="/"
+              exact
+            >
               <BurgerIcon type="primary" />
-              <p className={`${styles.text} text text_type_main-default pl-2`}>Конструктор</p>
+              <p className={`${styles.text} text text_type_main-default pl-2`}>
+                Конструктор
+              </p>
             </NavLink>
           </li>
 
@@ -28,7 +31,8 @@ const AppHeader = () => {
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}
               to="/feed"
-              exact>
+              exact
+            >
               <ListIcon type="secondary" />
               <p className={`${styles.text} text text_type_main-default pl-2`}>
                 Лента заказов
@@ -37,15 +41,18 @@ const AppHeader = () => {
           </li>
 
           <li className={`${styles.item} ${styles.logo}`}>
-            <Logo />
+            <NavLink to="/">
+              <Logo />
+            </NavLink>
           </li>
-          
+
           <li className={`${styles.item} ${styles.item_r}`}>
             <NavLink
               className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
               activeClassName={styles.link__active}
               to="/profile"
-              exact>
+              exact
+            >
               <ProfileIcon type="secondary" />
               <p className={`${styles.text} text text_type_main-default pl-2`}>
                 Личный кабинет

@@ -77,7 +77,7 @@ const BurgerConstructor = () => {
         {currentBun.length === 0 ? (
           <p></p>
         ) : (
-          <div className={styles.bun}>
+          <div>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -115,7 +115,7 @@ const BurgerConstructor = () => {
         {currentBun.length === 0 ? (
           <p className={`${styles.text} pr-2 text text_type_main-large`}></p>
         ) : (
-          <div className={styles.bun}>
+          <div>
             <ConstructorElement
               type="bottom"
               isLocked={true}

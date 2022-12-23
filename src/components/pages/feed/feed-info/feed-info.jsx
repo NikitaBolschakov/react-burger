@@ -49,9 +49,9 @@ const FeedInfo = () => {
         </div>
       </div>
       <p className="text text_type_main-medium">Выполнено за все время:</p>
-      <p className="text text_type_digits-large mb-15">{total}</p>
+      <p className={`${styles.number} text text_type_digits-large mb-15`}>{total}</p>
       <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-      <p className="text text_type_digits-large">{totalToday}</p>
+      <p className={`${styles.number} text text_type_digits-large`}>{totalToday}</p>
     </div>
   );
 }

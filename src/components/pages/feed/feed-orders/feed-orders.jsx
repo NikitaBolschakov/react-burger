@@ -14,7 +14,7 @@ const FeedOrders = ({display, status}) => {
   return (
     <section className={`${styles.section} mt-10`}>
       <h1 className="text text_type_main-large" style={{display: `${display}`}}>Лента заказов</h1>
-      <ul className={`${styles.feeditems__container}`}>
+      <ul className={`${styles.list}`}>
         {orders.map((order) => (
           <li key={order._id}>
             <FeedOrdersItem order={order} display={status} />

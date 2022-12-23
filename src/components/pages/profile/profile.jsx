@@ -11,7 +11,7 @@ import { wsConnectionAuthStart, wsConnectionClosed } from "../../../services/act
 const Profile = () => {
 
   const dispatch = useDispatch();
-  const match = useRouteMatch();
+  const match = useRouteMatch("/profile");
   const location = useLocation();
   const background = location.state && location.state.background;
 
