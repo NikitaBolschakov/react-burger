@@ -17,6 +17,7 @@ const Modal = ({ title, isOpened, onClose, children }) => {
         onClose();
       }
     }
+
     if (isOpened) {
       document.addEventListener("keydown", handleEsc);
       return () => {

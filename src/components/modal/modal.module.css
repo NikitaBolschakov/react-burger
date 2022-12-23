@@ -13,7 +13,7 @@
 	background-color: #1c1c21;
 	border: 1px solid rgba(76, 76, 255, 0.2);
 	transition: 0.5s linear;
-	z-index: 3;
+	z-index: 10;
 }
 
 .close_icon {

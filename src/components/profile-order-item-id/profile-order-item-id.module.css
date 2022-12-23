@@ -1,0 +1,35 @@
+.orderIdFeedItem__container {
+    display: flex;
+    flex-direction: row;
+    width: 616px;
+    margin: 8px 0 8px 0;
+    align-items: center;
+  }
+  
+  .orderIdFeedItem__info_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 0 16px;
+    width: 535px;
+  }
+  
+  .orderIdFeedItem__text {
+    width: 320px;
+    text-align: left;
+  }
+  
+  .orderIdFeedItem__price_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+  }
+  
+  .orderIdFeedItem__price {
+    display: block;
+    box-sizing: border-box;
+    margin: 0 9px 0 0;
+    padding: 0;
+  }

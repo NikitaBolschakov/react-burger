@@ -4,7 +4,7 @@ import { getCookie } from "../../utils/cookie";
 export const ProtectedRoute = ({ children, ...rest }) => {
 
   const location = useLocation();
-  const accessToken = getCookie("accessToken"); 
+  let accessToken = getCookie("accessToken"); 
 
   return (
     <Route

@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserData } from "../../../services/actions/user";
+import { updateUserData } from "../../../../services/actions/user";
 import { Redirect } from "react-router-dom";
 
 const ProfileInfo = () => {

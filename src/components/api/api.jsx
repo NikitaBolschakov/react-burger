@@ -35,6 +35,7 @@ export const getOrder = async (ingredientsId) => {
     }),
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("accessToken")
     },
   });
   return handleResponse(res);

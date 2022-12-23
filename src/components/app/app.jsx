@@ -27,24 +27,16 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 import NotFound from "../pages/not-found/not-found";
 import { getCookie } from "../../utils/cookie";
 import Feed from "../pages/feed/feed";
+import FeedId from "../pages/feed-id/feed-id";
 
 const App = () => {
-
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const background = location.state?.background; 
+  const background = location.state?.background;
 
-  const auth = useSelector((state) => state.user.isAuth);
-  const tokenUpdated = useSelector((state) => state.user.tokenUpdated);
-  console.log(tokenUpdated + "обновлен токен");
-  console.log(auth + "авторизован");
-
-  const accessTokenCookie = getCookie('accessToken');
-  const refreshTokenCookie = getCookie('refreshToken');
-
-  console.log(accessTokenCookie);
-  console.log(refreshTokenCookie);
+  const accessTokenCookie = getCookie("accessToken");
+  const refreshTokenCookie = getCookie("refreshToken");
 
   //при загрузке получать ингридиенты
   useEffect(() => {
@@ -59,8 +51,7 @@ const App = () => {
     }
   }, [dispatch, accessTokenCookie, refreshTokenCookie]);
 
-
-  //состояние окна с заказом 
+  //состояние окна с заказом
   const openOrderDetails = useSelector(
     (store) => store.burgerIngredients.openOrderDetails
   );
@@ -81,7 +72,7 @@ const App = () => {
   return (
     <>
       <AppHeader />
-      <Switch location={ background || location } >
+      <Switch location={background || location}>
         <Route path="/" exact>
           <div className={styles.app}>
             <main className={styles.content}>
@@ -109,26 +100,42 @@ const App = () => {
         </Route>
         <Route path="/ingredients/:id" exact>
           <IngredientDetails />
-        </Route> 
+        </Route>
         <Route path="/feed" exact>
           <Feed />
-        </Route> 
-        <ProtectedRoute pathname="/profile" exact>
+        </Route>
+        <Route path="/feed/:id" exact>
+          <FeedId textAlign={"center"} />
+        </Route>
+        <ProtectedRoute pathname="/profile">
           <Profile />
         </ProtectedRoute>
       </Switch>
 
-      {background && 
-        (<Route path="/ingredients/:id" exact>
-          <Modal
-            title="Детали ингредиента"
-            onClose={handleCloseIngredientModal}
-          >
-            <IngredientDetails />
-          </Modal>
-        </Route>
-        )}
-      
+      {background && (
+        <>
+          <Route path="/ingredients/:id">
+            <Modal
+              title="Детали ингредиента"
+              onClose={handleCloseIngredientModal}
+              isOpened
+            >
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal onClose={handleCloseIngredientModal} isOpened>
+              <FeedId textAlign={"left"} />
+            </Modal>
+          </Route>
+          <ProtectedRoute path="/profile/orders/:id" exact>
+            <Modal onClose={handleCloseIngredientModal} isOpened>
+              <FeedId textAlign={"left"} />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
+
       {openOrderDetails && (
         <Modal
           title=""
@@ -140,6 +147,6 @@ const App = () => {
       )}
     </>
   );
-}
+};
 
 export default App;
