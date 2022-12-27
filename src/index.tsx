@@ -12,7 +12,7 @@ import {
 } from "redux";
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsGetMessage, wsSendMessage, WS_CONNECTION_AUTH_START, WS_CONNECTION_START } from './services/actions/wsActions';
+import { wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsGetMessage, wsSendMessage, WS_CONNECTION_AUTH_START, WS_CONNECTION_START } from './services/actions/ws-actions';
 import { socketMiddleware } from './services/middleware/socketMiddleware';
 import { wsOrders, wsOrdersAuth } from './utils/constants';
 

@@ -9,7 +9,7 @@ import { formatOrderStatus } from "../../../../../utils/format-order-status";
 import ItemImage from "../../../../item-image/item-image";
 
 const FeedOrdersItem = ({ order, display }) => {
-
+  
   const location = useLocation();
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredientItems

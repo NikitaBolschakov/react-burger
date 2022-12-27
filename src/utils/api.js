@@ -1,4 +1,4 @@
-import { getCookie } from "../../utils/cookie";
+import { getCookie } from "./cookie";
 
 export const API = {
   url: "https://norma.nomoreparties.space/api/",
@@ -134,6 +134,7 @@ export const refreshTokenRequest = async () => {
   return handleResponse(res);
 };
 
+//запрос данных пользователя
 export const getUserInfo = async () => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "GET",

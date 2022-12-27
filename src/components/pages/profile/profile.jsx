@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import FeedOrders from "../feed/feed-orders/feed-orders";
 import FeedId from "../feed-id/feed-id";
 import { useEffect } from "react";
-import { wsConnectionAuthStart, wsConnectionClosed } from "../../../services/actions/wsActions";
+import { wsConnectionAuthStart, wsConnectionClosed } from "../../../services/actions/ws-actions";
 
 const Profile = () => {
 

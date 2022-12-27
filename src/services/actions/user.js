@@ -7,7 +7,7 @@ import {
   resetPasswordRequest,
   updateUserInfo,
   userRegistrationRequest,
-} from "../../components/api/api";
+} from "../../utils/api";
 import { getCookie, setCookie } from "../../utils/cookie";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";

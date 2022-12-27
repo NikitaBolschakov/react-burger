@@ -1,4 +1,4 @@
-import { getData } from "../../components/api/api";
+import { getData } from "../../utils/api";
 import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,

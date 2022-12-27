@@ -7,7 +7,7 @@ import styles from "./reset-password.module.css";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { resetPasswordRequest } from "../../api/api";
+import { resetPasswordRequest } from "../../../utils/api";
 
 const ResetPassword = () => {
   const isAuth = useSelector((state) => state.user.isAuth);

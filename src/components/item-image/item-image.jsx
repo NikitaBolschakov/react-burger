@@ -1,6 +1,6 @@
 import styles from "./item-image.module.css";
 
-const ItemImage = ({ingredient}) => {
+const ItemImage = ({ ingredient }) => {
 
   return (
     <div className={styles.img__border_gradient}>

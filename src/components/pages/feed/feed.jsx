@@ -3,7 +3,7 @@ import FeedOrders from "./feed-orders/feed-orders";
 import styles from "./feed.module.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { wsConnectionClosed, wsConnectionStart } from "../../../services/actions/wsActions";
+import { wsConnectionClosed, wsConnectionStart } from "../../../services/actions/ws-actions";
 
 
 

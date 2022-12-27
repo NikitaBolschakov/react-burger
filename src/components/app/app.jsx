@@ -30,6 +30,7 @@ import Feed from "../pages/feed/feed";
 import FeedId from "../pages/feed-id/feed-id";
 
 const App = () => {
+  
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -42,6 +43,9 @@ const App = () => {
   useEffect(() => {
     dispatch(getBurgerIngredientsItems());
     dispatch(getUser());
+    //обновляем состояние в history, 
+    //чтобы при обновлении страницы содержимое модального окна было на отдельной странице
+    history.replace({ state: null })    
   }, [dispatch]);
 
   //если accessToken протух, а refreshToken есть - обновить токены => запросить пользователя

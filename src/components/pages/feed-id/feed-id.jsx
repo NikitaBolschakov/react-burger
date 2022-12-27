@@ -10,7 +10,7 @@ import {
   wsConnectionAuthStart,
   wsConnectionClosed,
   wsConnectionStart,
-} from "../../../services/actions/wsActions";
+} from "../../../services/actions/ws-actions";
 import { formatDate } from "../../../utils/format-date";
 import ProfileOrderItemId from "../../profile-order-item-id/profile-order-item-id";
 
@@ -58,8 +58,8 @@ const FeedId = ({ textAlign }) => {
     },
     {}
   );
-  //создаем массив из уникальных ингредиентов
 
+  //создаем массив из уникальных ингредиентов
   const filteredOrderIngredients = countedOrderIngredients
     ? Object.keys(countedOrderIngredients)
     : null;
@@ -89,7 +89,6 @@ const FeedId = ({ textAlign }) => {
   const totalPrice = useMemo(() => {
     return selectedIngredients?.reduce((acc, element) => {
       acc += element.price * element.quantity;
-
       return acc;
     }, 0);
   }, [selectedIngredients]);

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useReducer, useState } from "react";
+import { useMemo } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -14,42 +14,46 @@ import {
 import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
 import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
-  
+
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth); 
+  const isAuth = useSelector((state) => state.user.isAuth);
   const history = useHistory();
 
-  //текущие ингредиенты в бургере
+  //выбранные ингредиенты 
   const currentIngredients = useSelector(
     (store) => store.burgerConstructor.currentIngredients
   );
+  
+  //выбранная булка в бургере
+  const currentBun = useSelector((store) => store.burgerConstructor.currentBun)
+  const currentBuns = [currentBun, currentBun] //удваиваем булку
 
-  //текущая булка в бургере
-  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
+  //все выбранные ингредиенты 
+  const currentIngredientsAndBuns = currentIngredients.concat(currentBuns);
+  
+  //массив id выбранных ингредиентов
+  const ingredientsId = useMemo(
+    () => currentIngredientsAndBuns.map(ingredient => ingredient._id),
+    [currentIngredientsAndBuns]
+  );
 
   //открывает окно заказа при клике
   const handleOpenOrderDetails = () => {
     dispatch({ type: SET_ORDER_MODAL_ACTIVE });
-  }; 
-
-  //собрать массив id элементов для заказа
-  const ingredientsId = useMemo(
-    () => currentIngredients.map((ingredient) => ingredient._id),
-    [currentIngredients]
-  );
+  };
 
   //отправить заказ, получить номер
   const postOrder = (ingredientsId) => {
     dispatch(getOrderNumber(ingredientsId));
   };
 
+  //цена заказа
   const price = useMemo(() => {
     return (
-      (currentBun ? currentBun.price * 2 : 0) +
-      currentIngredients.reduce((sum, acc) => sum + acc.price, 0)
+      (currentBun ? currentBun.price * 2 : 0) + currentIngredients.reduce((sum, acc) => sum + acc.price, 0)
     );
   }, [currentIngredients, currentBun]);
 
@@ -67,7 +71,7 @@ const BurgerConstructor = () => {
           payload: { ...item, id: Date.now() },
         });
       }
-    }
+    },
   });
 
   return (
@@ -88,15 +92,23 @@ const BurgerConstructor = () => {
           </div>
         )}
         {/* --------- список начинок ---------- */}
-        {(currentBun.length === 0 ) ? (
+        {(currentBun.length === 0 && currentIngredients.length === 0) &&
           <p className={`pr-2 text text_type_main-medium`}>
-            &#128073;  Притащите сюда булочку  &#128072;
+            &#128073; Притащите сюда булочку &#128072;
           </p>
-        ) : currentIngredients.length === 0 && currentBun.length !== 0 ? (
+        }
+
+        {(currentIngredients.length !== 0 && currentBun.length === 0) &&
           <p className={`pr-2 text text_type_main-medium`}>
-            А теперь выбирайте начинку  &#128076;
-          </p>
-        ) : (
+            Начните все-таки с булочки &#129320;
+          </p>}
+        
+        {(currentIngredients.length === 0 && currentBun.length !== 0) &&
+          <p className={`pr-2 text text_type_main-medium`}>
+            А теперь выбирайте начинку &#128076;
+          </p>}
+        
+        {(currentIngredients.length !== 0 && currentBun.length !== 0) &&
           <ul className={`${styles.list} pr-2`}>
             {currentIngredients.map((element, index) => {
               if (element.type === "main" || element.type === "sauce") {
@@ -110,7 +122,7 @@ const BurgerConstructor = () => {
               }
             })}
           </ul>
-        )}
+        }
         {/* --------- нижняя булка ---------- */}
         {currentBun.length === 0 ? (
           <p className={`${styles.text} pr-2 text text_type_main-large`}></p>
@@ -136,16 +148,18 @@ const BurgerConstructor = () => {
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          disabled={(currentBun.length === 0 || currentIngredients.length === 0) && true} 
+          disabled={
+            (currentBun.length === 0 || currentIngredients.length === 0) && true
+          }
           type="primary"
           size="large"
           onClick={() => {
             if (!isAuth) {
-              history.push("/login");;
+              history.push("/login");
             } else {
-            handleOpenOrderDetails();
-            postOrder(ingredientsId);
-          } 
+              handleOpenOrderDetails();
+              postOrder(ingredientsId);
+            }
           }}
         >
           Оформить заказ
