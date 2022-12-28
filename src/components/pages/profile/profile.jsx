@@ -3,8 +3,8 @@ import { Switch, Route, useRouteMatch, useLocation } from "react-router-dom";
 import ProfileNavigation from "./profile-navigation/profile-navigation";
 import ProfileInfo from "./profile-info/profile-info";
 import { useDispatch } from "react-redux";
-import FeedOrders from "../feed/feed-orders/feed-orders";
-import FeedId from "../feed-id/feed-id";
+import Orders from "../feed/feed-orders/orders";
+import OrderPage from "../order-page/order-page";
 import { useEffect } from "react";
 import { wsConnectionAuthStart, wsConnectionClosed } from "../../../services/actions/ws-actions";
 
@@ -26,7 +26,7 @@ const Profile = () => {
     <div className={styles.page}>
       <Switch location={background || location}>
         <Route path={`${match.path}/orders/:id`} exact>
-          <FeedId textAlign={"center"} />
+          <OrderPage textAlign={"center"} />
         </Route>
         <Route path={match.path}>
           <main className={styles.content}>
@@ -36,7 +36,7 @@ const Profile = () => {
                 <ProfileInfo />
               </Route>
               <Route path={`${match.path}/orders`} exact>
-                <FeedOrders display={"none"} status={"block"} />
+                <Orders display={"none"} status={"block"} />
               </Route>
             </Switch>
           </main>

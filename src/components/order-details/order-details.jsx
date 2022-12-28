@@ -1,6 +1,7 @@
 import styles from "./order-details.module.css";
 import done from "../../vendors/images/done.svg";
 import { useSelector } from "react-redux";
+import Preloader from "../preloader/preloader";
 
 const OrderDetails = () => {
   const orderNumber = useSelector((store) => store.orderDetails.orderNumber);
@@ -34,7 +35,7 @@ const OrderDetails = () => {
           >
             Заказ обрабатывается, пожалуйста, подождите несколько секунд...
           </h1>
-          <div className={styles.spinner}></div> 
+          <Preloader />
         </>
       )}
     </div>

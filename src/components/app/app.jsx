@@ -27,7 +27,7 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 import NotFound from "../pages/not-found/not-found";
 import { getCookie } from "../../utils/cookie";
 import Feed from "../pages/feed/feed";
-import FeedId from "../pages/feed-id/feed-id";
+import OrderPage from "../pages/order-page/order-page";
 
 const App = () => {
   
@@ -42,18 +42,23 @@ const App = () => {
   //при загрузке получать ингридиенты
   useEffect(() => {
     dispatch(getBurgerIngredientsItems());
-    dispatch(getUser());
+    //dispatch(getUser());
     //обновляем состояние в history, 
     //чтобы при обновлении страницы содержимое модального окна было на отдельной странице
     history.replace({ state: null })    
   }, [dispatch]);
-
+  
   //если accessToken протух, а refreshToken есть - обновить токены => запросить пользователя
   useEffect(() => {
     if (!accessTokenCookie && refreshTokenCookie) {
       dispatch(refreshToken());
     }
+    dispatch(getUser());  //может так
   }, [dispatch, accessTokenCookie, refreshTokenCookie]);
+
+  console.log(accessTokenCookie);
+  console.log(refreshTokenCookie);
+
 
   //состояние окна с заказом
   const openOrderDetails = useSelector(
@@ -109,7 +114,7 @@ const App = () => {
           <Feed />
         </Route>
         <Route path="/feed/:id" exact>
-          <FeedId textAlign={"center"} />
+          <OrderPage />
         </Route>
         <ProtectedRoute pathname="/profile">
           <Profile />
@@ -129,12 +134,12 @@ const App = () => {
           </Route>
           <Route path="/feed/:id">
             <Modal onClose={handleCloseIngredientModal} isOpened>
-              <FeedId textAlign={"left"} />
+              <OrderPage />
             </Modal>
           </Route>
           <ProtectedRoute path="/profile/orders/:id" exact>
             <Modal onClose={handleCloseIngredientModal} isOpened>
-              <FeedId textAlign={"left"} />
+              <OrderPage />
             </Modal>
           </ProtectedRoute>
         </>

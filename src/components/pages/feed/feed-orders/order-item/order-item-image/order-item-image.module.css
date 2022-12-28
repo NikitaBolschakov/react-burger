@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background: #101013;
+    box-sizing: border-box;
+    padding-top: 3px;
+}
+
+.border {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(#5f1385, #5858ff);
+}
+
+.image {
+    height: 60px; 
+}
