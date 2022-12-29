@@ -8,7 +8,7 @@ const Orders = () => {
   return (
     <div className={`${styles.column} mt-10`}>
       <ul className={`${styles.list}`}>
-        {orders && orders.map(order => (<li key={order._id}><OrderItem order={order} /></li>))}
+        {orders && orders.map((order, index) => (<li key={index}><OrderItem order={order} /></li>))}
       </ul>
     </div>
   );

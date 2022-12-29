@@ -37,28 +37,27 @@ const App = () => {
   const background = location.state?.background;
 
   const accessTokenCookie = getCookie("accessToken");
-  const refreshTokenCookie = getCookie("refreshToken");
+  //const refreshTokenCookie = getCookie("refreshToken");
+  const refreshTokenCookie = localStorage.getItem('jwt')
 
   //при загрузке получать ингридиенты
   useEffect(() => {
     dispatch(getBurgerIngredientsItems());
-    //dispatch(getUser());
+    dispatch(getUser());
     //обновляем состояние в history, 
     //чтобы при обновлении страницы содержимое модального окна было на отдельной странице
     history.replace({ state: null })    
   }, [dispatch]);
   
   //если accessToken протух, а refreshToken есть - обновить токены => запросить пользователя
-  useEffect(() => {
+   useEffect(() => {
     if (!accessTokenCookie && refreshTokenCookie) {
       dispatch(refreshToken());
     }
-    dispatch(getUser());  //может так
-  }, [dispatch, accessTokenCookie, refreshTokenCookie]);
+  }, [dispatch, accessTokenCookie, refreshTokenCookie]); 
 
   console.log(accessTokenCookie);
   console.log(refreshTokenCookie);
-
 
   //состояние окна с заказом
   const openOrderDetails = useSelector(

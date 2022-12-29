@@ -1,68 +1,52 @@
-.order__container {
-  box-sizing: border-box;
+.container {
+  width: 640px;
   display: flex;
   flex-direction: column;
-  margin: 53px auto 0 auto;
-  width: 640px;
-  padding-bottom: 30px;
+  margin: 52px auto 0;
+  padding-bottom: 32px;
 }
 
-.order__orderId {
-  margin: -50px 0 40px 0;
-}
-
-.order__header {
+.header {
   text-align: left;
   margin: 0 0 12px 0;
 }
 
-.order__status {
-  text-align: left;
-  margin: 0 0 40px 0;
+.number {
+  margin: -50px 0 40px 0;
 }
 
-.order__status_done {
-  color: #00cccc;
+.status {
+  margin: 0 0 40px;
+  color: aqua;
 }
 
-.order__status_cancel {
-  color: #e52b1a;
-}
-
-.orderIngredients__list {
+.list {
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  margin: 16px 0 32px 0;
   list-style: none;
+  margin-bottom: 30px;
+  height: 160px;
   padding: 0;
-  height: 156px;
   overflow-y: auto;
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
-.orderIngredients__list::-webkit-scrollbar {
+.list::-webkit-scrollbar {
 	width: 8px;
 	height: auto;
 	background-color: #2f2f37;
 }
 
-.orderIngredients__list::-webkit-scrollbar-thumb {
+.list::-webkit-scrollbar-thumb {
 	background-color: #8585ad;
 }
 
-.orderIngredients__dateAndPrice_container {
+.bottomBox {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
 
-.order__date {
-  color: #8585ad;
-}
-
-.order__price_container {
+.priceBox {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -70,9 +54,6 @@
   align-items: center;
 }
 
-.order__price {
-  display: block;
-  box-sizing: border-box;
-  margin: 0 9px 0 0;
-  padding: 0;
+.price {
+  margin-right: 10px;
 }

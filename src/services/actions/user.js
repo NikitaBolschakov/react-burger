@@ -40,11 +40,12 @@ export const signIn = (loginData) => (dispatch) => {
   loginRequest(loginData)
     .then((res) => {
       if (res) {
-        const accessToken = res.accessToken.split("Bearer ")[1];
-        const refreshToken = res.refreshToken;
+        let accessToken = res.accessToken.split("Bearer ")[1];
+        let refreshToken = res.refreshToken;
         if (accessToken && refreshToken) {
           setCookie("accessToken", accessToken, { "max-age": 1200 }); //сохраняю токены в куки
-          setCookie("refreshToken", refreshToken);
+          //setCookie("refreshToken", refreshToken);
+          localStorage.setItem('jwt', refreshToken);
         }
         dispatch({ type: LOGIN_SUCCESS, userData: res.user });
       } else {
@@ -90,11 +91,12 @@ export const userRegistration = (registerData) => (dispatch) => {
   userRegistrationRequest(registerData)
     .then((res) => {
       if (res) {
-        const accessToken = res.accessToken.split("Bearer ")[1];
-        const refreshToken = res.refreshToken;
+        let accessToken = res.accessToken.split("Bearer ")[1];
+        let refreshToken = res.refreshToken;
         if (accessToken && refreshToken) {
           setCookie("accessToken", accessToken, { "max-age": 1200 });
-          setCookie("refreshToken", refreshToken);
+          //setCookie("refreshToken", refreshToken);
+          localStorage.setItem('jwt', refreshToken);
         }
         dispatch({ type: LOGIN_SUCCESS, userData: res.user });
       } else {
@@ -109,11 +111,13 @@ export const userRegistration = (registerData) => (dispatch) => {
 //выход
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
-  const refreshToken = getCookie("refreshToken");
+  //const refreshToken = getCookie("refreshToken");
+  let refreshToken = localStorage.getItem('jwt');
   logoutRequest(refreshToken)
     .then((res) => {
       if (res) {
         dispatch({ type: LOGOUT_SUCCESS, success: res.success });
+        localStorage.removeItem('jwt');  // удалить refreshToken
       } else {
         dispatch({ type: LOGOUT_FAILED });
       }
@@ -155,7 +159,7 @@ export const updateUserData = (updateData) => (dispatch) => {
 //получение данных пользователя
 export const getUser = () => (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
-  if (getCookie("accessToken") === undefined) {
+  if (getCookie("accessToken") === undefined && localStorage.getItem('jwt')) {
     dispatch(refreshToken());
     getUserInfo().then((res) => {
       dispatch({ type: GET_USER_SUCCESS, userData: res.user });
@@ -177,9 +181,9 @@ export const refreshToken = () => (dispatch) => {
   refreshTokenRequest() //запросить новый токен
     .then((res) => {
       if (res.success) {
-        const accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
+        let accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
         setCookie("accessToken", accessToken, { "max-age": 1200 }); //установить токен в куки
-        setCookie("refreshToken", res.refreshToken);
+        localStorage.setItem('jwt', res.refreshToken);
         dispatch(getUser());
         dispatch({
           type: UPDATE_TOKEN_SUCCESS,

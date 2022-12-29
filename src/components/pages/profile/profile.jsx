@@ -36,7 +36,7 @@ const Profile = () => {
                 <ProfileInfo />
               </Route>
               <Route path={`${match.path}/orders`} exact>
-                <Orders display={"none"} status={"block"} />
+                <Orders />
               </Route>
             </Switch>
           </main>

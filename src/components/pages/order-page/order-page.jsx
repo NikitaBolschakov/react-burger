@@ -43,7 +43,7 @@ const OrderPage = () => {
     }
   }, [dispatch]);
 
-  // [id: count, id: count, id: count]
+  // [id: count, id: count, id: count] подсчитываем дублирующиеся элементы
   const countedIngredients = order?.ingredients?.reduce(
     (sum, item) => {
       if (!sum[item]) {
@@ -52,8 +52,7 @@ const OrderPage = () => {
         sum[item] += 1;
       }
       return sum;
-    },
-    {}
+    }, {}
   );
   
   //массив из уникальных id
@@ -85,49 +84,33 @@ const OrderPage = () => {
   }, [orderIngredients]); 
 
   return (
-    <>
+    <div>
       {order && (
-        <div className={styles.order__container}>
-          <p className={`${styles.order__orderId} text text_type_digits-default`}>
-            #{order.number}
-          </p>
-          <h2 className={`${styles.order__header} text text_type_main-medium`}>
-            {order.name}
-          </h2>
+        <div className={styles.container}>
+          <p className={`${styles.number} text text_type_digits-default`}>#{order.number}</p>
+          <h2 className={`${styles.header} text text_type_main-medium`}>{order.name}</h2>
           <p
-            className={`${styles.order__status} text text_type_main-default  ${
-              order.status === "done"
-                ? styles.order__status_done
-                : order.status === "cancel"
-                ? styles.order__status_cancel
-                : ""
-            }`}
+            className={`${styles.status} text text_type_main-default`}
           >
-            {order.status === "pending"
-              ? "Готовится"
-              : order.status === "done"
-              ? "Выполнен"
-              : order.status === "created"
-              ? "Создан"
-              : "Выполнен"}
+            {order.status === "pending" ? "Готовится" : order.status === "done"
+              ? "Выполнен" : order.status === "created"
+              ? "Создан" : ""
+              }
           </p>
-          <p className={`${styles.order__header} text text_type_main-medium`}>Состав:</p>
-          <ul className={styles.orderIngredients__list}>
+          <p className={`${styles.header} text text_type_main-medium`}>Состав:</p>
+          <ul className={styles.list}>
             {orderIngredients.map((ingredient, index) => (
               <li key={index}>
-                <OrderIngredient
-                  orderIngredients={orderIngredients}
-                  ingredient={ingredient}
-                />
+                <OrderIngredient ingredient={ingredient} />
               </li>
             ))}
           </ul>
-          <div className={styles.orderIngredients__dateAndPrice_container}>
-            <p className={`${styles.order__date} text text_type_main-default`}>
+          <div className={styles.bottomBox}>
+            <p className={`text text_type_main-default text_color_inactive`}>
               {`${formatDate(order.createdAt)}`}
             </p>
-            <div className={`${styles.order__price_container}`}>
-              <p className={`${styles.order__price} text text_type_digits-default`}>
+            <div className={`${styles.priceBox}`}>
+              <p className={`${styles.price} text text_type_digits-default`}>
                 {orderPrice}
               </p>
               <CurrencyIcon type="primary" />
@@ -135,7 +118,7 @@ const OrderPage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

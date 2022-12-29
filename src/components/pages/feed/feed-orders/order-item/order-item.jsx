@@ -51,7 +51,7 @@ const OrderItem = ({ order }) => {
           ? "Выполнен"
           : order.status === "created"
           ? "Создан"
-          : "Выполнен"}
+          : ""}
       </p>
 
       <div className={`${styles.item} ${styles.itemBottom}`}>

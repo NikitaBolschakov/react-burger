@@ -97,6 +97,9 @@ export const userRegistrationRequest = async (registerData) => {
 export const logoutRequest = async (refreshToken) => {
   const res = await fetch(`${API.url}auth/logout`, {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token: refreshToken,
@@ -109,6 +112,9 @@ export const logoutRequest = async (refreshToken) => {
 export const updateUserInfo = async (updateData) => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "PATCH",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
@@ -126,9 +132,12 @@ export const refreshTokenRequest = async () => {
   const refreshToken = getCookie("refreshToken")
   const res = await fetch(`${API.url}auth/token`, {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      token: refreshToken,
+      token: localStorage.getItem('jwt'),
     }),
   });
   return handleResponse(res);
@@ -138,6 +147,9 @@ export const refreshTokenRequest = async () => {
 export const getUserInfo = async () => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("accessToken"),
