@@ -2,9 +2,10 @@ import styles from "./order-details.module.css";
 import done from "../../vendors/images/done.svg";
 import { useSelector } from "react-redux";
 import Preloader from "../preloader/preloader";
+import { getOrderNumber } from "../../utils/constants";
 
 const OrderDetails = () => {
-  const orderNumber = useSelector((store) => store.orderDetails.orderNumber);
+  const orderNumber = useSelector(getOrderNumber);
 
   return (
     <div className={`${styles.container} pl-25 pr-25`}>

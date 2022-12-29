@@ -1,19 +1,17 @@
 import {
   Button,
-  EmailInput,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styles from "./login.module.css";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signIn } from "../../../services/actions/user";
 
 const Login = () => {
 
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth);   
   const [loginData, setLoginData] = useState({email: "", password: ""}); //локальный стейт для этого компонента
 
   const handleSubmit = (e) => {
@@ -25,10 +23,6 @@ const Login = () => {
   //обработчики изменения полей
   const handleChangeEmailInput = (e) => setLoginData({ ...loginData, email: e.target.value })
   const handleChangePasswordInput = (e) => setLoginData({ ...loginData, password: e.target.value })
-
-  if (isAuth) {
-    return <Redirect to="/" />;
-  }  
 
   return (
     <div className={styles.page}>

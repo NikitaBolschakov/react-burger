@@ -28,6 +28,8 @@ import NotFound from "../pages/not-found/not-found";
 import { getCookie } from "../../utils/cookie";
 import Feed from "../pages/feed/feed";
 import OrderPage from "../pages/order-page/order-page";
+import { getStateOpenOrderDetails } from "../../utils/constants";
+import OnlyUnAuthRoute from "../only-unauth-route/only-unauth-route";
 
 const App = () => {
   
@@ -56,9 +58,7 @@ const App = () => {
   }, [dispatch, accessTokenCookie, refreshTokenCookie]); 
 
   //состояние окна с заказом
-  const openOrderDetails = useSelector(
-    (store) => store.burgerIngredients.openOrderDetails
-  );
+  const openOrderDetails = useSelector(getStateOpenOrderDetails);
 
   //закрывает окно заказа при клике
   const handleCloseOrderModal = () => {
@@ -87,18 +87,18 @@ const App = () => {
             </main>
           </div>
         </Route>
-        <Route path="/login" exact>
+        <OnlyUnAuthRoute path="/login" exact>
           <Login />
-        </Route>
-        <Route path="/register" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/register" exact>
           <Register />
-        </Route>
-        <Route path="/forgot-password" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/forgot-password" exact>
           <ForgotPassword />
-        </Route>
-        <Route path="/reset-password" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/reset-password" exact>
           <ResetPassword />
-        </Route>
+        </OnlyUnAuthRoute>
         <Route path="/not-found" exact>
           <NotFound />
         </Route>

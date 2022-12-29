@@ -1,5 +1,4 @@
 import styles from "./order-item-image.module.css";
-import PropTypes from "prop-types";
 
 const OrderItemImage = ({ ingredient }) => {
 
@@ -13,7 +12,3 @@ const OrderItemImage = ({ ingredient }) => {
 }
 
 export default OrderItemImage;
-
-/* OrderItemImage.propTypes = {
-	ingredient: PropTypes.object.isRequired
-};   */

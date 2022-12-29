@@ -5,10 +5,11 @@ import { formatDate } from "../../../../../utils/format-date";
 import OrderItemImage from "./order-item-image/order-item-image";
 import styles from "./order-item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { getIngredients } from "../../../../../utils/constants";
 
 const OrderItem = ({ order }) => {
 
-  const ingredients = useSelector((store) => store.burgerIngredients.ingredientItems);
+  const ingredients = useSelector(getIngredients);
   const location = useLocation();
   const match = useRouteMatch();
 

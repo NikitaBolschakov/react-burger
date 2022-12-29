@@ -1,9 +1,9 @@
 import styles from "./stats.module.css";
 import { useSelector } from "react-redux";
+import { getWsOrders } from "../../../../utils/constants";
 
 const Stats = () => {
-
-  const { total, totalToday, orders } = useSelector((store) => store.wsOrders);
+  const { total, totalToday, orders } = useSelector(getWsOrders);
 
   if (!orders) {
     return null;

@@ -1,12 +1,11 @@
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getIngredients } from "../../utils/constants";
 
 const IngredientDetails = () => {
   const { id } = useParams(); //получаем доступ к параметру id URL
-  const ingredients = useSelector(
-    (store) => store.burgerIngredients.ingredientItems
-  );                                                        
+  const ingredients = useSelector(getIngredients);                                                        
   const ingredient = ingredients.find((ingredient) => ingredient._id === id); //находим нужный ингредиент
 
    return (

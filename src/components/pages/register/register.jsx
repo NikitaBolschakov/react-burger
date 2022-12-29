@@ -6,14 +6,14 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.css";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegistration } from "../../../services/actions/user";
+import { getIsAuth } from "../../../utils/constants";
 
 const Register = () => {
 
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.user.isAuth); 
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -30,10 +30,6 @@ const Register = () => {
   const handleChangeNameInput = e => setRegisterData({ ...registerData, name: e.target.value })
   const handleChangeEmailInput = e => setRegisterData({ ...registerData, email: e.target.value })
   const handleChangePasswordInput = e => setRegisterData({ ...registerData, password: e.target.value })
-
-  if (isAuth) {
-    return <Redirect to="/profile" />;
-  }  
 
   return (
     <div className={styles.page}>

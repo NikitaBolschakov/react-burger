@@ -12,6 +12,7 @@ import {
 } from "../../../services/actions/ws-actions";
 import { formatDate } from "../../../utils/format-date";
 import OrderIngredient from "./order-ingredient/order-ingredient";
+import { getIngredients, getIsConnected, getOrders } from "../../../utils/constants";
 
 
 const OrderPage = () => {
@@ -20,9 +21,9 @@ const OrderPage = () => {
   const { id } = useParams();
   const { path } = useRouteMatch();
   
-  const ingredients = useSelector((store) => store.burgerIngredients.ingredientItems);
-  const orders = useSelector((store) => store.wsOrders.orders);
-  const isConnected = useSelector((store) => store.wsOrders.wsConnected);
+  const ingredients = useSelector(getIngredients);
+  const orders = useSelector(getOrders);
+  const isConnected = useSelector(getIsConnected);
 
   const urlProfile = '/profile/orders/:id';
 	const urlFeed = '/feed/:id';

@@ -1,9 +1,21 @@
 import OrderItem from "./order-item/order-item";
 import styles from "./orders.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { wsConnectionAuthStart, wsConnectionClosed } from "../../../../services/actions/ws-actions";
+import { useEffect } from "react";
+import { getOrders } from "../../../../utils/constants";
 
 const Orders = () => {
-  const orders = useSelector((store) => store.wsOrders.orders);
+
+  const dispatch = useDispatch();
+  const orders = useSelector(getOrders);
+
+  useEffect(() => {
+    dispatch(wsConnectionAuthStart());
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
+  }, [dispatch]);
 
   return (
     <div className={`${styles.column} mt-10`}>

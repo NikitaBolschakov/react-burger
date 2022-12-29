@@ -28,8 +28,9 @@ const BurgerConstructor = () => {
   );
   
   //выбранная булка в бургере
-  const currentBun = useSelector((store) => store.burgerConstructor.currentBun)
-  const currentBuns = [currentBun, currentBun] //удваиваем булку
+  const getStateCurrentBun = store => store.burgerConstructor.currentBun;
+  const currentBun = useSelector(getStateCurrentBun);
+  const currentBuns = [currentBun, currentBun]; //удваиваем булку
 
   //все выбранные ингредиенты 
   const currentIngredientsAndBuns = currentIngredients.concat(currentBuns);

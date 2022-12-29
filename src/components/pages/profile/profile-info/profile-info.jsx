@@ -7,16 +7,15 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../../../../services/actions/user";
 import { Redirect } from "react-router-dom";
+import { getIsAuth, getUserData } from "../../../../utils/constants";
 
 const ProfileInfo = () => {
 
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth); 
+  const isAuth = useSelector(getIsAuth); 
 
   //достаем имя из стора
-  const { name: storeName, email: storeEmail } = useSelector(
-    (state) => state.user.userData
-  );
+  const { name: storeName, email: storeEmail } = useSelector(getUserData);
 
   const [userData, setUserData] = useState({
     holderEmail: "Логин",

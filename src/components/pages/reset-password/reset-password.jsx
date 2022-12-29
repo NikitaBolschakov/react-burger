@@ -8,12 +8,10 @@ import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { resetPasswordRequest } from "../../../utils/api";
+import { getIsEmailForUpdatePassword } from "../../../utils/constants";
 
 const ResetPassword = () => {
-  const isAuth = useSelector((state) => state.user.isAuth);
-  const isEmailForUpdatePassword = useSelector(
-    (state) => state.user.updatePasswordStatus
-  );
+  const isEmailForUpdatePassword = useSelector(getIsEmailForUpdatePassword);
  
   const [passwordData, setPasswordData] = useState({
     password: "",
@@ -35,11 +33,6 @@ const ResetPassword = () => {
     setPasswordData({ ...passwordData, verCode: e.target.value });
   const handleChangePasswordInput = (e) =>
     setPasswordData({ ...passwordData, password: e.target.value });
-
-  //если авторизация есть - редирект на профиль
-  if (isAuth) {
-    return <Redirect to="/profile" />;
-  }
 
   //если емаил не был получен - редирект на восстановление пароля
   if (!isEmailForUpdatePassword) {
