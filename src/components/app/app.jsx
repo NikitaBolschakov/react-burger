@@ -37,7 +37,6 @@ const App = () => {
   const background = location.state?.background;
 
   const accessTokenCookie = getCookie("accessToken");
-  //const refreshTokenCookie = getCookie("refreshToken");
   const refreshTokenCookie = localStorage.getItem('jwt')
 
   //при загрузке получать ингридиенты
@@ -55,9 +54,6 @@ const App = () => {
       dispatch(refreshToken());
     }
   }, [dispatch, accessTokenCookie, refreshTokenCookie]); 
-
-  console.log(accessTokenCookie);
-  console.log(refreshTokenCookie);
 
   //состояние окна с заказом
   const openOrderDetails = useSelector(
