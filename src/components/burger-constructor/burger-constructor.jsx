@@ -1,3 +1,4 @@
+/* import { FC } from "react"; */
 import { useMemo } from "react";
 import {
   ConstructorElement,
@@ -7,16 +8,13 @@ import {
 import ConstructorItems from "./constructor-items/constructor-items";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_BUN,
-  ADD_INGREDIENT,
-} from "../../services/actions/burger-constructor";
-import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
+import { addIngredient, addBun } from "../../services/actions/burger-constructor";
+import { setOrderModalActive } from "../../services/actions/burger-ingredients";
 import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 
-const BurgerConstructor = () => {
+const BurgerConstructor/* : FC */ = () => {
 
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -43,7 +41,7 @@ const BurgerConstructor = () => {
 
   //открывает окно заказа при клике
   const handleOpenOrderDetails = () => {
-    dispatch({ type: SET_ORDER_MODAL_ACTIVE });
+    dispatch(setOrderModalActive());
   };
 
   //отправить заказ, получить номер
@@ -62,15 +60,9 @@ const BurgerConstructor = () => {
     accept: "ingredient",
     drop(item) {
       if (item.type === "bun") {
-        dispatch({
-          type: ADD_BUN,
-          payload: { ...item, id: Date.now() },
-        });
+        dispatch(addBun({ ...item, id: Date.now() }));
       } else {
-        dispatch({
-          type: ADD_INGREDIENT,
-          payload: { ...item, id: Date.now() },
-        });
+        dispatch(addIngredient({ ...item, id: Date.now() }));
       }
     },
   });

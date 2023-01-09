@@ -7,12 +7,9 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  SET_INGREDIENTS_MODAL_INACTIVE,
-  SET_ORDER_MODAL_INACTIVE,
-} from "../../services/reducers/burger-ingredients";
-import { RESET_INGREDIENT_IN_MODAL } from "../../services/actions/ingredient-details";
-import { RESET_NUMBER_IN_MODAL } from "../../services/actions/order-details";
+import { setIngredientsModalInactive, setOrderModalInactive } from "../../services/actions/burger-ingredients";
+import { resetIngredientInModal } from "../../services/actions/ingredient-details";
+import { resetNumberInModal } from "../../services/actions/order-details";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getBurgerIngredientsItems } from "../../services/actions/burger-ingredients";
@@ -62,14 +59,14 @@ const App = () => {
 
   //закрывает окно заказа при клике
   const handleCloseOrderModal = () => {
-    dispatch({ type: SET_ORDER_MODAL_INACTIVE });
-    dispatch({ type: RESET_NUMBER_IN_MODAL });
+    dispatch(setOrderModalInactive());
+    dispatch(resetNumberInModal());
   };
 
   //закрывает окно ингредиента и удаляет ингредиент при  клике
   const handleCloseIngredientModal = () => {
-    dispatch({ type: SET_INGREDIENTS_MODAL_INACTIVE });
-    dispatch({ type: RESET_INGREDIENT_IN_MODAL });
+    dispatch(setIngredientsModalInactive());
+    dispatch(resetIngredientInModal());
     history.goBack();
   };
 

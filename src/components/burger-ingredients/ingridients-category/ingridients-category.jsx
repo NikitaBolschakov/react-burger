@@ -3,8 +3,8 @@ import styles from "./ingridients-category.module.css";
 import IngridientsItem from "../ingridients-item/ingridients-item";
 import categories from "../../../utils/categories";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_INGREDIENTS_MODAL_ACTIVE } from "../../../services/reducers/burger-ingredients";
-import { SET_INGREDIENT_IN_MODAL } from "../../../services/actions/ingredient-details";
+import { setIngredientsModalActive } from "../../../services/actions/burger-ingredients";
+import { setIngredientInModal } from "../../../services/actions/ingredient-details";
 import { getIngredients } from "../../../utils/constants";
 
 const IngredientsCategory = ({ type }) => {
@@ -12,8 +12,8 @@ const IngredientsCategory = ({ type }) => {
   
   //открывает окно ингредиента и устанавливает ингредиент при  клике
   const handleOpenIngredientDetails = (currentIngredient) => {
-    dispatch({ type: SET_INGREDIENTS_MODAL_ACTIVE });
-    dispatch({ type: SET_INGREDIENT_IN_MODAL, payload: currentIngredient });
+    dispatch(setIngredientsModalActive());
+    dispatch(setIngredientInModal(currentIngredient));
   };
   
   //берем пока все ингредиенты все стора

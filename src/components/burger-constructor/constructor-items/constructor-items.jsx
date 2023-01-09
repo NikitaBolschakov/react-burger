@@ -1,14 +1,12 @@
 import  { useRef } from "react";
-import PropTypes from "prop-types";
-import ingredientType from "../../../utils/types";
 import styles from "./constructor-items.module.css";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
-  DELETE_INGREDIENT,
-  MOVE_ELEMENT,
+  deleteIngredient,
+  moveElement,
 } from "../../../services/actions/burger-constructor";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
@@ -17,8 +15,8 @@ const ConstructorItems = ({ element, index }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const deleteIngredient = (id) => {
-    dispatch({ type: DELETE_INGREDIENT, id });
+  const resetIngredient = (id) => {
+    dispatch(deleteIngredient(id));
   };
 
   const id = element.id;
@@ -41,10 +39,7 @@ const ConstructorItems = ({ element, index }) => {
       const dragIndex = element.index;
       const hoverIndex = index;
       
-      dispatch({
-        type: MOVE_ELEMENT,
-        payload: { dragIndex, hoverIndex },
-      });
+      dispatch(moveElement({ dragIndex, hoverIndex }));
       
       element.index = hoverIndex;
     },
@@ -59,14 +54,10 @@ const ConstructorItems = ({ element, index }) => {
         text={element.name}
         price={element.price}
         thumbnail={element.image}
-        handleClose={() => deleteIngredient(element.id)}
+        handleClose={() => resetIngredient(element.id)}
       />
     </li>
   );
-};
-
-ConstructorItems.propTypes = {
-  element: ingredientType.isRequired,
 };
 
 export default ConstructorItems;

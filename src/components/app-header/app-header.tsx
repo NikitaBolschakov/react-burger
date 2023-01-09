@@ -1,3 +1,4 @@
+import { FC } from "react";
 import styles from "./app-header.module.css";
 import {
   Logo,
@@ -7,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.container}>

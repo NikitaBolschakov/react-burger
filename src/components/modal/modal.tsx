@@ -1,18 +1,25 @@
+import { FC, ReactNode } from "react";
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "../modal-overlay/modal-overlay.jsx";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 //Сюда будет отрендерен Modal
-const modalRoot = document.querySelector('#modals'); 
+const modalRoot = document.querySelector('#modals') as HTMLElement;
 
-const Modal = ({ title, isOpened, onClose, children }) => {
+interface IModalProps {
+  title: string;
+  isOpened: boolean;
+  onClose: () => void;
+  children: ReactNode;
+} 
+
+const Modal : FC<IModalProps> = ({ title, isOpened, onClose, children }) => {
   
   //При открытом окне, вешаем слушатель с функцией закрытия, return() удалит слушатель при закрытии
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
@@ -33,20 +40,14 @@ const Modal = ({ title, isOpened, onClose, children }) => {
           {title}
         </h3>
         <button className={styles.close_icon}>
-          <CloseIcon onClick={onClose} />
+          <CloseIcon type='primary' onClick={onClose} />
         </button>
         {children}
       </div>
-      <ModalOverlay isOpened={isOpened} onClose={onClose} />
+      <ModalOverlay onClose={onClose} />
     </>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default Modal;

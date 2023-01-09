@@ -1,9 +1,17 @@
+import { FC, ReactNode } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/cookie";
+import { ILocationState } from "../../utils/types";
 
-export const ProtectedRoute = ({ children, ...rest }) => {
+interface RouteProps {
+  children: ReactNode;
+  pathname: string;
+	exact?: boolean;
+}
 
-  const location = useLocation();
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
+
+  const location = useLocation<ILocationState>();
   const accessToken = getCookie("accessToken"); 
 
   return (
