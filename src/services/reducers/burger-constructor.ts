@@ -1,17 +1,25 @@
+import { TIngredient } from "../../utils/types";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
   CLEAR_CONSTRUCTOR,
   DELETE_INGREDIENT,
   MOVE_ELEMENT,
+  TBurgerConstructorActions,
 } from "../actions/burger-constructor";
 
-const initialState = {
+//описание типа для initialState редьюсера
+type TBurgerConstructorState = {
+  currentIngredients: Array<TIngredient>;
+  currentBun: Array<TIngredient>;
+}
+
+const initialState: TBurgerConstructorState = {
   currentIngredients: [],
   currentBun: [],
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
   switch (action.type) {
     case ADD_INGREDIENT:
       return {

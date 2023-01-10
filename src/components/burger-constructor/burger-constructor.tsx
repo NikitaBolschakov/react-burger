@@ -1,4 +1,4 @@
-/* import { FC } from "react"; */
+import { FC } from "react"; 
 import { useMemo } from "react";
 import {
   ConstructorElement,
@@ -7,14 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItems from "./constructor-items/constructor-items";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, addBun } from "../../services/actions/burger-constructor";
 import { setOrderModalActive } from "../../services/actions/burger-ingredients";
 import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
-const BurgerConstructor/* : FC */ = () => {
+const BurgerConstructor: FC = () => {
 
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -26,8 +26,7 @@ const BurgerConstructor/* : FC */ = () => {
   );
   
   //выбранная булка в бургере
-  const getStateCurrentBun = store => store.burgerConstructor.currentBun;
-  const currentBun = useSelector(getStateCurrentBun);
+  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
   const currentBuns = [currentBun, currentBun]; //удваиваем булку
 
   //все выбранные ингредиенты 

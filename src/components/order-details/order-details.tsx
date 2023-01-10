@@ -1,9 +1,9 @@
 import { FC } from "react";
 import styles from "./order-details.module.css";
 import done from "../../vendors/images/done.svg";
-import { useSelector } from "react-redux";
 import Preloader from "../preloader/preloader";
 import { getOrderNumber } from "../../utils/constants";
+import { useSelector } from "../../services/types/hooks";
 
 const OrderDetails: FC = () => {
   const orderNumber = useSelector(getOrderNumber);

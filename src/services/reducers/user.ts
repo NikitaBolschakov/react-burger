@@ -1,3 +1,4 @@
+import { TUser } from "../../utils/types";
 import {
   FORGOT_PASSWORD_FAILED,
   FORGOT_PASSWORD_REQUEST,
@@ -10,6 +11,7 @@ import {
   LOGOUT_FAILED,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
+  TUserActions,
   UPDATE_FAILED,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_REQUEST,
@@ -19,7 +21,26 @@ import {
   UPDATE_TOKEN_SUCCESS,
 } from "../actions/user";
 
-const initialState = {
+//описание типа для initialState редьюсера
+type TUserState = {
+  userData: TUser;
+  getUserDataRequest: boolean; 
+  getUserDataError: boolean;
+  isAuth: boolean;                    
+  logoutUserRequest: boolean;        
+  logoutUserError: boolean;
+  updateUserRequest: boolean;        
+  updateUserError: boolean;
+  loginUserRequest: boolean;         
+  loginUserError: boolean;
+  updatePasswordStatus: boolean;
+  updatedPassword: boolean;            
+  tokenRequest: boolean;                 
+  tokenFailed: boolean;
+  tokenUpdated: boolean;
+}
+
+const initialState: TUserState = {
   userData: { email: "", name: "" },    //данные пользователя
   getUserDataRequest: false,            //получить данные пользователя
   getUserDataError: false,
@@ -37,7 +58,7 @@ const initialState = {
   tokenUpdated: false
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {
@@ -113,7 +134,15 @@ export const userReducer = (state = initialState, action) => {
           ...state,
           isAuth: false,
           userData: { email: "", name: "" },
+          logoutUserRequest: false
+        };
+      }
+      else {
+        return {
+          ...state,
+          logoutUserError: true,
           logoutUserRequest: false,
+          isAuth: true,
         };
       }
     }

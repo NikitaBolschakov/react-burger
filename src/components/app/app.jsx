@@ -6,7 +6,6 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useDispatch, useSelector } from "react-redux";
 import { setIngredientsModalInactive, setOrderModalInactive } from "../../services/actions/burger-ingredients";
 import { resetIngredientInModal } from "../../services/actions/ingredient-details";
 import { resetNumberInModal } from "../../services/actions/order-details";
@@ -27,6 +26,7 @@ import Feed from "../pages/feed/feed";
 import OrderPage from "../pages/order-page/order-page";
 import { getStateOpenOrderDetails } from "../../utils/constants";
 import OnlyUnAuthRoute from "../only-unauth-route/only-unauth-route";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
 const App = () => {
   

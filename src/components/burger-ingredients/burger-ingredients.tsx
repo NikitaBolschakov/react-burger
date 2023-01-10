@@ -1,13 +1,14 @@
+import { FC } from "react";
 import { useEffect, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsCategory from "./ingridients-category/ingridients-category";
 import { useInView } from "react-intersection-observer";
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   
   //при нажатии на табы будут появляться соответствующий тип ингредиентов
-  const [current, setCurrent] = useState("bun");
+  const [current, setCurrent] = useState<string>("bun");
 
   //хук useInView, вешаем рефы на соотв. дивы и задаем границу
   const [refBuns, inViewBuns] = useInView({ threshold: 0.1 });
@@ -38,7 +39,7 @@ const BurgerIngredients = () => {
       <div className={`${styles.tab} pt-5`}>
         <a href="#bun" className={styles.link}>
           <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
-            Булки
+            Булки 
           </Tab>
         </a>
         <a href="#sauce" className={styles.link}>

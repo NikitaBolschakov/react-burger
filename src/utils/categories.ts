@@ -1,4 +1,8 @@
-const categories = {
+type TCategories = {
+    [n: string]: string;
+  }
+
+const categories: TCategories = {
 	'bun': 'Булки',
 	'sauce': 'Соусы',
 	'main': 'Начинки'

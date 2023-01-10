@@ -51,7 +51,7 @@ const enhancer = composeEnhancers(
 );
 
 // Инициализируем хранилище с помощью корневого редьюсера
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

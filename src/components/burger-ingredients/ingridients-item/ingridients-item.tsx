@@ -1,19 +1,23 @@
-import React, { useMemo } from "react";
-import PropTypes from "prop-types";
-import ingredientType from "../../../utils/types";
+import { useMemo, FC } from "react";
+import { ILocationState, TIngredient } from "../../../utils/types";
 import styles from "./ingridients-item.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getStateCurrentBun, getStateCurrentIngredients } from "../../../utils/constants";
+import { useSelector } from "../../../services/types/hooks";
 
-const IngridientsItem = ({ ingredient }) => {
+interface IIngridientsItemProps {
+  ingredient: TIngredient;
+}
+
+const IngridientsItem: FC<IIngridientsItemProps> = ({ ingredient }) => {
   
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
   const currentIngredients = useSelector(getStateCurrentIngredients);
   const currentBun = useSelector(getStateCurrentBun);
 
@@ -64,10 +68,6 @@ const IngridientsItem = ({ ingredient }) => {
       </div>
     </Link>
   );
-};
-
-IngridientsItem.propTypes = {
-  ingredient: ingredientType.isRequired,
 };
 
 export default IngridientsItem;

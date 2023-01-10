@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route, useLocation } from "react-router-dom";
+import { useSelector } from "../../services/types/hooks";
 import { getIsAuth } from "../../utils/constants";
 import { ILocationState } from "../../utils/types";
 

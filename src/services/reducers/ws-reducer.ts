@@ -1,18 +1,28 @@
+import { TWsOrder } from "../../utils/types";
 import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
+  TWsActions,
 } from "../actions/ws-actions";
 
-const initialState = {
+//описание типа для initialState редьюсера
+type TWsReducerState = {
+  wsConnected: boolean;
+  orders: Array<TWsOrder>,
+  total: number;
+  totalToday: number;
+}
+
+const initialState: TWsReducerState = {
   wsConnected: false,
   orders: [],
   total: 0,
   totalToday: 0,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsActions): TWsReducerState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

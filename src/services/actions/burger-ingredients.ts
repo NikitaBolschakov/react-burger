@@ -1,5 +1,6 @@
 import { TIngredient } from './../../utils/types';
 import { getData } from "../../utils/api";
+import { AppDispatch, AppThunk } from '../types';
 
 //типизируем литеральными типами
 export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" = "GET_INGREDIENTS_REQUEST";
@@ -84,8 +85,8 @@ export const setOrderModalInactive = (): ISetOrderModalInactive => ({
 
 
 //thunk-функция
-export const getBurgerIngredientsItems = () => {
-  return function (dispatch: any) {
+export const getBurgerIngredientsItems: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     //сначала отправляй диспатч с загрузкой
     dispatch(getIngredientsRequest());
     //теперь функция получения данных, если все хорошо отправляй диспатч с типом и данными

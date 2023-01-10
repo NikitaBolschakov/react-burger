@@ -1,3 +1,4 @@
+import { TIngredient } from "../../utils/types";
 import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,
@@ -6,9 +7,20 @@ import {
   SET_INGREDIENTS_MODAL_INACTIVE,
   SET_ORDER_MODAL_ACTIVE,
   SET_ORDER_MODAL_INACTIVE,
+  TBurgerIngredientsActions,
 } from "../actions/burger-ingredients";
 
-export const initialState = {
+//описание типа для initialState редьюсера
+type TBurgerIngredientsState = {
+  ingredientItems: Array<TIngredient>;
+  isLoading: boolean;
+  error: boolean;
+  currentIngredients: string;
+  openOrderDetails: boolean;
+  openIngredientDetails: boolean;
+}
+
+export const initialState: TBurgerIngredientsState = {
   ingredientItems: [],
   isLoading: false,
   error: false,
@@ -17,7 +29,7 @@ export const initialState = {
   openIngredientDetails: false,
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action: TBurgerIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

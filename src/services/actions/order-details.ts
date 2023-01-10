@@ -1,4 +1,5 @@
 import { getOrder } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../types";
 import { clearConstructor } from "./burger-constructor";
 
 //типизируем литеральными типами
@@ -53,14 +54,14 @@ export const resetNumberInModal = (): IResetNumberInModal => ({
 
 
 //action creator
-export const getOrderNumber = (ingredientsId: any) => {
-  return function (dispatch: any) {
+export const getOrderNumber: AppThunk = (ingredientsId: Array<string>) => {
+  return function (dispatch: AppDispatch ) {
     dispatch(orderDetailsRequest());
     getOrder(ingredientsId)
-      .then((res) =>
+      .then((res) => (
         dispatch(orderDetailsSuccess(res.order.number)),
         dispatch(clearConstructor())
-      )
+      ))
       .catch((err) => {
         console.error("Error in getOrderNumber()", err);
         dispatch(orderDetailsFailed());

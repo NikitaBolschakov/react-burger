@@ -9,7 +9,9 @@ import {
   userRegistrationRequest,
 } from "../../utils/api";
 import { getCookie, setCookie } from "../../utils/cookie";
-import { TUserResponse } from "../../utils/types";
+import { TEmailData, TLoginData, TPasswordData, TRegisterData, TUser, TUserResponse } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../types";
+
 
 //типизируем литеральными типами
 export const LOGIN_REQUEST: "LOGIN_REQUEST" = "LOGIN_REQUEST";
@@ -48,7 +50,7 @@ export interface IGetUserRequest {
 
 export interface IGetUserSuccess {
   readonly type: typeof GET_USER_SUCCESS;
-  readonly userData: TUserResponse;
+  readonly userData: TUserResponse & TUser;
 }
 
 export interface IGetUserFailed {
@@ -61,7 +63,7 @@ export interface ILoginRequest {
 
 export interface ILoginSuccess {
   readonly type: typeof LOGIN_SUCCESS;
-  readonly userData: TUserResponse;
+  readonly userData: TUserResponse & TUser;
 }
 
 export interface ILoginFailed {
@@ -101,7 +103,7 @@ export interface IUpdateRequest {
 
 export interface IUpdateSuccess {
   readonly type: typeof UPDATE_SUCCESS;
-  readonly userData: TUserResponse;
+  readonly userData: TUserResponse & TUser;
 }
 
 export interface IUpdateFailed {
@@ -147,7 +149,7 @@ export const getUserRequest = (): IGetUserRequest => ({
   type: GET_USER_REQUEST,
 });
 
-export const getUserSuccess = (userData: TUserResponse): IGetUserSuccess => ({
+export const getUserSuccess = (userData: TUserResponse & TUser): IGetUserSuccess => ({
   type: GET_USER_SUCCESS,
   userData,
 });
@@ -160,7 +162,7 @@ export const loginRequestAction = (): ILoginRequest => ({
   type: LOGIN_REQUEST,
 });
 
-export const loginSuccess = (userData: TUserResponse): ILoginSuccess => ({
+export const loginSuccess = (userData: TUserResponse & TUser): ILoginSuccess => ({
   type: LOGIN_SUCCESS,
   userData,
 });
@@ -200,7 +202,7 @@ export const updateRequest = (): IUpdateRequest => ({
   type: UPDATE_REQUEST,
 });
 
-export const updateSuccess = (userData: TUserResponse): IUpdateSuccess => ({
+export const updateSuccess = (userData: TUserResponse & TUser): IUpdateSuccess => ({
   type: UPDATE_SUCCESS,
   userData,
 });
@@ -223,7 +225,7 @@ export const updateTokenFailed = (): IUpdateTokenFailed => ({
 });
 
 //вход
-export const signIn = (loginData: any) => (dispatch: any) => {
+export const signIn: AppThunk = (loginData: TLoginData) => (dispatch: AppDispatch) => {
   dispatch(loginRequestAction());
   loginRequest(loginData)
     .then((res) => {
@@ -245,7 +247,7 @@ export const signIn = (loginData: any) => (dispatch: any) => {
 };
 
 //восстановление пароля
-export const updatePassword = (emailData: any) => (dispatch: any) => {
+export const updatePassword: AppThunk = (emailData: TEmailData) => (dispatch: AppDispatch) => {
   forgotPasswordRequest(emailData)
     .then((res) => {
       dispatch(forgotPasswordRequestAction(res.success));
@@ -256,7 +258,7 @@ export const updatePassword = (emailData: any) => (dispatch: any) => {
 };
 
 //сброс пароля
-export const resetPassword = (passwordData: any) => (dispatch: any) => {
+export const resetPassword: AppThunk = (passwordData: TPasswordData) => (dispatch: AppDispatch) => {
   resetPasswordRequest(passwordData)
     .then((res) => {
       dispatch(updatePasswordSuccess(res.success));
@@ -267,7 +269,7 @@ export const resetPassword = (passwordData: any) => (dispatch: any) => {
 };
 
 //регистрация
-export const userRegistration = (registerData: any) => (dispatch: any) => {
+export const userRegistration: AppThunk = (registerData: TRegisterData) => (dispatch: AppDispatch) => {
   dispatch(loginRequestAction());
   userRegistrationRequest(registerData)
     .then((res) => {
@@ -289,7 +291,7 @@ export const userRegistration = (registerData: any) => (dispatch: any) => {
 };
 
 //выход
-export const logout = () => (dispatch: any) => {
+export const logout: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(logoutRequestAction());
   let refreshToken = localStorage.getItem("jwt");
   logoutRequest(refreshToken)
@@ -307,7 +309,7 @@ export const logout = () => (dispatch: any) => {
 };
 
 //обновление данных пользователя
-export const updateUserData = (updateData: any) => (dispatch: any) => {
+export const updateUserData: AppThunk = (updateData: TUser) => (dispatch: AppDispatch | AppThunk) => {
   dispatch(updateRequest());
   if (getCookie("accessToken") !== undefined) {
     updateUserInfo(updateData)
@@ -318,13 +320,10 @@ export const updateUserData = (updateData: any) => (dispatch: any) => {
         dispatch(updateFailed());
       });
   } else if (getCookie("accessToken") === undefined) {
-    dispatch(refreshToken());
+    dispatch(refreshToken()); // Другая типизация - dispatch отправляет AppThunk
     updateUserInfo(updateData) //теперь повторить запрос с актуальным токеном
       .then((res) => {
-        dispatch({
-          type: UPDATE_SUCCESS,
-          userData: res.user,
-        });
+        dispatch(updateSuccess(res.user));
       })
       .catch(() => {
         dispatch(updateFailed());
@@ -333,10 +332,10 @@ export const updateUserData = (updateData: any) => (dispatch: any) => {
 };
 
 //получение данных пользователя
-export const getUser = () => (dispatch: any) => {
+export const getUser: AppThunk = () => (dispatch: AppDispatch | AppThunk) => {
   dispatch(getUserRequest());
   if (getCookie("accessToken") === undefined && localStorage.getItem("jwt")) {
-    dispatch(refreshToken());
+    dispatch(refreshToken());  // Другая типизация - dispatch отправляет AppThunk
     getUserInfo().then((res) => {
       dispatch(getUserSuccess(res.user));
     });
@@ -346,13 +345,13 @@ export const getUser = () => (dispatch: any) => {
         dispatch(getUserSuccess(res.user));
       })
       .catch(() => {
-        dispatch({ type: GET_USER_FAILED });
+        dispatch(getUserFailed());
       });
   }
 };
 
 //рефреш токена
-export const refreshToken = () => (dispatch: any) => {
+export const refreshToken: AppThunk = () => (dispatch: AppDispatch | AppThunk) => {
   dispatch(updateTokenRequest());
   refreshTokenRequest() //запросить новый токен
     .then((res) => {
@@ -360,7 +359,7 @@ export const refreshToken = () => (dispatch: any) => {
         let accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
         setCookie("accessToken", accessToken, { "max-age": 1200 }); //установить токен в куки
         localStorage.setItem("jwt", res.refreshToken);
-        dispatch(getUser());
+        dispatch(getUser()); // Другая типизация - dispatch отправляет AppThunk
         dispatch(updateTokenSuccess(res.user));
       }
     })

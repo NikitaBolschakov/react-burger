@@ -1,9 +1,9 @@
 import { FC } from "react";
 import styles from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../utils/constants";
 import { TIngredient } from "../../utils/types";
+import { useSelector } from "../../services/types/hooks";
 
 const IngredientDetails: FC = () => {
 

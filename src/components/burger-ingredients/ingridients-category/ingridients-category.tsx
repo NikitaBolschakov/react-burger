@@ -1,23 +1,29 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import styles from "./ingridients-category.module.css";
 import IngridientsItem from "../ingridients-item/ingridients-item";
 import categories from "../../../utils/categories";
-import { useDispatch, useSelector } from "react-redux";
 import { setIngredientsModalActive } from "../../../services/actions/burger-ingredients";
 import { setIngredientInModal } from "../../../services/actions/ingredient-details";
 import { getIngredients } from "../../../utils/constants";
+import { useDispatch, useSelector } from "../../../services/types/hooks";
+import { TIngredient } from "../../../utils/types";
 
-const IngredientsCategory = ({ type }) => {
+//типизируем пропсы
+interface IIngredientsCategoryProps {
+  type: string;
+}
+
+const IngredientsCategory: FC<IIngredientsCategoryProps> = ({ type }) => {
   const dispatch = useDispatch();
   
   //открывает окно ингредиента и устанавливает ингредиент при  клике
-  const handleOpenIngredientDetails = (currentIngredient) => {
+  const handleOpenIngredientDetails = (currentIngredient: TIngredient) => {
     dispatch(setIngredientsModalActive());
     dispatch(setIngredientInModal(currentIngredient));
   };
   
   //берем пока все ингредиенты все стора
-  const ingredients = useSelector(getIngredients);
+  const ingredients: Array<TIngredient> = useSelector(getIngredients);
 
   //Сортируем ингредиенты по трем основным категориям
   const category = ingredients.filter((element) => element.type === type);
@@ -42,10 +48,6 @@ const IngredientsCategory = ({ type }) => {
       </ul>
     </div>
   );
-};
-
-IngredientsCategory.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 export default IngredientsCategory;
