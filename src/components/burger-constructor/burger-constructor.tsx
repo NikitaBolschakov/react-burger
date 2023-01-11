@@ -13,6 +13,7 @@ import { getOrderNumber } from "../../services/actions/order-details";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/types/hooks";
+import { TIngredient } from "../../utils/types";
 
 const BurgerConstructor: FC = () => {
 
@@ -27,7 +28,8 @@ const BurgerConstructor: FC = () => {
   
   //выбранная булка в бургере
   const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
-  const currentBuns = [currentBun, currentBun]; //удваиваем булку
+  //const currentBuns = [currentBun, currentBun]; //удваиваем булку
+  const currentBuns = [...currentBun, ...currentBun]; //удваиваем булку
 
   //все выбранные ингредиенты 
   const currentIngredientsAndBuns = currentIngredients.concat(currentBuns);
@@ -44,20 +46,20 @@ const BurgerConstructor: FC = () => {
   };
 
   //отправить заказ, получить номер
-  const postOrder = (ingredientsId) => {
+  const postOrder = (ingredientsId: string[]) => {
     dispatch(getOrderNumber(ingredientsId));
   };
 
   //цена заказа
   const price = useMemo(() => {
     return (
-      (currentBun ? currentBun.price * 2 : 0) + currentIngredients.reduce((sum, acc) => sum + acc.price, 0)
+      (currentBun ? currentBun[0]?.price * 2 : 0) + currentIngredients.reduce((sum, acc) => sum + acc.price, 0)
     );
   }, [currentIngredients, currentBun]);
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
       if (item.type === "bun") {
         dispatch(addBun({ ...item, id: Date.now() }));
       } else {
@@ -77,9 +79,9 @@ const BurgerConstructor: FC = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={currentBun.name + "(верх)"}
-              price={currentBun.price}
-              thumbnail={currentBun.image}
+              text={currentBun[0].name + "(верх)"}
+              price={currentBun[0].price}
+              thumbnail={currentBun[0].image}
             />
           </div>
         )}
@@ -119,14 +121,13 @@ const BurgerConstructor: FC = () => {
         {currentBun.length === 0 ? (
           <p className={`${styles.text} pr-2 text text_type_main-large`}></p>
         ) : (
-          <div>
+          <div className={styles.bun}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={currentBun.name + "(низ)"}
-              price={currentBun.price}
-              thumbnail={currentBun.image}
-              className={styles.bun}
+              text={currentBun[0].name + "(низ)"}
+              price={currentBun[0].price}
+              thumbnail={currentBun[0].image}
             />
           </div>
         )}
@@ -140,9 +141,8 @@ const BurgerConstructor: FC = () => {
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          disabled={
-            (currentBun.length === 0 || currentIngredients.length === 0) && true
-          }
+          htmlType='submit'
+          disabled={(currentBun.length === 0 || currentIngredients.length === 0) && true}
           type="primary"
           size="large"
           onClick={() => {

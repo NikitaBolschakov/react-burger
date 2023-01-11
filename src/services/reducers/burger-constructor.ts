@@ -27,7 +27,10 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerCo
         currentIngredients: [...state.currentIngredients, action.payload],
       };
     case ADD_BUN:
-      return { ...state, currentBun: action.payload };
+      return { 
+        ...state, 
+        currentBun: [action.payload],
+      };
     case DELETE_INGREDIENT:
       return {
         ...state,

@@ -15,7 +15,7 @@ export interface IAddIngredient {
 
 export interface IAddBun {
     readonly type: typeof ADD_BUN;
-    readonly payload: TIngredient[] & {id: number};
+    readonly payload: TIngredient & {id: number};
 }
 
 export interface IDeleteIngredient {
@@ -46,7 +46,7 @@ export const addIngredient = (payload: TIngredient & {id: number} ): IAddIngredi
     payload
 });
 
-export const addBun = (payload: TIngredient[] & {id: number} ): IAddBun => ({
+export const addBun = (payload: TIngredient & {id: number} ): IAddBun => ({
     type: ADD_BUN,
     payload
 });  

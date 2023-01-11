@@ -18,8 +18,8 @@ interface IIngridientsItemProps {
 const IngridientsItem: FC<IIngridientsItemProps> = ({ ingredient }) => {
   
   const location = useLocation<ILocationState>();
-  const currentIngredients = useSelector(getStateCurrentIngredients);
-  const currentBun = useSelector(getStateCurrentBun);
+  const currentIngredients = useSelector((store) => store.burgerConstructor.currentIngredients);
+  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
 
   const counter = useMemo(
     () =>
@@ -27,7 +27,7 @@ const IngridientsItem: FC<IIngridientsItemProps> = ({ ingredient }) => {
         //пройти по каждому { _id } в currentIngredients, если совпадает с данным, добавить счетчик ++
         for (let { _id } of currentIngredients)
           if (_id === ingredient._id) count++;
-        if (currentBun._id === ingredient._id) return 2;
+        if (currentBun[0]?._id === ingredient._id) return 2;
         return count;
       },
     [currentBun, currentIngredients]
