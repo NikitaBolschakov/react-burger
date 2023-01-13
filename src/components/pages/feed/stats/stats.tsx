@@ -1,8 +1,9 @@
+import { FC } from "react";
 import styles from "./stats.module.css";
-import { useSelector } from "react-redux";
 import { getWsOrders } from "../../../../utils/constants";
+import { useSelector } from "../../../../services/types/hooks";
 
-const Stats = () => {
+const Stats: FC = () => {
   const { total, totalToday, orders } = useSelector(getWsOrders);
 
   if (!orders) {

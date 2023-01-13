@@ -1,21 +1,22 @@
+import { FC, FormEvent } from "react";
 import styles from "./profile-info.module.css";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../../../../services/actions/user";
 import { Redirect } from "react-router-dom";
-import { getIsAuth, getUserData } from "../../../../utils/constants";
+import { useDispatch, useSelector } from "../../../../services/types/hooks";
+import { getIsAuth } from "../../../../utils/constants";
 
-const ProfileInfo = () => {
+const ProfileInfo: FC = () => {
 
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth); 
 
   //достаем имя из стора
-  const { name: storeName, email: storeEmail } = useSelector(getUserData);
+  const { name: storeName, email: storeEmail } = useSelector((state) => state.user.userData);
 
   const [userData, setUserData] = useState({
     holderEmail: "Логин",
@@ -45,7 +46,7 @@ const ProfileInfo = () => {
     }
   }, [isAuth]); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateUserData(userData));
     setUserData({
@@ -114,10 +115,11 @@ const ProfileInfo = () => {
               type="secondary"
               size="medium"
               onClick={() => cancelUpdate()}
+              htmlType="submit"
             >
               Отмена
             </Button>
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" htmlType="reset">
               Сохранить
             </Button>
           </div>

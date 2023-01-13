@@ -23,7 +23,7 @@ const IngredientsCategory: FC<IIngredientsCategoryProps> = ({ type }) => {
   };
   
   //берем пока все ингредиенты все стора
-  const ingredients: Array<TIngredient> = useSelector(getIngredients);
+  const ingredients = useSelector(getIngredients);
 
   //Сортируем ингредиенты по трем основным категориям
   const category = ingredients.filter((element) => element.type === type);

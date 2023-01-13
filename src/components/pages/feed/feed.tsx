@@ -1,14 +1,14 @@
+import { FC, useEffect } from "react";
 import Stats from "./stats/stats";
 import Orders from "./feed-orders/orders";
 import styles from "./feed.module.css";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import {
   wsConnectionClosed,
   wsConnectionStart,
 } from "../../../services/actions/ws-actions";
+import { useDispatch } from "../../../services/types/hooks";
 
-const Feed = () => {
+const Feed: FC = () => {
   const dispatch = useDispatch();
   
   //открываем соединение, при выходе закрываем

@@ -1,4 +1,4 @@
-import  { useRef } from "react";
+import  { useRef, FC } from "react";
 import styles from "./constructor-items.module.css";
 import {
   DragIcon,
@@ -8,14 +8,20 @@ import {
   deleteIngredient,
   moveElement,
 } from "../../../services/actions/burger-constructor";
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
+import { TIngredient } from "../../../utils/types";
+import { useDispatch } from "../../../services/types/hooks";
 
-const ConstructorItems = ({ element, index }) => {
+interface IConstructorItemsProps {
+  element: TIngredient;
+  index: number;
+}
+
+const ConstructorItems: FC<IConstructorItemsProps> = ({ element, index }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const resetIngredient = (id) => {
+  const resetIngredient = (id: number) => {
     dispatch(deleteIngredient(id));
   };
 
@@ -31,7 +37,7 @@ const ConstructorItems = ({ element, index }) => {
 
   const [, drop] = useDrop({
     accept: "item",
-    hover(element) {
+    hover(element: TIngredient) {
       if (!ref.current) {
         return;
       }

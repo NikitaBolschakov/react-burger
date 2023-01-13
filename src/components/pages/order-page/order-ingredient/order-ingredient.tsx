@@ -1,9 +1,15 @@
+import { FC } from "react";
 import styles from "./order-ingredient.module.css";
 import OrderItemImage from "../../feed/feed-orders/order-item/order-item-image/order-item-image";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TIngredient } from "../../../../utils/types";
 
-const OrderIngredient = ({ingredient}) => {
+interface IOrderIngredientProps {
+  ingredient?: TIngredient;
+}
 
+const OrderIngredient: FC<IOrderIngredientProps> = ({ingredient}) => {
+  
   return (
     <div className={styles.container}>
       <OrderItemImage ingredient={ingredient} />
@@ -12,7 +18,7 @@ const OrderIngredient = ({ingredient}) => {
         <div>
           <div className={`${styles.priceBox}`}>
             <p className={`${styles.price} text text_type_digits-default`}>
-              {`${ingredient.quantity} x ${ingredient.price}`}
+              {`${ingredient?.quantity} x ${ingredient?.price}`}
             </p>
             <CurrencyIcon type="primary" />
           </div>

@@ -1,21 +1,24 @@
+import { FC } from "react";
 import styles from "./profile.module.css";
 import { Switch, Route, useRouteMatch, useLocation } from "react-router-dom";
 import ProfileNavigation from "./profile-navigation/profile-navigation";
 import ProfileInfo from "./profile-info/profile-info";
 import Orders from "../feed/feed-orders/orders";
 import OrderPage from "../order-page/order-page";
+import { ILocationState } from "../../../utils/types";
 
-const Profile = () => {
+const Profile: FC = () => {
+  
+  const location = useLocation<ILocationState>();
+  const match = useRouteMatch();
 
-  const match = useRouteMatch("/profile");
-  const location = useLocation();
   const background = location.state && location.state.background;
   
   return (
     <div className={styles.page}>
       <Switch location={background || location}>
         <Route path={`${match.path}/orders/:id`} exact>
-          <OrderPage textAlign={"center"} />
+          <OrderPage />
         </Route>
         <Route path={match.path}>
           <main className={styles.content}>

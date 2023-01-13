@@ -6,10 +6,9 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-//import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getStateCurrentBun, getStateCurrentIngredients } from "../../../utils/constants";
 import { useSelector } from "../../../services/types/hooks";
+import { getStateCurrentBun, getStateCurrentIngredients } from "../../../utils/constants";
 
 interface IIngridientsItemProps {
   ingredient: TIngredient;
@@ -18,8 +17,8 @@ interface IIngridientsItemProps {
 const IngridientsItem: FC<IIngridientsItemProps> = ({ ingredient }) => {
   
   const location = useLocation<ILocationState>();
-  const currentIngredients = useSelector((store) => store.burgerConstructor.currentIngredients);
-  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
+  const currentIngredients = useSelector(getStateCurrentIngredients);
+  const currentBun = useSelector(getStateCurrentBun);
 
   const counter = useMemo(
     () =>

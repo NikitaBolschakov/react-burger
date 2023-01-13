@@ -9,7 +9,7 @@ const IngredientDetails: FC = () => {
 
   const { id } = useParams<{ id?: string }>(); //получаем доступ к параметру id URL
   const ingredients = useSelector(getIngredients);
-  const ingredient: TIngredient = ingredients.find((ingredient: TIngredient) => ingredient._id === id); //находим нужный ингредиент
+  const ingredient = ingredients.find((ingredient: TIngredient) => ingredient._id === id); //находим нужный ингредиент
 
   return (
     <div className={`${styles.container} pr-25 pl-25 pb-15`}>

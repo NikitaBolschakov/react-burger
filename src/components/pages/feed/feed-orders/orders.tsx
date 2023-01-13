@@ -1,11 +1,11 @@
+import {  FC, useEffect } from "react";
 import OrderItem from "./order-item/order-item";
 import styles from "./orders.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { wsConnectionAuthStart, wsConnectionClosed } from "../../../../services/actions/ws-actions";
-import { useEffect } from "react";
 import { getOrders } from "../../../../utils/constants";
+import { useDispatch, useSelector } from "../../../../services/types/hooks";
 
-const Orders = () => {
+const Orders: FC = () => {
 
   const dispatch = useDispatch();
   const orders = useSelector(getOrders);

@@ -1,3 +1,4 @@
+import { useState, FC, ChangeEvent, FormEvent } from "react";
 import {
   Button,
   Input,
@@ -5,12 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
 import { Link, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import { resetPasswordRequest } from "../../../utils/api";
+import { useSelector } from "../../../services/types/hooks";
 import { getIsEmailForUpdatePassword } from "../../../utils/constants";
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
   const isEmailForUpdatePassword = useSelector(getIsEmailForUpdatePassword);
  
   const [passwordData, setPasswordData] = useState({
@@ -19,7 +19,7 @@ const ResetPassword = () => {
     result: false,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetPasswordRequest(passwordData).then((res) => {
       setPasswordData({ ...passwordData, result: res.success });
@@ -29,9 +29,9 @@ const ResetPassword = () => {
   };
 
   //обработчики изменения полей
-  const handleChangeCodeInput = (e) =>
+  const handleChangeCodeInput = (e: ChangeEvent<HTMLInputElement>) =>
     setPasswordData({ ...passwordData, verCode: e.target.value });
-  const handleChangePasswordInput = (e) =>
+  const handleChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) =>
     setPasswordData({ ...passwordData, password: e.target.value });
 
   //если емаил не был получен - редирект на восстановление пароля
@@ -64,7 +64,7 @@ const ResetPassword = () => {
             name={"code"}
             extraClass="ml-1"
           />
-          <Button>Сохранить</Button>
+          <Button htmlType={'submit'}>Сохранить</Button>
         </form>
         <p className="text text_color_inactive text_type_main-default pb-10">
           Вспомнили пароль?

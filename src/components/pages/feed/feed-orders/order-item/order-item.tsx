@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
@@ -6,11 +7,16 @@ import OrderItemImage from "./order-item-image/order-item-image";
 import styles from "./order-item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getIngredients } from "../../../../../utils/constants";
+import { ILocationState, TIngredient, TWsOrder } from "../../../../../utils/types";
 
-const OrderItem = ({ order }) => {
+interface IOrderItemProps {
+  order: TWsOrder;
+}
+
+const OrderItem: FC<IOrderItemProps> = ({ order }) => {
 
   const ingredients = useSelector(getIngredients);
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
   const match = useRouteMatch();
 
   // 1) взять массив с заказом и пройтись по всем id
@@ -27,11 +33,13 @@ const OrderItem = ({ order }) => {
     });
   }, [order.ingredients]);
 
-   const orderPrice = useMemo(() => {
-    return orderIngredients?.reduce((sum, item) => {
-      sum += item?.price
+  //возможно ингредиент - undefined, тогда выражение 
+  //sum:number += price:number|undefined невозможно вернуть, поэтому sum: any
+  const orderPrice = useMemo(() => {
+    return orderIngredients?.reduce((sum: any, item) => {
+      sum += item?.price;
       return sum;
-    }, 0);
+      }, 0);
   }, [orderIngredients]);  
 
   return (

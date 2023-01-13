@@ -1,7 +1,13 @@
 export interface ILocationState {
-    from: {
-      pathname: string;
-    };
+  background: {
+		pathname: string;
+		search: string;
+		hash: string;
+		state: null;
+		key: string;
+	}
+	from: string;
+	state?: object;
 }
 
 export type TIngredient = {
@@ -17,7 +23,10 @@ export type TIngredient = {
   type: string;
   __v: number;
   _id: string;
-  id?: number;
+  id: number;
+  nanoId: string;
+  index: number;
+  quantity?: number;
 }
 
 export type TWsOrder = {

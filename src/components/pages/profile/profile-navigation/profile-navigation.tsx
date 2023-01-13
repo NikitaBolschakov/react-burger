@@ -1,10 +1,15 @@
+import { FC } from "react";
 import styles from "./profile-navigation.module.css";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { match, NavLink } from "react-router-dom";
 import { logout } from "../../../../services/actions/user";
 import { deleteCookie } from "../../../../utils/cookie";
+import { useDispatch } from "../../../../services/types/hooks";
 
-const ProfileNavigation = ({match}) => {
+interface IProfileNavigationProps {
+  match: match;
+}
+
+const ProfileNavigation: FC<IProfileNavigationProps> = ({match}) => {
   
   const dispatch = useDispatch();
 

@@ -1,7 +1,7 @@
+import { FC } from "react";
 import styles from "./order-page.module.css";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { useMemo } from "react";
 import { useEffect } from "react";
@@ -12,13 +12,14 @@ import {
 } from "../../../services/actions/ws-actions";
 import { formatDate } from "../../../utils/format-date";
 import OrderIngredient from "./order-ingredient/order-ingredient";
+import { useDispatch, useSelector } from "../../../services/types/hooks";
 import { getIngredients, getIsConnected, getOrders } from "../../../utils/constants";
 
 
-const OrderPage = () => {
+const OrderPage: FC = () => {
   
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams<{ id?: string }>();
   const { path } = useRouteMatch();
   
   const ingredients = useSelector(getIngredients);
@@ -53,7 +54,7 @@ const OrderPage = () => {
         sum[item] += 1;
       }
       return sum;
-    }, {}
+    }, {} as { [key: string]: number }
   );
   
   //массив из уникальных id
@@ -66,7 +67,7 @@ const OrderPage = () => {
         if (id === ingredient._id) {            //если они совпадают
           const nanoId = nanoid();
           ingredient.nanoId = nanoId;
-          ingredient.quantity = countedIngredients[id];
+          ingredient.quantity = countedIngredients?.[id]
 
           return ingredient;                    //вернуть этот ингредиент в массив orderIngredients
         }
@@ -74,14 +75,15 @@ const OrderPage = () => {
     });
   }, [uniqueIngredients]);
 
+  /* .reduce((sum: any, item) - из-за того, что ингредиент может прийти в заказ - undifined, 
+  соответственно выражение sum (:number) += item?.price не отработает */
   const orderPrice = useMemo(() => {
-    return orderIngredients?.reduce((sum, item) => {
+    return orderIngredients?.reduce((sum: any, item) => {  
       if (item?.type === 'bun') {
 				return sum += item.price * 2
-			}
-      sum += item?.price
-      return sum;
-    }, 0);
+			} else if (item?.type === 'main' || item?.type === 'sauce') {
+        return sum += item.price
+    }}, 0); 
   }, [orderIngredients]); 
 
   return (
@@ -100,7 +102,7 @@ const OrderPage = () => {
           </p>
           <p className={`${styles.header} text text_type_main-medium`}>Состав:</p>
           <ul className={styles.list}>
-            {orderIngredients.map((ingredient, index) => (
+            {orderIngredients?.map((ingredient, index) => (
               <li key={index}>
                 <OrderIngredient ingredient={ingredient} />
               </li>

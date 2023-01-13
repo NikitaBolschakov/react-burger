@@ -1,28 +1,32 @@
+import { useState, FC, FormEvent, ChangeEvent } from "react";
 import {
   Button,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 import styles from "./login.module.css";
 import { Link } from "react-router-dom";
 import { signIn } from "../../../services/actions/user";
+import { useDispatch } from "../../../services/types/hooks";
 
-const Login = () => {
+const Login: FC = () => {
 
   const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({email: "", password: ""}); //локальный стейт для этого компонента
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(signIn(loginData)); 
     setLoginData({ email: "", password: "" });  //устанавливаем значения в локальный стейт
   };
 
   //обработчики изменения полей
-  const handleChangeEmailInput = (e) => setLoginData({ ...loginData, email: e.target.value })
-  const handleChangePasswordInput = (e) => setLoginData({ ...loginData, password: e.target.value })
+  const handleChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => setLoginData(
+    { ...loginData, email: e.target.value }
+  );
+  const handleChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) => setLoginData(
+    { ...loginData, password: e.target.value }
+  );
 
   return (
     <div className={styles.page}>
@@ -41,7 +45,7 @@ const Login = () => {
             value={loginData.password}
             onChange={handleChangePasswordInput}
           />
-          <Button>Войти</Button>
+          <Button htmlType="submit">Войти</Button>
         </form>
         <p className="text text_type_main-default text_color_inactive pb-4">
           Вы — новый пользователь?

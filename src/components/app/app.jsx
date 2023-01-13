@@ -108,7 +108,7 @@ const App = () => {
         <Route path="/feed/:id" exact>
           <OrderPage />
         </Route>
-        <ProtectedRoute pathname="/profile">
+        <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
       </Switch>
