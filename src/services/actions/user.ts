@@ -9,7 +9,7 @@ import {
   userRegistrationRequest,
 } from "../../utils/api";
 import { getCookie, setCookie } from "../../utils/cookie";
-import { TEmailData, TLoginData, TPasswordData, TRegisterData, TUser, TUserResponse } from "../../utils/types";
+import { TEmailData, TLoginData, TLoginResponse, TPasswordData, TRegisterData, TUser } from "../../utils/types";
 import { AppDispatch, AppThunk } from "../types";
 
 
@@ -50,7 +50,7 @@ export interface IGetUserRequest {
 
 export interface IGetUserSuccess {
   readonly type: typeof GET_USER_SUCCESS;
-  readonly userData: TUserResponse & TUser;
+  readonly userData: TUser;
 }
 
 export interface IGetUserFailed {
@@ -63,7 +63,7 @@ export interface ILoginRequest {
 
 export interface ILoginSuccess {
   readonly type: typeof LOGIN_SUCCESS;
-  readonly userData: TUserResponse & TUser;
+  readonly userData: TUser;
 }
 
 export interface ILoginFailed {
@@ -103,7 +103,7 @@ export interface IUpdateRequest {
 
 export interface IUpdateSuccess {
   readonly type: typeof UPDATE_SUCCESS;
-  readonly userData: TUserResponse & TUser;
+  readonly userData: TUser;
 }
 
 export interface IUpdateFailed {
@@ -116,7 +116,7 @@ export interface IUpdateTokenRequest {
 
 export interface IUpdateTokenSuccess {
   readonly type: typeof UPDATE_TOKEN_SUCCESS;
-  readonly userData: TUserResponse;
+  /* readonly userData: TUser; */
 }
 
 export interface IUpdateTokenFailed {
@@ -149,7 +149,7 @@ export const getUserRequest = (): IGetUserRequest => ({
   type: GET_USER_REQUEST,
 });
 
-export const getUserSuccess = (userData: TUserResponse & TUser): IGetUserSuccess => ({
+export const getUserSuccess = (userData: TUser): IGetUserSuccess => ({
   type: GET_USER_SUCCESS,
   userData,
 });
@@ -162,7 +162,7 @@ export const loginRequestAction = (): ILoginRequest => ({
   type: LOGIN_REQUEST,
 });
 
-export const loginSuccess = (userData: TUserResponse & TUser): ILoginSuccess => ({
+export const loginSuccess = (userData: TUser): ILoginSuccess => ({
   type: LOGIN_SUCCESS,
   userData,
 });
@@ -202,7 +202,7 @@ export const updateRequest = (): IUpdateRequest => ({
   type: UPDATE_REQUEST,
 });
 
-export const updateSuccess = (userData: TUserResponse & TUser): IUpdateSuccess => ({
+export const updateSuccess = (userData: TUser): IUpdateSuccess => ({
   type: UPDATE_SUCCESS,
   userData,
 });
@@ -215,9 +215,9 @@ export const updateTokenRequest = (): IUpdateTokenRequest => ({
   type: UPDATE_TOKEN_REQUEST,
 });
 
-export const updateTokenSuccess = (userData: TUserResponse): IUpdateTokenSuccess => ({
+export const updateTokenSuccess = (/* userData: TUser */): IUpdateTokenSuccess => ({
   type: UPDATE_TOKEN_SUCCESS,
-  userData,
+  /* userData, */
 });
 
 export const updateTokenFailed = (): IUpdateTokenFailed => ({
@@ -359,8 +359,9 @@ export const refreshToken: AppThunk = () => (dispatch: AppDispatch | AppThunk) =
         let accessToken = res.accessToken.split("Bearer ")[1]; //убираю "Bearer "
         setCookie("accessToken", accessToken, { "max-age": 1200 }); //установить токен в куки
         localStorage.setItem("jwt", res.refreshToken);
-        dispatch(getUser()); // Другая типизация - dispatch отправляет AppThunk
-        dispatch(updateTokenSuccess(res.user));
+        dispatch(getUser()); 
+        dispatch(updateTokenSuccess())
+        //dispatch(updateTokenSuccess(res.user));
       }
     })
     .catch(() => dispatch(updateTokenFailed()));

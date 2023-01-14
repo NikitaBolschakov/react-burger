@@ -9,7 +9,7 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 const modalRoot = document.querySelector('#modals') as HTMLElement;
 
 interface IModalProps {
-  title: string;
+  title?: string;
   isOpened: boolean;
   onClose: () => void;
   children: ReactNode;

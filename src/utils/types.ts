@@ -31,7 +31,7 @@ export type TIngredient = {
 
 export type TWsOrder = {
   createdAt: string;
-  ingredients: Array<string>
+  ingredients: string[];
   name: string;
   number: number;
   status: string;
@@ -39,26 +39,11 @@ export type TWsOrder = {
  _id: string;
 }
 
-export type TWsMessageResponce = {
-  orders: Array<TWsOrder>;
-	success: boolean;
-	total: number;
-	totalToday: number;
-} 
-
 export type TUser = {
 	email: string;
   name: string;
   createdAt?: string;
 	updatedAt?: string;
-} 
-
-export type TUserResponse = {
-	success: boolean;
-	user: TUser
-  accessToken: string;
-	refreshToken: string;
-	message: string;
 } 
 
 export type TLoginData = {
@@ -73,7 +58,7 @@ export type TEmailData = {
 
 export type TPasswordData = {
   password: string;
-  token: string;
+  verCode: string;
 }
 
 export type TRegisterData = {
@@ -82,5 +67,63 @@ export type TRegisterData = {
   name: string;
 }
 
+//ответы сервера
+export type TRegistrationResponse = {
+	success: boolean;
+	user: TUser
+  accessToken: string;
+	refreshToken: string;
+	message: string;
+} 
+
+export type TIngredientsResponse = {
+  data: TIngredient[];
+  success: boolean;
+}
+
+ export type TOrderResponse = {
+  order: TWsOrder;
+  success: boolean;
+} 
+
+export type TLoginResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    email: string;
+    name: string;
+  }
+}
+
+export type TUpdateUserResponse = Omit<TLoginResponse, 'accessToken'|'refreshToken'>
+
+export type TLogoutResponse = {
+  success: boolean;
+  message: string;
+}
+
+export type TGetUserResponse = {
+  success: boolean;
+  user: TUser;
+}
+
+export type TRefreshTokenResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export type TForgotPasswordResponse = {
+  success: boolean;
+  message: string;
+}
+
+export type TWsMessageResponce = {
+  orders: Array<TWsOrder>;
+	success: boolean;
+	total: number;
+	totalToday: number;
+} 
 
 

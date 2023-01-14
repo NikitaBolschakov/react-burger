@@ -1,4 +1,5 @@
 import { getCookie } from "./cookie";
+import { TEmailData, TForgotPasswordResponse, TGetUserResponse, TIngredientsResponse, TLoginData, TLoginResponse, TLogoutResponse, TOrderResponse, TPasswordData, TRefreshTokenResponse, TRegisterData, TRegistrationResponse, TUpdateUserResponse, TUser } from "./types";
 
 export const API = {
   url: "https://norma.nomoreparties.space/api/",
@@ -8,7 +9,7 @@ export const API = {
 };
 
 //обработчик ответа
-export const handleResponse = (res) => {
+export const handleResponse = <T>(res: Response): Promise<T> => {
   if (res.ok) {
     return res.json();
   }
@@ -23,11 +24,11 @@ export const getData = async () => {
       "Content-Type": "application/json",
     },
   });
-  return handleResponse(res);
+  return handleResponse<TIngredientsResponse>(res);
 };
 
 //отправка заказа
-export const getOrder = async (ingredientsId) => {
+export const getOrder = async (ingredientsId: string[]) => {
   const res = await fetch(`${API.url}orders`, {
     method: "POST",
     body: JSON.stringify({
@@ -38,11 +39,11 @@ export const getOrder = async (ingredientsId) => {
       Authorization: "Bearer " + getCookie("accessToken")
     },
   });
-  return handleResponse(res);
+  return handleResponse<TOrderResponse>(res);
 };
 
 //вход пользователя
-export const loginRequest = async (loginData) => {
+export const loginRequest = async (loginData: TLoginData) => {
   const res = await fetch(`${API.url}auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -51,11 +52,11 @@ export const loginRequest = async (loginData) => {
       password: loginData.password,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TLoginResponse>(res);
 };
 
 //отправляем email когда забыли пароль
-export const forgotPasswordRequest = async (emailData) => {
+export const forgotPasswordRequest = async (emailData: TEmailData) => {
   const res = await fetch(`${API.url}password-reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -63,11 +64,11 @@ export const forgotPasswordRequest = async (emailData) => {
       email: emailData.email,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TForgotPasswordResponse>(res);
 };
 
 //отправляем новый пароль
-export const resetPasswordRequest = async (passwordData) => {
+export const resetPasswordRequest = async (passwordData: TPasswordData) => {
   const res = await fetch(`${API.url}password-reset/reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -76,11 +77,11 @@ export const resetPasswordRequest = async (passwordData) => {
       token: passwordData.verCode,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TForgotPasswordResponse>(res);
 };
 
 //запрос на регистрацию пользователя
-export const userRegistrationRequest = async (registerData) => {
+export const userRegistrationRequest = async (registerData: TRegisterData) => {
   const res = await fetch(`${API.url}auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -90,11 +91,11 @@ export const userRegistrationRequest = async (registerData) => {
       name: registerData.name,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TRegistrationResponse>(res);
 };
 
 //запрос на выход
-export const logoutRequest = async (refreshToken) => {
+export const logoutRequest = async (refreshToken: string | null) => {
   const res = await fetch(`${API.url}auth/logout`, {
     method: "POST",
     mode: "cors",
@@ -105,11 +106,11 @@ export const logoutRequest = async (refreshToken) => {
       token: refreshToken,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TLogoutResponse>(res);
 };
 
 //запрос на обновление пользователя
-export const updateUserInfo = async (updateData) => {
+export const updateUserInfo = async (updateData: TUser) => {
   const res = await fetch(`${API.url}auth/user`, {
     method: "PATCH",
     mode: "cors",
@@ -124,7 +125,7 @@ export const updateUserInfo = async (updateData) => {
       name: updateData.name,
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TUpdateUserResponse>(res);
 };
 
 //запрос на рефреш токена 
@@ -140,7 +141,7 @@ export const refreshTokenRequest = async () => {
       token: localStorage.getItem('jwt'),
     }),
   });
-  return handleResponse(res);
+  return handleResponse<TRefreshTokenResponse>(res);
 };
 
 //запрос данных пользователя
@@ -155,5 +156,5 @@ export const getUserInfo = async () => {
       Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
-  return handleResponse(res);
+  return handleResponse<TGetUserResponse>(res);
 };

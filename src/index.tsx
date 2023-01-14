@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './vendors/normalize.module.css';
 import App from './components/app/app';
@@ -8,15 +7,24 @@ import thunk from 'redux-thunk';
 import {
   compose,
   legacy_createStore as createStore,
-  applyMiddleware,
+  applyMiddleware, ActionCreator
 } from "redux";
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsGetMessage, wsSendMessage, WS_CONNECTION_AUTH_START, WS_CONNECTION_START } from './services/actions/ws-actions';
+import { TWsActions, wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsGetMessage, wsSendMessage, WS_CONNECTION_AUTH_START, WS_CONNECTION_START } from './services/actions/ws-actions';
 import { socketMiddleware } from './services/middleware/socketMiddleware';
 import { wsOrders, wsOrdersAuth } from './utils/constants';
 
-const wsActions = {
+export type TWsMiddleware = {
+  wsInit: typeof WS_CONNECTION_START | typeof WS_CONNECTION_AUTH_START,
+  wsSendMessage: ActionCreator<TWsActions>,
+  onOpen: ActionCreator<TWsActions>,
+  onClose: ActionCreator<TWsActions>,
+  onError: ActionCreator<TWsActions>,
+  onMessage: ActionCreator<TWsActions>,
+}
+
+const wsActions: TWsMiddleware = {
   wsInit: WS_CONNECTION_START,
   wsSendMessage: wsSendMessage,
   onOpen: wsConnectionSuccess,
@@ -25,7 +33,7 @@ const wsActions = {
   onMessage: wsGetMessage
 };
 
-const wsAuthActions = {
+const wsAuthActions: TWsMiddleware = {
   wsInit: WS_CONNECTION_AUTH_START,
   wsSendMessage: wsSendMessage,
   onOpen: wsConnectionSuccess,
@@ -42,7 +50,6 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk),

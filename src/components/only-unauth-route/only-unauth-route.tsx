@@ -6,7 +6,7 @@ import { ILocationState } from "../../utils/types";
 
 interface RouteProps {
   children: ReactNode;
-  pathname: string;
+  path: string;
 	exact?: boolean;
 }
 

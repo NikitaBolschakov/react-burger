@@ -1,3 +1,4 @@
+import { FC, FormEvent, ChangeEvent } from "react";
 import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -27,12 +28,13 @@ import OrderPage from "../pages/order-page/order-page";
 import { getStateOpenOrderDetails } from "../../utils/constants";
 import OnlyUnAuthRoute from "../only-unauth-route/only-unauth-route";
 import { useDispatch, useSelector } from "../../services/types/hooks";
+import { ILocationState } from "../../utils/types";
 
-const App = () => {
+const App: FC = () => {
   
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
   const background = location.state?.background;
 
   const accessTokenCookie = getCookie("accessToken");

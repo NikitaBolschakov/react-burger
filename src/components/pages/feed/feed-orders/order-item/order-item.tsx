@@ -7,7 +7,7 @@ import OrderItemImage from "./order-item-image/order-item-image";
 import styles from "./order-item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getIngredients } from "../../../../../utils/constants";
-import { ILocationState, TIngredient, TWsOrder } from "../../../../../utils/types";
+import { ILocationState, TWsOrder } from "../../../../../utils/types";
 
 interface IOrderItemProps {
   order: TWsOrder;
@@ -33,18 +33,17 @@ const OrderItem: FC<IOrderItemProps> = ({ order }) => {
     });
   }, [order.ingredients]);
 
-  //возможно ингредиент - undefined, тогда выражение 
-  //sum:number += price:number|undefined невозможно вернуть, поэтому sum: any
   const orderPrice = useMemo(() => {
-    return orderIngredients?.reduce((sum: any, item) => {
-      sum += item?.price;
+    return orderIngredients?.reduce((sum, item) => {
+      if (item?.price)
+        sum += (item?.price);
       return sum;
-      }, 0);
-  }, [orderIngredients]);  
+    }, 0);
+  }, [orderIngredients]);
 
   return (
     <Link
-      to={{ pathname: `${match.path}/${order._id}`, state: { background: location }}}
+      to={{ pathname: `${match.path}/${order._id}`, state: { background: location } }}
       className={styles.container}
     >
       <div className={`${styles.item} ${styles.itemTop}`}>
@@ -57,10 +56,10 @@ const OrderItem: FC<IOrderItemProps> = ({ order }) => {
         {order.status === "pending"
           ? "Готовится"
           : order.status === "done"
-          ? "Выполнен"
-          : order.status === "created"
-          ? "Создан"
-          : ""}
+            ? "Выполнен"
+            : order.status === "created"
+              ? "Создан"
+              : ""}
       </p>
 
       <div className={`${styles.item} ${styles.itemBottom}`}>

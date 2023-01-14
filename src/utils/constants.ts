@@ -2,8 +2,6 @@ import { RootState } from './../services/types/index';
 //ws
 export const wsOrders = 'wss://norma.nomoreparties.space/orders/all';
 export const wsOrdersAuth = 'wss://norma.nomoreparties.space/orders';
-
-
 //functions for useSelector()
 export const getIsAuth = (state: RootState) => state.user.isAuth;
 export const getIngredients = (store: RootState) => store.burgerIngredients.ingredientItems;

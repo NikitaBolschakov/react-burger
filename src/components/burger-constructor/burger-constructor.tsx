@@ -14,21 +14,20 @@ import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/types/hooks";
 import { TIngredient } from "../../utils/types";
+import { getIsAuth, getStateCurrentBun, getStateCurrentIngredients } from "../../utils/constants";
 
 const BurgerConstructor: FC = () => {
 
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth);
+  const isAuth = useSelector(getIsAuth);
   const history = useHistory();
 
   //выбранные ингредиенты 
-  const currentIngredients = useSelector(
-    (store) => store.burgerConstructor.currentIngredients
-  );
-  
+  const currentIngredients = useSelector(getStateCurrentIngredients);
+
   //выбранная булка в бургере
-  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
-  //const currentBuns = [currentBun, currentBun]; //удваиваем булку
+  const currentBun = useSelector(getStateCurrentBun);
+
   const currentBuns = [...currentBun, ...currentBun]; //удваиваем булку
 
   //все выбранные ингредиенты 

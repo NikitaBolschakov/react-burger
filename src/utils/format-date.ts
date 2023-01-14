@@ -1,8 +1,8 @@
-const getDiff = (diff) => {
+const getDiff = (diff: number) => {
   return diff === 0 ? "Сегодня" : diff === 1 ? "Вчера" : diff > 1 ? `${diff} дня назад` : null;
 };
 
-export const formatDate = (date) => {
+export const formatDate = (date: string) => {
   const orderTime = new Date(date);
   const diff = new Date().getDate() - orderTime.getDate();
   const diffToString = getDiff(diff);
