@@ -1,4 +1,4 @@
-import { useState, FC, FormEvent, ChangeEvent } from "react";
+import { FC, FormEvent } from "react";
 import {
   Button,
   Input,
@@ -8,29 +8,18 @@ import styles from "./register.module.css";
 import { Link } from "react-router-dom";
 import { userRegistration } from "../../../services/actions/user";
 import { useDispatch } from "../../../services/types/hooks";
+import { useForm } from "../../../services/types/useForm";
 
 const Register: FC = () => {
 
   const dispatch = useDispatch();
-  const [registerData, setRegisterData] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
+  const {values, handleChange, setValues} = useForm({});
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(userRegistration(registerData)); //отправляем диспатч с санками в которых значения
-    setRegisterData({ email: "", password: "", name: "" }); //устанавливаем значения в локальный стейт
+    dispatch(userRegistration(values)); //отправляем диспатч с санками в которых значения
+    setValues({...values, email: "", password: "", name: ""})
   };
-
-  //обработчики изменения полей
-  const handleChangeNameInput = (e: ChangeEvent<HTMLInputElement>) => 
-    setRegisterData({ ...registerData, name: e.target.value });
-  const handleChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => 
-    setRegisterData({ ...registerData, email: e.target.value });
-  const handleChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) => 
-    setRegisterData({ ...registerData, password: e.target.value });
 
   return (
     <div className={styles.page}>
@@ -41,8 +30,8 @@ const Register: FC = () => {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={handleChangeNameInput}
-            value={registerData.name}
+            onChange={handleChange}
+            value={values.name}
             name={"name"}
             errorText={"Ошибка"}
             size={"default"}
@@ -53,13 +42,13 @@ const Register: FC = () => {
             type={"email"}
             placeholder={"E-mail"}
             name={"email"}
-            value={registerData.email}
-            onChange={handleChangeEmailInput}
+            value={values.email}
+            onChange={handleChange}
           />
 
           <PasswordInput
-            value={registerData.password}
-            onChange={handleChangePasswordInput}
+            value={values.password}
+            onChange={handleChange}
             name={"password"}
           />
 

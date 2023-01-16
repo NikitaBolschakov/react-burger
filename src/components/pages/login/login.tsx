@@ -1,4 +1,4 @@
-import { useState, FC, FormEvent, ChangeEvent } from "react";
+import { FC, FormEvent } from "react";
 import {
   Button,
   Input,
@@ -8,25 +8,19 @@ import styles from "./login.module.css";
 import { Link } from "react-router-dom";
 import { signIn } from "../../../services/actions/user";
 import { useDispatch } from "../../../services/types/hooks";
+import { useForm } from "../../../services/types/useForm";
 
 const Login: FC = () => {
 
   const dispatch = useDispatch();
-  const [loginData, setLoginData] = useState({email: "", password: ""}); //локальный стейт для этого компонента
+  const {values, handleChange, setValues} = useForm({});
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(signIn(loginData)); 
-    setLoginData({ email: "", password: "" });  //устанавливаем значения в локальный стейт
+    
+    dispatch(signIn(values))
+    setValues({...values, email: "", password: ""})
   };
-
-  //обработчики изменения полей
-  const handleChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => setLoginData(
-    { ...loginData, email: e.target.value }
-  );
-  const handleChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) => setLoginData(
-    { ...loginData, password: e.target.value }
-  );
 
   return (
     <div className={styles.page}>
@@ -37,13 +31,13 @@ const Login: FC = () => {
             type={"email"}
             placeholder={"E-mail"}
             name={"email"}
-            value={loginData.email || ""}
-            onChange={handleChangeEmailInput}
+            value={values.email || ""}
+            onChange={handleChange}
           />
           <PasswordInput
             name={"password"}
-            value={loginData.password}
-            onChange={handleChangePasswordInput}
+            value={values.password || ""}
+            onChange={handleChange}
           />
           <Button htmlType="submit">Войти</Button>
         </form>

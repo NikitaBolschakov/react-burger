@@ -11,28 +11,30 @@ import { useSelector } from "../../../services/types/hooks";
 import { getIsEmailForUpdatePassword } from "../../../utils/constants";
 
 const ResetPassword: FC = () => {
+
   const isEmailForUpdatePassword = useSelector(getIsEmailForUpdatePassword);
  
   const [passwordData, setPasswordData] = useState({
     password: "",
     verCode: "",
     result: false,
-  });
+  }); 
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     resetPasswordRequest(passwordData).then((res) => {
       setPasswordData({ ...passwordData, result: res.success });
-    });
-
+    }); 
+    
     setPasswordData({ ...passwordData, password: "", verCode: "" });
   };
 
-  //обработчики изменения полей
+   //обработчики изменения полей
   const handleChangeCodeInput = (e: ChangeEvent<HTMLInputElement>) =>
     setPasswordData({ ...passwordData, verCode: e.target.value });
   const handleChangePasswordInput = (e: ChangeEvent<HTMLInputElement>) =>
-    setPasswordData({ ...passwordData, password: e.target.value });
+    setPasswordData({ ...passwordData, password: e.target.value }); 
 
   //если емаил не был получен - редирект на восстановление пароля
   if (!isEmailForUpdatePassword) {

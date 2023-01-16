@@ -57,6 +57,7 @@ export type TEmailData = {
 }
 
 export type TPasswordData = {
+  result?: boolean;
   password: string;
   verCode: string;
 }

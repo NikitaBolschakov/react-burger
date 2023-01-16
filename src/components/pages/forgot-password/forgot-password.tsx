@@ -1,4 +1,4 @@
-import { useState, FC, FormEvent, ChangeEvent } from "react";
+import { FC, FormEvent } from "react";
 import {
   Button,
   Input
@@ -8,21 +8,20 @@ import { Link, Redirect } from "react-router-dom";
 import { updatePassword } from "../../../services/actions/user";
 import { useDispatch, useSelector } from "../../../services/types/hooks";
 import { getIsEmailForUpdatePassword } from "../../../utils/constants";
+import { useForm } from "../../../services/types/useForm";
 
 const ForgotPassword: FC = () => {
 
   const dispatch = useDispatch();
+  const {values, handleChange, setValues} = useForm({});
 
   const isEmailForUpdatePassword = useSelector(getIsEmailForUpdatePassword); 
-  const [emailData, setEmailData] = useState({ email: "", result: false });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updatePassword(emailData));        //отправляем диспатч с action creator
-    setEmailData({ ...emailData, email: "" });  //устанавливаем значения в локальный стейт
+    dispatch(updatePassword(values));  //отправляем диспатч с action creator
+    setValues({...values, email: ""})
   };
-
-  const handleChangeEmailInput = (e: ChangeEvent<HTMLInputElement>) => setEmailData({ ...emailData, email: e.target.value })
 
   //если емаил получен - редирект на сброс пароля
   if (isEmailForUpdatePassword) {
@@ -38,8 +37,8 @@ const ForgotPassword: FC = () => {
             type={"email"}
             placeholder={"E-mail"}
             name={"email"}
-            value={emailData.email}
-            onChange={handleChangeEmailInput}
+            value={values.email || ""}
+            onChange={handleChange}
           />
           <Button htmlType="submit">Восстановить</Button>
         </form>

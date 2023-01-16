@@ -1,5 +1,20 @@
 import { getCookie } from "./cookie";
-import { TEmailData, TForgotPasswordResponse, TGetUserResponse, TIngredientsResponse, TLoginData, TLoginResponse, TLogoutResponse, TOrderResponse, TPasswordData, TRefreshTokenResponse, TRegisterData, TRegistrationResponse, TUpdateUserResponse, TUser } from "./types";
+import {
+  TEmailData,
+  TForgotPasswordResponse,
+  TGetUserResponse,
+  TIngredientsResponse,
+  TLoginData,
+  TLoginResponse,
+  TLogoutResponse,
+  TOrderResponse,
+  TPasswordData,
+  TRefreshTokenResponse,
+  TRegisterData,
+  TRegistrationResponse,
+  TUpdateUserResponse,
+  TUser,
+} from "./types";
 
 export const API = {
   url: "https://norma.nomoreparties.space/api/",
@@ -18,7 +33,7 @@ export const handleResponse = <T>(res: Response): Promise<T> => {
 
 //функция получения данных
 export const getData = async () => {
-  const res = await fetch(`${API.url}ingredients`, {
+    const res = await fetch(`${API.url}ingredients`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -36,7 +51,7 @@ export const getOrder = async (ingredientsId: string[]) => {
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("accessToken")
+      Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
   return handleResponse<TOrderResponse>(res);
@@ -128,9 +143,9 @@ export const updateUserInfo = async (updateData: TUser) => {
   return handleResponse<TUpdateUserResponse>(res);
 };
 
-//запрос на рефреш токена 
+//запрос на рефреш токена
 export const refreshTokenRequest = async () => {
-  const refreshToken = getCookie("refreshToken")
+  const refreshToken = getCookie("refreshToken");
   const res = await fetch(`${API.url}auth/token`, {
     method: "POST",
     mode: "cors",
@@ -138,7 +153,7 @@ export const refreshTokenRequest = async () => {
     credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      token: localStorage.getItem('jwt'),
+      token: localStorage.getItem("jwt"),
     }),
   });
   return handleResponse<TRefreshTokenResponse>(res);

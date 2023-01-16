@@ -2,14 +2,13 @@ import { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../utils/constants";
-import { TIngredient } from "../../utils/types";
 import { useSelector } from "../../services/types/hooks";
 
 const IngredientDetails: FC = () => {
 
   const { id } = useParams<{ id?: string }>(); //получаем доступ к параметру id URL
   const ingredients = useSelector(getIngredients);
-  const ingredient = ingredients.find((ingredient: TIngredient) => ingredient._id === id); //находим нужный ингредиент
+  const ingredient = ingredients.find((ingredient) => ingredient._id === id); //находим нужный ингредиент
 
   return (
     <div className={`${styles.container} pr-25 pl-25 pb-15`}>

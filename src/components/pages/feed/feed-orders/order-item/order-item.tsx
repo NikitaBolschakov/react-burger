@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
+
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { formatDate } from "../../../../../utils/format-date";
 import OrderItemImage from "./order-item-image/order-item-image";
@@ -8,6 +8,7 @@ import styles from "./order-item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getIngredients } from "../../../../../utils/constants";
 import { ILocationState, TWsOrder } from "../../../../../utils/types";
+import { useSelector } from "../../../../../services/types/hooks";
 
 interface IOrderItemProps {
   order: TWsOrder;
