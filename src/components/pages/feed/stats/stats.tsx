@@ -3,6 +3,7 @@ import styles from "./stats.module.css";
 import { getWsOrders } from "../../../../utils/constants";
 import { useSelector } from "../../../../services/types/hooks";
 
+//Cтатистика заказов на странице "Лента заказов"
 const Stats: FC = () => {
   const { total, totalToday, orders } = useSelector(getWsOrders);
 
@@ -17,7 +18,7 @@ const Stats: FC = () => {
           <p className={`text text_type_main-medium pb-6`}>Готовы:</p>
           <ul className={`${styles.orderList} text text_type_digits-default`}>
             {orders && orders.map(order =>
-                order.status === "done" && (<li className="mb-2" key={order.number}>{`${order.number}`}</li>)
+                order.status === "done" && (<li className="mb-2" key={order._id}>{`${order.number}`}</li>)
             )}
           </ul>
         </div>
@@ -25,7 +26,7 @@ const Stats: FC = () => {
           <p className={`text text_type_main-medium pb-6`}>В работе:</p>
           <ul className={`${styles.orderList} text text_type_digits-default`}>
             {orders.map(order =>
-                order.status === "pending" && (<li className="mb-2" key={order.number}>{`${order.number}`}</li>)
+                order.status === "pending" && (<li className="mb-2" key={order._id}>{`${order.number}`}</li>)
             )}
           </ul>
         </div>

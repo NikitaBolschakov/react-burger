@@ -107,7 +107,7 @@ const BurgerConstructor: FC = () => {
               if (element.type === "main" || element.type === "sauce") {
                 return (
                   <ConstructorItems
-                    key={element.id}
+                    key={element._id}
                     element={element}
                     index={index}
                   />

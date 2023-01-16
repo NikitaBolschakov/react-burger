@@ -5,6 +5,7 @@ import { wsConnectionAuthStart, wsConnectionClosed } from "../../../../services/
 import { getOrders } from "../../../../utils/constants";
 import { useDispatch, useSelector } from "../../../../services/types/hooks";
 
+//Список заказов
 const Orders: FC = () => {
 
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Orders: FC = () => {
   return (
     <div className={`${styles.column} mt-10`}>
       <ul className={`${styles.list}`}>
-        {orders && orders.map((order, index) => (<li key={index}><OrderItem order={order} /></li>))}
+        {orders && orders.map((order) => (<li key={order._id}><OrderItem order={order} /></li>))}
       </ul>
     </div>
   );

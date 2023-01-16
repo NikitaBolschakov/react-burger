@@ -14,6 +14,7 @@ interface IOrderItemProps {
   order: TWsOrder;
 }
 
+//Пункт из списка заказов
 const OrderItem: FC<IOrderItemProps> = ({ order }) => {
 
   const ingredients = useSelector(getIngredients);
@@ -27,7 +28,7 @@ const OrderItem: FC<IOrderItemProps> = ({ order }) => {
   const orderIngredients = useMemo(() => {
     return order.ingredients?.map((id) => {      //перебрать id в заказе
       return ingredients?.find((ingredient) => { //найти ингредиент с таким id в ingredients
-        if (id === ingredient._id) {            //если они совпадают
+        if (id === ingredient._id) {            //если они совпадают  
           return ingredient;                    //вернуть этот ингредиент в массив orderIngredients
         }
       });

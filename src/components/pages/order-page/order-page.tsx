@@ -15,7 +15,7 @@ import OrderIngredient from "./order-ingredient/order-ingredient";
 import { useDispatch, useSelector } from "../../../services/types/hooks";
 import { getIngredients, getIsConnected, getOrders } from "../../../utils/constants";
 
-
+//Отдельная страница со списком заказов
 const OrderPage: FC = () => {
   
   const dispatch = useDispatch();
@@ -75,16 +75,13 @@ const OrderPage: FC = () => {
     });
   }, [uniqueIngredients]);
 
-  /* .reduce((sum: any, item) - из-за того, что ингредиент может прийти в заказ - undifined, 
-  соответственно выражение sum (:number) += item?.price не отработает */
   const orderPrice = useMemo(() => {
-    return orderIngredients?.reduce((sum: any, item) => {  
-      if (item?.type === 'bun') {
-				return sum += item.price * 2
-			} else if (item?.type === 'main' || item?.type === 'sauce') {
-        return sum += item.price
-    }}, 0); 
-  }, [orderIngredients]); 
+    return orderIngredients?.reduce((sum, ingredient) => {  
+      if (ingredient?.quantity) 
+				sum += ingredient?.price * ingredient?.quantity;
+        return sum; 
+    }, 0); 
+  }, [orderIngredients]);
 
   return (
     <div>
@@ -102,8 +99,8 @@ const OrderPage: FC = () => {
           </p>
           <p className={`${styles.header} text text_type_main-medium`}>Состав:</p>
           <ul className={styles.list}>
-            {orderIngredients?.map((ingredient, index) => (
-              <li key={index}>
+            {orderIngredients?.map((ingredient) => (
+              <li key={ingredient?.nanoId}>
                 <OrderIngredient ingredient={ingredient} />
               </li>
             ))}
