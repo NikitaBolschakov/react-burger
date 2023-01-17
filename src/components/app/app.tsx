@@ -1,4 +1,4 @@
-import { FC, FormEvent, ChangeEvent } from "react";
+import { FC } from "react";
 import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -26,7 +26,6 @@ import { getCookie } from "../../utils/cookie";
 import Feed from "../pages/feed/feed";
 import OrderPage from "../pages/order-page/order-page";
 import { getStateOpenOrderDetails } from "../../utils/constants";
-import OnlyUnAuthRoute from "../only-unauth-route/only-unauth-route";
 import { useDispatch, useSelector } from "../../services/types/hooks";
 import { ILocationState } from "../../utils/types";
 
@@ -86,18 +85,18 @@ const App: FC = () => {
             </main>
           </div>
         </Route>
-        <OnlyUnAuthRoute path="/login" exact>
+        <ProtectedRoute onlyForAuth={false} path="/login" exact>
           <Login />
-        </OnlyUnAuthRoute>
-        <OnlyUnAuthRoute path="/register" exact>
+        </ProtectedRoute>
+        <ProtectedRoute onlyForAuth={false} path="/register" exact>
           <Register />
-        </OnlyUnAuthRoute>
-        <OnlyUnAuthRoute path="/forgot-password" exact>
+        </ProtectedRoute>
+        <ProtectedRoute onlyForAuth={false} path="/forgot-password" exact>
           <ForgotPassword />
-        </OnlyUnAuthRoute>
-        <OnlyUnAuthRoute path="/reset-password" exact>
+        </ProtectedRoute>
+        <ProtectedRoute onlyForAuth={false} path="/reset-password" exact>
           <ResetPassword />
-        </OnlyUnAuthRoute>
+        </ProtectedRoute>
         <Route path="/not-found" exact>
           <NotFound />
         </Route>
@@ -110,7 +109,7 @@ const App: FC = () => {
         <Route path="/feed/:id" exact>
           <OrderPage />
         </Route>
-        <ProtectedRoute path="/profile">
+        <ProtectedRoute onlyForAuth path="/profile">
           <Profile />
         </ProtectedRoute>
       </Switch>
@@ -131,7 +130,7 @@ const App: FC = () => {
               <OrderPage />
             </Modal>
           </Route>
-          <ProtectedRoute path="/profile/orders/:id" exact>
+          <ProtectedRoute onlyForAuth path="/profile/orders/:id" exact>
             <Modal onClose={handleCloseIngredientModal} isOpened>
               <OrderPage />
             </Modal>

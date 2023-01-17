@@ -18,11 +18,7 @@ const OnlyUnAuthRoute: FC<RouteProps> = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={() =>
-        !isAuth ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: "/", state: { from: location } }} />
-        )
+        !isAuth ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)
       }
     />
   );
