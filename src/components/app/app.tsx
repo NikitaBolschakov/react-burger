@@ -97,9 +97,6 @@ const App: FC = () => {
         <ProtectedRoute onlyForAuth={false} path="/reset-password" exact>
           <ResetPassword />
         </ProtectedRoute>
-        <Route path="/not-found" exact>
-          <NotFound />
-        </Route>
         <Route path="/ingredients/:id" exact>
           <IngredientDetails />
         </Route>
@@ -112,6 +109,9 @@ const App: FC = () => {
         <ProtectedRoute onlyForAuth path="/profile">
           <Profile />
         </ProtectedRoute>
+        <Route>
+          <NotFound />
+        </Route>
       </Switch>
 
       {background && (

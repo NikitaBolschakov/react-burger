@@ -13,7 +13,7 @@ import { getIsAuth } from "../../../../utils/constants";
 const ProfileInfo: FC = () => {
 
   const dispatch = useDispatch();
-  const isAuth = useSelector(getIsAuth); 
+  const isAuth = useSelector(getIsAuth);
 
   //достаем имя из стора
   const { name: storeName, email: storeEmail } = useSelector((state) => state.user.userData);
@@ -71,7 +71,7 @@ const ProfileInfo: FC = () => {
   //при нажатии на кнопку "выход" перенаправить на вход
   if (!isAuth) {
     return <Redirect to="/login" /> 
-  }   
+  }     
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>

@@ -31,7 +31,7 @@ const Register: FC = () => {
             type={"text"}
             placeholder={"Имя"}
             onChange={handleChange}
-            value={values.name}
+            value={values.name || ""}
             name={"name"}
             errorText={"Ошибка"}
             size={"default"}
@@ -42,12 +42,12 @@ const Register: FC = () => {
             type={"email"}
             placeholder={"E-mail"}
             name={"email"}
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
           />
 
           <PasswordInput
-            value={values.password}
+            value={values.password || ""}
             onChange={handleChange}
             name={"password"}
           />

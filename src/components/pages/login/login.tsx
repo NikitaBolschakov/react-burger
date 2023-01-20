@@ -5,9 +5,9 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { signIn } from "../../../services/actions/user";
-import { useDispatch } from "../../../services/types/hooks";
+import { useDispatch, useSelector } from "../../../services/types/hooks";
 import { useForm } from "../../../services/types/useForm";
 
 const Login: FC = () => {
