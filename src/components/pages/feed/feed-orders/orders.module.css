@@ -1,0 +1,29 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0 70px 0 0;
+  padding: 0 70px 0 0;
+  width: 100%;
+}
+
+.list {
+  min-width: 584px;
+  height: 80vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-right: 10px;
+}
+
+.list::-webkit-scrollbar {
+	width: 8px;
+	height: auto;
+	background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+	background-color: #8585ad;
+}

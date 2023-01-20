@@ -12,6 +12,27 @@ import {
 } from "redux";
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsGetMessage, wsSendMessage, WS_CONNECTION_AUTH_START, WS_CONNECTION_START } from './services/actions/ws-actions';
+import { socketMiddleware } from './services/middleware/socketMiddleware';
+import { wsOrders, wsOrdersAuth } from './utils/constants';
+
+const wsActions = {
+  wsInit: WS_CONNECTION_START,
+  wsSendMessage: wsSendMessage,
+  onOpen: wsConnectionSuccess,
+  onClose: wsConnectionClosed,
+  onError: wsConnectionError,
+  onMessage: wsGetMessage
+};
+
+const wsAuthActions = {
+  wsInit: WS_CONNECTION_AUTH_START,
+  wsSendMessage: wsSendMessage,
+  onOpen: wsConnectionSuccess,
+  onClose: wsConnectionClosed,
+  onError: wsConnectionError,
+  onMessage: wsGetMessage,
+};
 
 // Redux DevTools
 declare global {
@@ -21,7 +42,13 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk),
+  applyMiddleware(socketMiddleware(wsOrders, wsActions, false)),
+  applyMiddleware(socketMiddleware(wsOrdersAuth, wsAuthActions, true))
+);
 
 // Инициализируем хранилище с помощью корневого редьюсера
 const store = createStore(rootReducer, enhancer);

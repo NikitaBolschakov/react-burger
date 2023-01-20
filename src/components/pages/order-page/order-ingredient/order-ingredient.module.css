@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .info {
+    display: flex;
+    justify-content: space-between;
+    width: 530px;
+    margin-left: 16px;
+  }
+  
+  .text {
+    width: 340px;
+  }
+  
+  .priceBox {
+    display: flex;
+  }
+  
+  .price {
+    margin-right: 10px;
+  }

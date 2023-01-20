@@ -1,10 +1,10 @@
 import styles from "./profile-navigation.module.css";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../services/actions/user";
-import { deleteCookie } from "../../../utils/cookie";
+import { logout } from "../../../../services/actions/user";
+import { deleteCookie } from "../../../../utils/cookie";
 
-const ProfileNavigation = () => {
+const ProfileNavigation = ({match}) => {
   
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ const ProfileNavigation = () => {
   return (
     <div className={styles.content}>
       <NavLink
-        to="/profile"
+        to={match.url}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact
@@ -25,7 +25,7 @@ const ProfileNavigation = () => {
         Профиль
       </NavLink>
       <NavLink
-        to="/orders"
+        to={`${match.url}/orders`}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact

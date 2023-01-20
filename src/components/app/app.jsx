@@ -27,43 +27,38 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 import NotFound from "../pages/not-found/not-found";
 import { getCookie } from "../../utils/cookie";
 import Feed from "../pages/feed/feed";
+import OrderPage from "../pages/order-page/order-page";
+import { getStateOpenOrderDetails } from "../../utils/constants";
+import OnlyUnAuthRoute from "../only-unauth-route/only-unauth-route";
 
 const App = () => {
-
+  
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const background = location.state?.background; 
+  const background = location.state?.background;
 
-  const auth = useSelector((state) => state.user.isAuth);
-  const tokenUpdated = useSelector((state) => state.user.tokenUpdated);
-  console.log(tokenUpdated + "обновлен токен");
-  console.log(auth + "авторизован");
-
-  const accessTokenCookie = getCookie('accessToken');
-  const refreshTokenCookie = getCookie('refreshToken');
-
-  console.log(accessTokenCookie);
-  console.log(refreshTokenCookie);
+  const accessTokenCookie = getCookie("accessToken");
+  const refreshTokenCookie = localStorage.getItem('jwt')
 
   //при загрузке получать ингридиенты
   useEffect(() => {
     dispatch(getBurgerIngredientsItems());
     dispatch(getUser());
+    //обновляем состояние в history, 
+    //чтобы при обновлении страницы содержимое модального окна было на отдельной странице
+    history.replace({ state: null })    
   }, [dispatch]);
-
+  
   //если accessToken протух, а refreshToken есть - обновить токены => запросить пользователя
-  useEffect(() => {
+   useEffect(() => {
     if (!accessTokenCookie && refreshTokenCookie) {
       dispatch(refreshToken());
     }
-  }, [dispatch, accessTokenCookie, refreshTokenCookie]);
+  }, [dispatch, accessTokenCookie, refreshTokenCookie]); 
 
-
-  //состояние окна с заказом 
-  const openOrderDetails = useSelector(
-    (store) => store.burgerIngredients.openOrderDetails
-  );
+  //состояние окна с заказом
+  const openOrderDetails = useSelector(getStateOpenOrderDetails);
 
   //закрывает окно заказа при клике
   const handleCloseOrderModal = () => {
@@ -81,7 +76,7 @@ const App = () => {
   return (
     <>
       <AppHeader />
-      <Switch location={ background || location } >
+      <Switch location={background || location}>
         <Route path="/" exact>
           <div className={styles.app}>
             <main className={styles.content}>
@@ -92,43 +87,59 @@ const App = () => {
             </main>
           </div>
         </Route>
-        <Route path="/login" exact>
+        <OnlyUnAuthRoute path="/login" exact>
           <Login />
-        </Route>
-        <Route path="/register" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/register" exact>
           <Register />
-        </Route>
-        <Route path="/forgot-password" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/forgot-password" exact>
           <ForgotPassword />
-        </Route>
-        <Route path="/reset-password" exact>
+        </OnlyUnAuthRoute>
+        <OnlyUnAuthRoute path="/reset-password" exact>
           <ResetPassword />
-        </Route>
+        </OnlyUnAuthRoute>
         <Route path="/not-found" exact>
           <NotFound />
         </Route>
         <Route path="/ingredients/:id" exact>
           <IngredientDetails />
-        </Route> 
+        </Route>
         <Route path="/feed" exact>
           <Feed />
-        </Route> 
-        <ProtectedRoute pathname="/profile" exact>
+        </Route>
+        <Route path="/feed/:id" exact>
+          <OrderPage />
+        </Route>
+        <ProtectedRoute pathname="/profile">
           <Profile />
         </ProtectedRoute>
       </Switch>
 
-      {background && 
-        (<Route path="/ingredients/:id" exact>
-          <Modal
-            title="Детали ингредиента"
-            onClose={handleCloseIngredientModal}
-          >
-            <IngredientDetails />
-          </Modal>
-        </Route>
-        )}
-      
+      {background && (
+        <>
+          <Route path="/ingredients/:id">
+            <Modal
+              title="Детали ингредиента"
+              onClose={handleCloseIngredientModal}
+              isOpened
+            >
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal onClose={handleCloseIngredientModal} isOpened>
+              <OrderPage />
+            </Modal>
+          </Route>
+          <ProtectedRoute path="/profile/orders/:id" exact>
+            <Modal onClose={handleCloseIngredientModal} isOpened>
+              <OrderPage />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
+
       {openOrderDetails && (
         <Modal
           title=""
@@ -140,6 +151,6 @@ const App = () => {
       )}
     </>
   );
-}
+};
 
 export default App;

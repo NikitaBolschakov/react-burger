@@ -1,4 +1,4 @@
-import { getOrder } from "../../components/api/api";
+import { getOrder } from "../../utils/api";
 import { CLEAR_CONSTRUCTOR } from "./burger-constructor";
 
 export const ORDER_DETAILS_REQUEST = "ORDER_DETAILS_REQUEST"; //ожидаем ответа

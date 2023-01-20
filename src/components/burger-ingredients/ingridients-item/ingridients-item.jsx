@@ -9,14 +9,13 @@ import {
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getStateCurrentBun, getStateCurrentIngredients } from "../../../utils/constants";
 
 const IngridientsItem = ({ ingredient }) => {
+  
   const location = useLocation();
-  const currentIngredients = useSelector(
-    (store) => store.burgerConstructor.currentIngredients
-  );
-
-  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
+  const currentIngredients = useSelector(getStateCurrentIngredients);
+  const currentBun = useSelector(getStateCurrentBun);
 
   const counter = useMemo(
     () =>
