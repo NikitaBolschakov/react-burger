@@ -5,21 +5,47 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import DataContext from "../../context/burger-ingredients-context";
 
 function App() {
-  //устанавливаю состояние с помощью хука useState
+  
+  //устанавливаю состояние получаемым данным
   const [data, setData] = useState([]);
+
+  //устанавливаю состояние номеру заказа
+  const [orderNumber, setOrderNumber] = useState({
+    name: '',
+    order: {
+      number: ''
+    },
+    success: false
+  });
 
   //функция получения данных
   function getData() {
-    fetch(`${API.url}`)
-      .then(handleResponse) //если всё ок, обработай ответ
-      .then((res) => { setData(res.data) }) //если всё ок, установи данные как состояние
+    fetch(`${API.url}ingredients`)
+      .then(handleResponse) 
+      .then((res) => { setData(res.data) }) 
       .catch(err => { console.log(err) }); 
+  }
+
+  //функция отправки данных о заказе
+  function getOrder(id) {
+    fetch(`${API.url}orders`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ingredients: id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(handleResponse)
+      .then((res) => setOrderNumber(res))
+      .catch(err => { console.log(err) });
   }
 
   //получаю данные один раз при загрузке страницы
@@ -30,14 +56,14 @@ function App() {
   //устанавливаю состояние модальным окнам
   const [openOrderDetails, setOpenOrderDetails] = React.useState(false) //окно заказа закрыто
   const [openIngredientDetails, setOpenIngredientDetails] = React.useState(false) //окно ингридиента закрыто
-  const [ingredient, setIngredient] = React.useState(null) //сам ингредиент = не выбран, поэтому null
+  const [ingredient, setIngredient] = useState(null) //сам ингредиент = не выбран, поэтому null
 
-  //открывает окно заказа
+  //открывает окно заказа при клике
   const handleOpenOrderDetails = () => {
     setOpenOrderDetails(true);
   }
 
-  //открывает окно ингредиента и устанавливает ингредиент
+  //открывает окно ингредиента и устанавливает ингредиент при  клике
   const handleOpenIngredientDetails = (item) => {
     setOpenIngredientDetails(true);
     setIngredient(item);
@@ -51,23 +77,25 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.content}>
-        <BurgerIngredients ingredients={ data } onClick={ handleOpenIngredientDetails }/>
-        <BurgerConstructor ingredients={ data } onClick={ handleOpenOrderDetails }/>
-      </main>
-      
-      {openOrderDetails &&             /*если openOrderDetails === true, показать окно заказа */ 
-        <Modal title='' isOpened={openOrderDetails} onClose={handleCloseModal}>
-          <OrderDetails />
-        </Modal>
-      }
-
-      {openIngredientDetails &&        /*если openIngredientDetails === true, показать окно ингредиента */ 
-        <Modal title='Детали ингредиента' isOpened={openIngredientDetails} onClose={handleCloseModal}>
-          <IngredientDetails item={ingredient} />
-        </Modal>
-      }
+      <DataContext.Provider value={data}>
+        <AppHeader />
+        <main className={styles.content}>
+            <BurgerIngredients onClick={handleOpenIngredientDetails}/>
+            <BurgerConstructor onClick={handleOpenOrderDetails} getOrder={getOrder} />
+        </main>
+        {/*----------------------------------- окно заказа ---------------------------------------- */}
+        {openOrderDetails &&             
+          <Modal title='' isOpened={openOrderDetails} onClose={handleCloseModal}>
+            <OrderDetails orderNumber={orderNumber} />
+          </Modal>
+        }
+        {/*----------------------------------- окно ингредиента ------------------------------------ */}
+        {openIngredientDetails &&        
+          <Modal title='Детали ингредиента' isOpened={openIngredientDetails} onClose={handleCloseModal}>
+            <IngredientDetails item={ingredient} />
+          </Modal>
+        }
+      </ DataContext.Provider>
     </div>
   );
 }

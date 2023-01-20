@@ -4,13 +4,17 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientsCategory from './ingridients-category/ingridients-category'
 
-const BurgerIngredients = ({ ingredients, onClick }) => {
-	const [current, setCurrent] = React.useState('bun');
+//import { useContext } from "react"; //хук
+//import DataContext from "../../context/burger-ingredients-context"; //хранилище
 
+const BurgerIngredients = ({ onClick }) => {
+	//const data = useContext(DataContext); //ингредиенты берем из контекста
+	const [current, setCurrent] = React.useState('bun');
+	
 	return (
 		<section className={styles.section}>
 			<h1 className={`${styles.title} text text_type_main-large`}>Соберите бургер</h1>
-	        {/*----------- Табы -------------*/}
+	        {/*--------------------------------- Табы -----------------------------------*/}
 			<div className={`${styles.tab} pt-5`}>
 				<a href='#bun>' className={styles.link}>
 					<Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
@@ -28,11 +32,11 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
 					</Tab>
 				</a>
 			</div>
-			{/*----------- Список ингредиентов по категориям -------------*/}
+			{/*-------------------------- Список ингредиентов по категориям ---------------------------*/}
 			<ul className={`${styles.list} pt-8`}>
-			    <IngredientsCategory ingredients={ingredients} type='bun' onClick={onClick} />
-				<IngredientsCategory ingredients={ingredients} type='sauce' onClick={onClick} />
-				<IngredientsCategory ingredients={ingredients} type='main' onClick={onClick} />
+			    <IngredientsCategory type='bun' onClick={onClick} />
+				<IngredientsCategory type='sauce' onClick={onClick} />
+				<IngredientsCategory type='main' onClick={onClick} />
 			</ul>
 		</section >
 	)
@@ -40,7 +44,6 @@ const BurgerIngredients = ({ ingredients, onClick }) => {
 
 // типизируем пропсы
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.array.isRequired,
 	onClick: PropTypes.func.isRequired
 }
 
