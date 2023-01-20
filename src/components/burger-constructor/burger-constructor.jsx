@@ -1,11 +1,4 @@
-import React, {
-  useMemo,
-  useEffect,
-  useContext,
-  useReducer,
-  useState,
-} from "react";
-import PropTypes from "prop-types";
+import React, { useMemo, useEffect, useReducer, useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -13,83 +6,139 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItems from "./constructor-items/constructor-items";
 import styles from "./burger-constructor.module.css";
-import DataContext from "../../context/burger-ingredients-context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+} from "../../services/actions/burger-constructor";
+import { SET_ORDER_MODAL_ACTIVE } from "../../services/reducers/burger-ingredients";
+import { getOrderNumber } from "../../services/actions/order-details";
+import { useDrop } from "react-dnd";
 
+const BurgerConstructor = () => {
+  //диспатч
+  const dispatch = useDispatch();
 
-const BurgerConstructor = ({ onClick, getOrder }) => {
-  const data = useContext(DataContext);
-  //найти в data первую булку
-  const bun = useMemo(
-    () => data.find((element) => element.type === "bun"),
-    [data]
+  //текущие ингредиенты в бургере
+  const currentIngredients = useSelector(
+    (store) => store.burgerConstructor.currentIngredients
   );
-  
-  //собрал все id в заказе
-  let orderId = useMemo(() => data.map((element) => element._id), [data]); 
 
-  //подсчет итоговой стоимости с помощью useReducer
-  const [total, dispatch] = useReducer(reducer, 0);
+  //текущая булка в бургере
+  const currentBun = useSelector((store) => store.burgerConstructor.currentBun);
 
-  function reducer(totalPrice, action) {
-    const total = action.reduce((acc = 0, element) => {
-      if (element.type === "bun") {
-        acc += 2 * element.price;
+  //открывает окно заказа при клике
+  const handleOpenOrderDetails = () => {
+    dispatch({ type: SET_ORDER_MODAL_ACTIVE });
+  };
+
+  //собрать массив id элементов для заказа
+  const ingredientsId = useMemo(
+    () => currentIngredients.map((ingredient) => ingredient._id),
+    [currentIngredients]
+  );
+
+  //отправить заказ, получить номер
+  const postOrder = (ingredientsId) => {
+    dispatch(getOrderNumber(ingredientsId));
+  };
+
+  const price = useMemo(() => {
+    return (
+      (currentBun ? currentBun.price * 2 : 0) +
+      currentIngredients.reduce((sum, acc) => sum + acc.price, 0)
+    );
+  }, [currentIngredients, currentBun]);
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      if (item.type === "bun") {
+        dispatch({
+          type: ADD_BUN,
+          payload: { ...item, id: Date.now() },
+        });
       } else {
-        acc += element.price;
+        dispatch({
+          type: ADD_INGREDIENT,
+          payload: { ...item, id: Date.now() },
+        });
       }
-      return acc;
-    }, totalPrice);
-    return total;
-  }
-
-  useEffect(() => {
-    dispatch(data);
-  }, [data]);
+    }
+  });
 
   return (
     <section className={`${styles.section} pl-10 pt-25`}>
-      <div className={`${styles.container} pr-2`}>
+      <div className={`${styles.container} pr-2`} ref={dropTarget}>
         {/* --------- верхняя булка ---------- */}
-        {bun && (
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={bun.name + "(верх)"}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
+        {currentBun.length === 0 ? (
+          <p></p>
+        ) : (
+          <div className={styles.bun}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={currentBun.name + "(верх)"}
+              price={currentBun.price}
+              thumbnail={currentBun.image}
+            />
+          </div>
         )}
-        {/* --------- список покупок ---------- */}
-        <ul className={`${styles.list} pr-2`}>
-          {data.map((element) => {
-            if (element.type === "main" || element.type === "sauce") {
-              return <ConstructorItems key={element._id} element={element} />;
-            }
-          })}
-        </ul>
+        {/* --------- список начинок ---------- */}
+        {(currentBun.length === 0 ) ? (
+          <p className={`pr-2 text text_type_main-medium`}>
+            &#128073;  Притащите сюда булочку  &#128072;
+          </p>
+        ) : currentIngredients.length === 0 && currentBun.length !== 0 ? (
+          <p className={`pr-2 text text_type_main-medium`}>
+            А теперь выбирайте начинку  &#128076;
+          </p>
+        ) : (
+          <ul className={`${styles.list} pr-2`}>
+            {currentIngredients.map((element, index) => {
+              if (element.type === "main" || element.type === "sauce") {
+                return (
+                  <ConstructorItems
+                    key={element.id}
+                    element={element}
+                    index={index}
+                  />
+                );
+              }
+            })}
+          </ul>
+        )}
         {/* --------- нижняя булка ---------- */}
-        {bun && (
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={bun.name + "(низ)"}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
+        {currentBun.length === 0 ? (
+          <p className={`${styles.text} pr-2 text text_type_main-large`}></p>
+        ) : (
+          <div className={styles.bun}>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={currentBun.name + "(низ)"}
+              price={currentBun.price}
+              thumbnail={currentBun.image}
+              className={styles.bun}
+            />
+          </div>
         )}
       </div>
       {/* --------- оформление заказа ---------- */}
       <div className={`${styles.order} pt-10 pr-5 pb-10`}>
         <div className={`${styles.count_result} pr-10`}>
-          <p className="text text_type_digits-medium pr-2">{total}</p>
+          <p className="text text_type_digits-medium pr-2">
+            {price > 0 ? price : 0}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
         <Button
+          disabled={(currentBun.length === 0 || currentIngredients.length === 0) && true} 
           type="primary"
           size="large"
           onClick={() => {
-            onClick();
-            getOrder(orderId);
+            handleOpenOrderDetails();
+            postOrder(ingredientsId);
           }}
         >
           Оформить заказ
@@ -97,11 +146,6 @@ const BurgerConstructor = ({ onClick, getOrder }) => {
       </div>
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  getOrder: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

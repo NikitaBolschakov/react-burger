@@ -2,12 +2,19 @@
 	max-width: 600px;
 	width: 100%;
 	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	align-content: flex-end;
+	align-items: stretch;
 }
 
 .container {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	align-items: center;
+	min-height: 449px;
 	gap: 10;
 }
 
@@ -15,6 +22,10 @@
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+}
+
+.bun {
+	max-height: 48px;
 }
 
 .count_result {
@@ -26,13 +37,14 @@
 	list-style: none;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between; 
 	padding: 0;
 	margin: 0;
 	height: calc(100vh - 336px);
 	min-height: 208px;
 	overflow-y: auto;
 	overflow-x: hidden;
-    min-width: 612px;
+    min-width: 612px; 
 }
 
 .list::-webkit-scrollbar {
