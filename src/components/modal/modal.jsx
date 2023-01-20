@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import styles from "./modal.module.css";
@@ -9,10 +9,11 @@ import ModalOverlay from "../modal-overlay/modal-overlay.jsx";
 const modalRoot = document.querySelector('#modals'); 
 
 const Modal = ({ title, isOpened, onClose, children }) => {
+  
   //При открытом окне, вешаем слушатель с функцией закрытия, return() удалит слушатель при закрытии
-  React.useEffect(() => {
-    function handleEsc(evt) {
-      if (evt.key === "Escape") {
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
         onClose();
       }
     }

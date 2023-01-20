@@ -1,0 +1,11 @@
+.page {
+  background-color: #131316;
+}
+
+.content {
+  width: 1240px;
+  margin: 120px auto 0 auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  column-gap: 60px;
+}

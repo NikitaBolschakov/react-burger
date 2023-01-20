@@ -11,6 +11,7 @@ import {
   applyMiddleware,
 } from "redux";
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 // Redux DevTools
 declare global {
@@ -31,7 +32,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>
 );
 

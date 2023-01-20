@@ -1,0 +1,22 @@
+.form {
+  width: 480px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 64px);
+  row-gap: 24px;
+}
+
+.form > div {
+  width: 100%;
+}
+
+.form > div > div {
+  width: 100%;
+}
+
+.b__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+}

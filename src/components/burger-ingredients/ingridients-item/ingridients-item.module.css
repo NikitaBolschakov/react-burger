@@ -4,6 +4,8 @@
 	flex-direction: column;
 	cursor: pointer;
 	position: relative;
+	text-decoration: none;
+	color: white;
 }
 
 .image {
@@ -14,3 +16,4 @@
 	display: flex;
 	justify-content: center;
 }
+

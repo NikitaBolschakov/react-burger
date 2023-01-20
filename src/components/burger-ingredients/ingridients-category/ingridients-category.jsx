@@ -33,7 +33,7 @@ const IngredientsCategory = ({ type }) => {
         
         {category.map((element) => (
           <li
-            className={`${styles.item}`}
+            className={`${styles.element}`}
             key={element._id}
             onClick={() => handleOpenIngredientDetails(element)}
           >
